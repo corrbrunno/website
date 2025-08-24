@@ -1,17 +1,17 @@
 <script lang="ts">
-	import TextCarousel from '$lib/components/ui/custom/TextCarousel.svelte';
-	import { compile } from 'mdsvex';
-
+	import type { PageData } from './$types';
+	import TextCarousel from '$lib/components/ui/carrousel/TextCarousel.svelte';
+	import Widget from '$lib/components/posts/widget.svelte';
+	const { data} : { data : PageData} = $props() ;
 	let scrollY = $state(0);
 	let innerHeight = $state(0);
-	let hasScrolled = $derived(scrollY <= innerHeight / 4);
+	let hasScrolled = $derived(scrollY <= innerHeight / 5);
 </script>
 
 <svelte:window bind:innerHeight bind:scrollY />
 
 <section
-	id="hero"
-	class=" from-card to-background flex h-screen content-center items-center justify-center bg-gradient-to-t pr-5 pl-5"
+	class="from-card to-background flex h-screen content-center items-center justify-center bg-gradient-to-t pr-5 pl-5"
 >
 	<section
 		class="max-w-9xl to-background from-foreground flex max-h-full flex-col flex-nowrap content-center items-center justify-center overflow-hidden bg-clip-text p-10 text-center text-clip text-transparent lg:flex-row lg:p-0"
@@ -32,7 +32,7 @@
 	<h1>Mais abaixo ↓</h1>
 </div>
 <section class="bg-card/50 flex w-full justify-center p-2">
-	<div class="max-w-content-width w-full text-center">
+	<div class="max-w-content-width w-full text-xl text-center">
 		<p>Os destaques do futuro são os melhores do agora</p>
 	</div>
 </section>
@@ -63,3 +63,4 @@ Atualmente, curso Engenharia de Software com foco em aprofundar fundamentos avan
 Capaz de transformar requisitos complexos em soluções eficientes e escaláveis, aplicando princípios de engenharia de software de ponta, práticas de code review, continuous integration e test-driven development. Experiência em otimização de desempenho, segurança de aplicações e integração com serviços em nuvem (Google Cloud, AWS, Azure). Comprometido com aprendizado contínuo, inovação e excelência técnica, acompanhando as inovações do setor para entregar soluções robustas e alinhadas às demandas modernas.
 `
 )}
+

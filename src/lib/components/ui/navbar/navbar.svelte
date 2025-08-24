@@ -4,7 +4,8 @@
 
 	const navButtons = [
 		{ slug: 'Home', path: '/' },
-		{ slug: 'Sobre', path: '/#sobre' }
+		{ slug: 'Sobre', path: '/#sobre' },
+		{slug: 'Blog', path: '/blog' }
 	];
 </script>
 

@@ -1,0 +1,10 @@
+---
+title: "Meu primeiro post"
+date: "23/08/2025"
+description: "testaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+---
+
+# **Olá Mundo 🌍**
+Este é o meu primeiro post em **mdsvex**!
+- Escrevo em markdown
+- Posso usar componentes do Svelte aqui também 🚀
