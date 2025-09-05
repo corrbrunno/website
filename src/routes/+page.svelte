@@ -31,7 +31,7 @@
 >
 	<h1>Mais abaixo ↓</h1>
 </div>
-<section class="bg-card/50 flex w-full justify-center p-2">
+<section class="bg-card flex w-full justify-center p-2">
 	<div class="max-w-content-width w-full text-xl text-center">
 		<p>Os destaques do futuro são os melhores do agora</p>
 	</div>
@@ -40,9 +40,9 @@
 ></TextCarousel>
 
 {#snippet section(title: string, content: string)}
-	<section id="sobre" class="bg-card/50 max-w-content-width relative m-auto p-10">
+	<section id="sobre" class="bg-card max-w-content-width relative m-auto p-10">
 		<h1
-			class="bg-background/90 mb-4 w-full content-center rounded-sm p-2 text-center text-xl font-bold text-white"
+			class="bg-background/50 mb-4 w-full content-center rounded-sm p-2 text-center text-xl font-bold text-white"
 		>
 			{title}
 		</h1>

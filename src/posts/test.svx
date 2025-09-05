@@ -1,0 +1,10 @@
+---
+title: "Meu primeiro post 03"
+date: "23/08/2025"
+description: "Testando código para fazer o commit, não haverá problema algum neste código."
+---
+
+# **Olá Mundo 🌍**
+Este é o meu primeiro post em **mdsvex**!
+- Escrevo em markdown
+- Posso usar componentes do Svelte aqui também 🚀
