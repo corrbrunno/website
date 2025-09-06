@@ -3,6 +3,7 @@
 	import type { Snippet } from 'svelte';
 	import '../app.css';
  	import { ModeWatcher } from "mode-watcher";
+	import Footer from '$lib/components/ui/footer/Footer.svelte';
 
 	let { children, ...others } : {children : Snippet<[]>, others : any[]}= $props();
 </script>
@@ -11,5 +12,5 @@
 <main class="flex flex-col min-h-screen" {...others}>
 	<Navbar></Navbar>
 	{@render children()}
-	<span>test</span>
+	<Footer></Footer>
 </main>

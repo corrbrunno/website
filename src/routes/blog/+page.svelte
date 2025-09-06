@@ -1,21 +1,31 @@
 <script lang="ts">
 	import Widget from '$lib/components/posts/widget.svelte';
+  import * as Card from '$lib/components/ui/card';
 
   export let data;
 </script>
 
-<section class="flex flex-col items-center content-center max-w-content-width w-full p-5 mt-20 mr-auto ml-auto">
-  <div class="flex bg-card justify-between w-full p-4 rounded-2xl mb-10 items-baseline">
-    <h1 class="text-3xl font-bold text-center ">Blog</h1>
-    <span>Posts interessantes e aleatórios</span>
-  </div>
-  
-  <ul class="grid grid-cols-1 md:grid-cols-2 w-full flex-wrap gap-3">
-    {#each data.posts as post}
-    <li class="flex  w-full
-    hover:scale-102 line-clamp-2  transition ">
-      <Widget class=" " {post}></Widget>
-    </li>
-    {/each}
-  </ul>
+<section
+	class="max-w-content-width mt-20 mr-auto ml-auto flex w-full flex-col content-center items-center p-5"
+>
+	<Card.Root class="flex-row justify-between mb-10 w-full pr-10 pl-10">
+		<Card.Header class="p-0">
+			<h1>Blog</h1>
+		</Card.Header>
+		<Card.Description>
+			<p>Random and interesting posts</p>
+		</Card.Description>
+	</Card.Root>
+
+
+	<ul class="grid w-full grid-cols-1 flex-wrap gap-3 md:grid-cols-2">
+		{#each data.posts as post}
+			<li
+				class="line-clamp-2 flex
+    w-full transition hover:scale-102"
+			>
+				<Widget class=" " {post}></Widget>
+			</li>
+		{/each}
+	</ul>
 </section>
