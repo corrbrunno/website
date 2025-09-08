@@ -7,10 +7,35 @@
 
 	let { children, ...others } : {children : Snippet<[]>, others : any[]}= $props();
 </script>
-
 <ModeWatcher />
 <main class="flex flex-col min-h-screen" {...others}>
 	<Navbar></Navbar>
 	{@render children()}
 	<Footer></Footer>
 </main>
+
+<style lang="postcss">
+
+:global(::-webkit-scrollbar) {
+    width: 10px;
+}
+
+:global(::-webkit-scrollbar-track) {
+    background: var(--color-background);
+}
+
+:global(::-webkit-scrollbar-thumb) {
+	background: var(--card);
+    border-radius: 5px;
+}
+
+:global(::-webkit-scrollbar-thumb:hover) {
+	background: var(--secondary);
+    
+}
+
+::selection{
+	color: var(--primary);
+	background: var(--secondary);
+}
+</style>

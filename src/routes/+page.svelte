@@ -42,9 +42,9 @@
 </section>
 
 {#snippet section(title: string, content: string)}
-	<Card.Root class=" max-w-content-width m-auto mb-10 ">
+	<Card.Root class="max-w-content-width m-auto mb-10 ">
 		<Card.Header>
-			<h1 class=" text-muted text-center text-xl">
+			<h1 class="text-center text-xl">
 				{title}
 			</h1>
 		</Card.Header>
