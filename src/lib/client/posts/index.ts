@@ -9,17 +9,17 @@ export async function getPosts() {
       const { metadata }  = await resolver();
       return {
         ...metadata,
-        slug: path.split('/').pop()?.replace(/\.(md|svx)$/, '')
+        slug: path.split('/').pop()?.replace(/\.(md|svx)$/, '')!
       };
     })
   );
 
   posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  return { posts };
+  return posts ;
 }
 
-export async function getPostBySlug(slug: string) : Promise<PostModule>{
+export async function getPostModuleBySlug(slug: string) : Promise<PostModule>{
   const modules = import.meta.glob<PostModule>('/src/posts/*.{md,svx}');
 
   const match = Object.entries(modules).find(([path]) =>
@@ -32,6 +32,8 @@ export async function getPostBySlug(slug: string) : Promise<PostModule>{
 
   const resolver = match[1];
   const post = await resolver();
+
+  post.metadata.slug = slug;
 
   return post;
 };

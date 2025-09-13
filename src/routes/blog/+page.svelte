@@ -4,7 +4,6 @@
 
   export let data;
 </script>
-
 <section
 	class="max-w-content-width mt-20 mr-auto ml-auto flex w-full flex-col content-center items-center p-5"
 >
@@ -24,7 +23,7 @@
 				class="line-clamp-2 flex
     w-full transition hover:scale-102"
 			>
-				<Widget class=" " {post}></Widget>
+				<Widget {post}></Widget>
 			</li>
 		{/each}
 	</ul>
