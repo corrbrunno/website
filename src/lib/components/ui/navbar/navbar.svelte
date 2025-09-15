@@ -5,12 +5,11 @@
 	const navButtons = [
 		{ slug: 'Home', path: '/' },
 		{ slug: 'Sobre', path: '/#about' },
-		{slug: 'Blog', path: '/blog' }
+		{ slug: 'Blog', path: '/blog' }
 	];
 </script>
 
-
-<header class="fixed flex z-1 w-full justify-center">
+<header style="view-transition-name: navbar;" class="fixed z-1 flex w-full justify-center">
 	<nav class="flex w-full content-center justify-between bg-transparent p-2 pr-10 pl-10">
 		<section>
 			{#each navButtons as button}

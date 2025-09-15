@@ -6,15 +6,16 @@
 	const {
 		post,
 		abbreviate = true,
-		class: className,
-
+		class: className
 	}: { post: PostMetadata; class?: string; abbreviate?: boolean } = $props();
 </script>
- 
 
-<a  href="/blog/{post.slug}" style="view-transition-name: {post.slug.trim()};" class={cn("min-w-full flex-1",className)}>
-
-  <Card.Root class="min-w-full flex-1">
+<a
+	href="/blog/{post.slug}"
+	style="view-transition-name: {post.slug.replaceAll(' ', '')};"
+	class={cn('min-w-full flex-1', className)}
+>
+	<Card.Root class="min-w-full flex-1">
 		<Card.Header>
 			<Card.Title>{post.title}</Card.Title>
 			<Card.Description class={abbreviate ? 'overflow-hidden text-ellipsis whitespace-nowrap ' : ''}

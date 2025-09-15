@@ -17,7 +17,10 @@
 	];
 </script>
 
-<footer class="bg-card mt-auto flex w-full justify-center text-sm">
+<footer
+	style="view-transition-name: footer;"
+	class="bg-card mt-auto flex w-full justify-center text-sm"
+>
 	<div
 		class="max-w-content-width grid-flow flex w-full grid-cols-3 grid-rows-1 flex-col flex-wrap items-center justify-between gap-3 p-5 pr-10 pl-10 sm:flex-row"
 	>

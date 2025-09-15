@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import TextCarousel from '$lib/components/ui/carrousel/TextCarousel.svelte';
 	import * as Card from '$lib/components/ui/card';
+	import Widget from '$lib/components/posts/widget.svelte';
 	const { data }: { data: PageData } = $props();
 	let scrollY = $state(0);
 	let innerHeight = $state(0);
@@ -63,3 +64,20 @@ Atualmente, curso Engenharia de Software com foco em aprofundar fundamentos avan
 Capaz de transformar requisitos complexos em soluções eficientes e escaláveis, aplicando princípios de engenharia de software de ponta, práticas de code review, continuous integration e test-driven development. Experiência em otimização de desempenho, segurança de aplicações e integração com serviços em nuvem (Google Cloud, AWS, Azure). Comprometido com aprendizado contínuo, inovação e excelência técnica, acompanhando as inovações do setor para entregar soluções robustas e alinhadas às demandas modernas.
 `
 )}
+
+<section class="bg-accent mb-10 flex w-full flex-col items-center p-10">
+	<div class="mb-5 flex flex-col items-center justify-center">
+		<h1 class=" text- text-2xl font-bold">My Blog</h1>
+		<p class="text-muted-foreground">Have you seen any of my recent posts?</p>
+	</div>
+	<ul class="max-w-content-width grid w-full grid-cols-1 flex-wrap gap-3 md:grid-cols-2">
+		{#each data.posts as post}
+			<li
+				class="line-clamp-2 flex
+    w-full transition hover:scale-102"
+			>
+				<Widget class="w-10" {post}></Widget>
+			</li>
+		{/each}
+	</ul>
+</section>

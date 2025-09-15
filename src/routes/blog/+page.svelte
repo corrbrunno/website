@@ -1,13 +1,17 @@
 <script lang="ts">
 	import Widget from '$lib/components/posts/widget.svelte';
-  import * as Card from '$lib/components/ui/card';
+	import * as Card from '$lib/components/ui/card';
 
-  export let data;
+	export let data;
 </script>
+
 <section
 	class="max-w-content-width mt-20 mr-auto ml-auto flex w-full flex-col content-center items-center p-5"
 >
-	<Card.Root class="flex-row justify-between mb-10 w-full pr-10 pl-10">
+	<Card.Root
+		style="view-transition-name: title;"
+		class="mb-10 w-full flex-row justify-between pr-10 pl-10"
+	>
 		<Card.Header class="p-0">
 			<h1>Blog</h1>
 		</Card.Header>
@@ -16,14 +20,13 @@
 		</Card.Description>
 	</Card.Root>
 
-
 	<ul class="grid w-full grid-cols-1 flex-wrap gap-3 md:grid-cols-2">
 		{#each data.posts as post}
 			<li
 				class="line-clamp-2 flex
     w-full transition hover:scale-102"
 			>
-				<Widget {post}></Widget>
+				<Widget class="w-10" {post}></Widget>
 			</li>
 		{/each}
 	</ul>
