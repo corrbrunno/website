@@ -1,23 +1,25 @@
-<script>
+<script lang="ts">
 	import { Button } from '../button';
-	import ModeToggle from './ModeToggle.svelte';
+	import ThemeToggle from './navbar-theme-toggle.svelte';
+	import { NAVEGATION_BUTTONS } from './constants.js';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 
-	const navButtons = [
-		{ slug: 'Home', path: '/' },
-		{ slug: 'Sobre', path: '/#about' },
-		{ slug: 'Blog', path: '/blog' }
-	];
 </script>
 
-<header style="view-transition-name: navbar;" class="fixed z-1 flex w-full justify-center">
-	<nav class="flex w-full content-center justify-between bg-transparent p-2 pr-10 pl-10">
-		<section>
-			{#each navButtons as button}
-				<Button variant="ghost" href={button.path}>{button.slug}</Button>
-			{/each}
-		</section>
-		<section>
-			<ModeToggle></ModeToggle>
+
+
+<header style="view-transition-name: navbar;" class="sticky top-0 z-1 flex w-full justify-center">
+	<nav class="w-full">
+		<section class="flex w-full content-center justify-between p-2 pr-10 pl-10">
+			<section>
+				{#each NAVEGATION_BUTTONS as { url, slug }}
+					<Button variant="ghost" href={url}>{slug}</Button>
+				{/each}
+			</section>
+			<section>
+				<ThemeToggle></ThemeToggle>
+				<Sidebar.Trigger class="sm:hidden"/>
+			</section>
 		</section>
 	</nav>
 </header>

@@ -1,10 +1,12 @@
 <script lang="ts">
-	import Navbar from '$lib/components/ui/navbar/Navbar.svelte';
+	import Navbar from '$lib/components/ui/navbar/navbar.svelte';
 	import type { Snippet } from 'svelte';
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
-	import Footer from '$lib/components/ui/footer/Footer.svelte';
+	import Footer from '$lib/components/ui/footer/footer.svelte';
 	import { onNavigate } from '$app/navigation';
+	import * as Sidebar from '$lib/components/ui/sidebar';
+	import NavSidebar from '$lib/components/ui/navbar/nav-sidebar.svelte';
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -17,15 +19,19 @@
 		});
 	});
 
-	let { children, ...others }: { children: Snippet<[]>; others: any[] } = $props();
+	let { children }: { children: Snippet<[]> } = $props();
 </script>
-
 <ModeWatcher />
-<main class="flex min-h-screen flex-col" {...others}>
-	<Navbar></Navbar>
-	{@render children()}
-	<Footer></Footer>
-</main>
+
+<Sidebar.Provider open={false} style="view-transition-name: sidebar-provider;"> 
+	<main class="relative flex flex-col  min-h-screen w-full">
+		<Navbar></Navbar>
+		{@render children()}
+		<Footer></Footer>
+	</main>
+	<NavSidebar></NavSidebar>
+</Sidebar.Provider>
+
 
 <style lang="postcss">
 	:global(::-webkit-scrollbar) {

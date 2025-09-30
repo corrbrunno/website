@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import TextCarousel from '$lib/components/ui/carrousel/TextCarousel.svelte';
+	import TextCarousel from '$lib/components/ui/carrousel/text-carousel.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import Widget from '$lib/components/posts/widget.svelte';
 	const { data }: { data: PageData } = $props();
@@ -10,6 +10,7 @@
 </script>
 
 <svelte:window bind:innerHeight bind:scrollY />
+
 
 <section
 	class="from-secondary to-background flex h-screen content-center items-center justify-center bg-gradient-to-t pr-5 pl-5"
@@ -30,7 +31,7 @@
 	class:opacity-0={!hasScrolled}
 	class="bg-card fixed bottom-1 left-1/2 z-1 -translate-x-1/2 transform animate-bounce rounded-xl border-2 px-4 py-2 text-xl shadow-md transition-opacity duration-500"
 >
-	<h1>Mais abaixo ↓</h1>
+	<aside>Mais abaixo ↓</aside>
 </div>
 <section class="bg-card flex w-full justify-center border-b p-2">
 	<div class="max-w-content-width w-full text-center text-xl">
@@ -38,8 +39,8 @@
 	</div>
 </section>
 
-<section id="about">
-	<TextCarousel class="mt-3 mb-3" options={['Java', 'Javascript', 'C#', 'Python', 'Rust']} />
+<section id="about" class="flex justify-center pt-3 pb-3">
+	<TextCarousel class="mt-3 mb-3  max-w-content-width" options={['Java', 'Javascript', 'C#', 'Python', 'Rust']} />
 </section>
 
 {#snippet section(title: string, content: string)}
