@@ -10,6 +10,7 @@
 		side = "left",
 		variant = "sidebar",
 		collapsible = "offcanvas",
+		viewTransitionName = undefined,
 		class: className,
 		children,
 		...restProps
@@ -17,6 +18,7 @@
 		side?: "left" | "right";
 		variant?: "sidebar" | "floating" | "inset";
 		collapsible?: "offcanvas" | "icon" | "none";
+		viewTransitionName?: string
 	} = $props();
 
 	const sidebar = useSidebar();
@@ -39,6 +41,7 @@
 		{...restProps}
 	>
 		<Sheet.Content
+			{viewTransitionName}
 			data-sidebar="sidebar"
 			data-slot="sidebar"
 			data-mobile="true"

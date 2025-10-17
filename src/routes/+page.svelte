@@ -13,7 +13,7 @@
 
 
 <section
-	class="from-secondary to-background flex h-screen content-center items-center justify-center bg-gradient-to-t pr-5 pl-5"
+	class="from-secondary to-background flex h-screen content-center items-center justify-center bg-gradient-to-t "
 >
 	<section
 		class="max-w-9xl flex max-h-full flex-col flex-nowrap content-center items-center justify-center overflow-hidden bg-clip-text p-10 text-center text-clip text-transparent lg:flex-row lg:p-0"
@@ -43,7 +43,8 @@
 	<TextCarousel class="mt-3 mb-3  max-w-content-width" options={['Java', 'Javascript', 'C#', 'Python', 'Rust']} />
 </section>
 
-{#snippet section(title: string, content: string)}
+{#snippet cardSection(title: string, content: string)}
+<section class="m-4">
 	<Card.Root class="max-w-content-width m-auto mb-10 ">
 		<Card.Header>
 			<h1 class="text-center text-xl">
@@ -54,9 +55,10 @@
 			{@html content.replaceAll(/\n/g, '<br/>')}
 		</Card.Content>
 	</Card.Root>
+	</section>
 {/snippet}
 
-{@render section(
+{@render cardSection(
 	'Sobre',
 	`Programador com sólida experiência, iniciado de forma autodidata e com histórico no desenvolvimento de projetos próprios, do conceito à entrega. Ao longo da trajetória, expandi competências por meio de colaboração com outros profissionais, aprimorando minha capacidade técnica e adaptabilidade.
 

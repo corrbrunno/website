@@ -32,12 +32,12 @@
 			<h1 class="text-lg">I quite like programming!</h1>
 			<br />
 			{#each links as { name, alias, link, Icon }}
-				<a class="flex w-full justify-between" href={link}>
+				<a class="flex w-full justify-between hover:*:text-primary" href={link}>
 					<div class="flex items-center gap-2">
-						<Icon class="text-secondary hover:text-primary" />
+						<Icon class="" />
 						<p class="">{name}:</p>
 					</div>
-					<p class="text-muted hover:text-primary">{alias}</p>
+					<p class="text-muted">{alias}</p>
 				</a>
 			{/each}
 		</section>

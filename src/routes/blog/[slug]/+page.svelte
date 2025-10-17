@@ -6,10 +6,10 @@
 </script>
 
 <svelte:head>
-	<title>{data.metadata.title} | BCBlog</title>
+	<title>{data.metadata.title} | BCB</title>
 	<meta name="description" content={data.metadata.description} />
 </svelte:head>
-<section class="max-w-content-width mr-auto ml-auto w-full pt-20">
+<section class="max-w-content-width mr-auto ml-auto w-full pt-10">
 	<Widget abbreviate={false} post={data.metadata} />
 </section>
 

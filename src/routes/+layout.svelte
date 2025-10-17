@@ -21,15 +21,16 @@
 
 	let { children }: { children: Snippet<[]> } = $props();
 </script>
+
 <ModeWatcher />
 
-<Sidebar.Provider open={false} style="view-transition-name: sidebar-provider;"> 
+<Sidebar.Provider open={false}> 
+	<NavSidebar/>
 	<main class="relative flex flex-col  min-h-screen w-full">
-		<Navbar></Navbar>
+		<Navbar/>
 		{@render children()}
-		<Footer></Footer>
+		<Footer/>
 	</main>
-	<NavSidebar></NavSidebar>
 </Sidebar.Provider>
 
 

@@ -6,11 +6,10 @@
 </script>
 
 <section
-	class="max-w-content-width mt-20 mr-auto ml-auto flex w-full flex-col content-center items-center p-5"
+	class="max-w-content-width mt-10 mr-auto ml-auto flex w-full flex-col content-center items-center p-5"
 >
 	<Card.Root
-		style="view-transition-name: title;"
-		class="mb-10 w-full flex-row justify-between pr-10 pl-10"
+		class="mb-10 w-full flex-row justify-between pr-5 pl-5"
 	>
 		<Card.Header class="p-0">
 			<h1>Blog</h1>
