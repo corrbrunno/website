@@ -12,11 +12,14 @@
 	const viewTransitionName = post.slug.replaceAll(' ', '');
 </script>
 
-<a href="/blog/{post.slug}" class={cn('min-w-full flex-1', className)}>
-	<Card.Root style="view-transition-name: {viewTransitionName}-card;" class="min-w-full flex-1">
+<a href="/blog/{post.slug}" class={cn('min-w-full flex-1 z-1', className)}>
+	<Card.Root
+		id="test"
+		style="view-transition-name: {viewTransitionName}-card;"
+		class="min-w-full flex-1 z-1"
+	>
 		<Card.Header>
-			<Card.Title style="view-transition-name: {viewTransitionName}-title;">{post.title}</Card.Title
-			>
+			<Card.Title>{post.title}</Card.Title>
 			<Card.Description
 				style="view-transition-name: {viewTransitionName}-description;"
 				class={abbreviate ? 'overflow-hidden text-ellipsis whitespace-nowrap ' : ''}

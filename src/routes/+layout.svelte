@@ -24,15 +24,14 @@
 
 <ModeWatcher />
 
-<Sidebar.Provider open={false}> 
-	<NavSidebar/>
-	<main class="relative flex flex-col  min-h-screen w-full">
-		<Navbar/>
+<Sidebar.Provider open={false}>
+	<NavSidebar />
+	<main class="relative flex min-h-screen w-full flex-col">
+		<Navbar />
 		{@render children()}
-		<Footer/>
+		<Footer />
 	</main>
 </Sidebar.Provider>
-
 
 <style lang="postcss">
 	:global(::-webkit-scrollbar) {
@@ -91,5 +90,15 @@
 		animation:
 			210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
 			300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+	}
+
+	:global(::view-transition-new(*):only-child) {
+		z-index: 0;
+	}
+
+	:global(
+		::view-transition-group(sheet-overlay-main-sidebar),
+		::view-transition-group(content-main-sidebar)){
+		z-index: 100;
 	}
 </style>
