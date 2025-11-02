@@ -11,9 +11,8 @@
 
 <svelte:window bind:innerHeight bind:scrollY />
 
-
 <section
-	class="from-secondary to-background flex h-screen content-center items-center justify-center bg-gradient-to-t "
+	class="from-secondary to-background flex h-screen content-center items-center justify-center bg-gradient-to-t"
 >
 	<section
 		class="max-w-9xl flex max-h-full flex-col flex-nowrap content-center items-center justify-center overflow-hidden bg-clip-text p-10 text-center text-clip text-transparent lg:flex-row lg:p-0"
@@ -39,22 +38,23 @@
 	</div>
 </section>
 
-<section id="about" class="flex justify-center pt-3 pb-3">
-	<TextCarousel class="mt-3 mb-3  max-w-content-width" options={['Java', 'Javascript', 'C#', 'Python', 'Rust']} />
-</section>
+<TextCarousel
+	class="max-w-content-width m-auto mt-2"
+	options={['Java', 'Javascript', 'C#', 'Python', 'Rust']}
+/>
 
 {#snippet cardSection(title: string, content: string)}
-<section class="m-4">
-	<Card.Root class="max-w-content-width m-auto mb-10 ">
-		<Card.Header>
-			<h1 class="text-center text-xl">
-				{title}
-			</h1>
-		</Card.Header>
-		<Card.Content class="text-justify">
-			{@html content.replaceAll(/\n/g, '<br/>')}
-		</Card.Content>
-	</Card.Root>
+	<section class="m-4">
+		<Card.Root class="max-w-content-width m-auto mb-10 ">
+			<Card.Header>
+				<h1 class="text-center text-xl">
+					{title}
+				</h1>
+			</Card.Header>
+			<Card.Content class="text-justify">
+				{@html content.replaceAll(/\n/g, '<br/>')}
+			</Card.Content>
+		</Card.Root>
 	</section>
 {/snippet}
 

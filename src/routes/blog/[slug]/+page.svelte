@@ -13,7 +13,7 @@
 	<meta name="description" content={data.metadata.description} />
 </svelte:head>
 <div class="mr-4 ml-4 ">
-	<section class="max-w-content-width mr-auto ml-auto w-full pt-10">
+	<section class="max-w-content-width mr-auto ml-auto w-full pt-15">
 		<Widget abbreviate={false} post={data.metadata} />
 	</section>
 
