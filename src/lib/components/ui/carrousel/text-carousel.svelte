@@ -7,37 +7,41 @@
         options,
         itemWidth = 100,
         itemsGap = 10,
-        animationDuration = 120,
+        sṕeedPxPerSecond = 100,
         ...other
     }: {
         class?: string;
         itemWidth?: number;
         itemsGap?: number;
-        animationDuration?: number;
+        sṕeedPxPerSecond?: number;
         options: string[];
         other?: HTMLInputAttributes;
     } = $props();
 
-    const itemTotalWidth = itemWidth + itemsGap;
-    
     let innerWidth = $state(0);
-    let itemsPerLoop = $derived(Math.ceil(innerWidth / itemTotalWidth) + 2);
-
-    let repeatedTexts = $derived(
-        Array.from({ length: itemsPerLoop * options.length }, (_, i) => options[i % options.length])
+    const itemTotalWidth = $derived(itemWidth + itemsGap);
+    const totalItems = $derived(Math.ceil(innerWidth / itemTotalWidth));
+    
+    const totalListWidth = $derived(
+        options.length * itemTotalWidth * totalItems 
     );
+    const calculatedDuration = $derived(totalListWidth / sṕeedPxPerSecond);
+
+    const repeatedTexts = $derived(
+        Array.from({ length: Math.ceil(totalItems / options.length) * options.length  }, (_, i) => options[i % options.length])
+    );
+
 </script>
 
-<svelte:body bind:clientWidth={innerWidth} />
+<svelte:window bind:innerWidth={innerWidth} />
 
 <section
     class={cn(classNames, 'carousel w-full')}
     style:--gap={`${itemsGap}px`}
     style:--item-width={`${itemWidth}px`}
-    style:--animation-duration={`${animationDuration}s`}
+    style:--animation-duration={`${calculatedDuration}s`}
     {...other}
 >
-    <div class="scrolling-content-wrapper">
         <div class="scrolling-content">
             <ul>
                 {#each repeatedTexts as text}
@@ -50,7 +54,6 @@
                 {/each}
             </ul>
         </div>
-    </div>
 </section>
 
 <style>
@@ -61,41 +64,27 @@
         padding-block: 0.5rem;
         user-select: none;
 
-        -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
-        mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
-    }
-
-    .scrolling-content-wrapper {
-        bottom: 0;
-        left: 0;
-        top: 0;
+        -webkit-mask-image: linear-gradient(to right, transparent, black 50%, black 50%, transparent);
+        mask-image: linear-gradient(to right, transparent, black 50%, black 50%, transparent);
     }
 
     .scrolling-content {
-        align-items: center; 
         gap: var(--gap);
         display: flex;
-        height: 100%;
     }
 
     .carousel ul {
-        list-style: none;
         display: flex;
-        flex-shrink: 0;
         gap: var(--gap);
-        
-        animation: scroll var(--animation-duration) linear infinite;
-    }
 
-    .carousel:hover ul {
-        animation-play-state: paused;
+        animation: scroll var(--animation-duration) linear infinite;
     }
 
     .carousel li {
         flex: 0 0 var(--item-width);
         text-align: center;
-        font-size: clamp(1rem, 2vw, 1.5rem);
-        font-weight: 600;
+        font-size: var(--text-2xl);
+        font-weight: bold;
         white-space: nowrap;
     }
 
