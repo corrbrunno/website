@@ -81,7 +81,7 @@
     }
 
     .carousel li {
-        flex: 0 0 var(--item-width);
+        width: var(--item-width);
         text-align: center;
         font-size: var(--text-2xl);
         font-weight: bold;
