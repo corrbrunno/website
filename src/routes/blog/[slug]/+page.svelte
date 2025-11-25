@@ -5,7 +5,7 @@
 	import { ChevronRight, ChevronLeft } from '@lucide/svelte';
 	import type { PageData } from './$types';
 	const { data }: { data: PageData } = $props();
-	const PostComponent = data.content;
+	const PostComponent = $derived(data.content);
 </script>
 
 <svelte:head>
