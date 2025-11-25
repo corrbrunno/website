@@ -7,13 +7,13 @@
         options,
         itemWidth = 100,
         itemsGap = 10,
-        sṕeedPxPerSecond = 100,
+        speedPxPerSecond = 100,
         ...other
     }: {
         class?: string;
         itemWidth?: number;
         itemsGap?: number;
-        sṕeedPxPerSecond?: number;
+        speedPxPerSecond?: number;
         options: string[];
         other?: HTMLInputAttributes;
     } = $props();
@@ -25,7 +25,7 @@
     const totalListWidth = $derived(
         options.length * itemTotalWidth * totalItems 
     );
-    const calculatedDuration = $derived(totalListWidth / sṕeedPxPerSecond);
+    const calculatedDuration = $derived(totalListWidth / speedPxPerSecond);
 
     const repeatedTexts = $derived(
         Array.from({ length: Math.ceil(totalItems / options.length) * options.length  }, (_, i) => options[i % options.length])

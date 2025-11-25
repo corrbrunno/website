@@ -6,10 +6,11 @@
 	const { data }: { data: PageData } = $props();
 	let scrollY = $state(0);
 	let innerHeight = $state(0);
+	let innerWidth = $state(0);
 	let hasScrolled = $derived(scrollY <= innerHeight / 5);
 </script>
 
-<svelte:window bind:innerHeight bind:scrollY />
+<svelte:window bind:innerWidth bind:innerHeight bind:scrollY />
 
 <section
 	class="from-secondary to-background flex h-screen content-center items-center justify-center bg-gradient-to-t"
@@ -42,7 +43,7 @@
 	class="max-w-content-width m-auto mt-2"
 	options={['Java', 'Javascript', 'C#', 'Python', 'Rust']}
 />
-
+{innerWidth}
 {#snippet cardSection(title: string, content: string)}
 	<section class="m-4">
 		<Card.Root class="max-w-content-width m-auto mb-10 ">
