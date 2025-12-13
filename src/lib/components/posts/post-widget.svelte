@@ -12,7 +12,7 @@
 	const viewTransitionName = post.slug.replaceAll(' ', '');
 </script>
 
-<a href="/blog/{post.slug}" class={cn('min-w-full flex-1 z-1', className)}>
+<a href="/blog/{post.slug}" class={cn('min-w-full flex-1', className)}>
 	<Card.Root
 		id="test"
 		style="view-transition-name: {viewTransitionName}-card;"

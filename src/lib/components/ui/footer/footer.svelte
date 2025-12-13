@@ -25,7 +25,7 @@
 		class="max-w-content-width grid-flow flex w-full grid-cols-3 grid-rows-1 flex-col flex-wrap items-center justify-between gap-3 p-5 pr-10 pl-10 sm:flex-row"
 	>
 		<section>Bruno Corrêa</section>
-		<section class="text-center">
+		<section class="select-none text-center">
 			<p id="phrase">Made by me with 💜 - no AI</p>
 		</section>
 		<section class="relative">
