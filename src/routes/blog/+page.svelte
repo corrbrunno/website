@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Widget from '$lib/components/posts/widget.svelte';
+	import Widget from '$lib/components/posts/post-widget.svelte';
 	import * as Card from '$lib/components/ui/card';
 
 	export let data;

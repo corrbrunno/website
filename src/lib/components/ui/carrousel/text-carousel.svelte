@@ -18,23 +18,29 @@
         other?: HTMLInputAttributes;
     } = $props();
 
-    const itemTotalWidth = itemWidth + itemsGap;
-    
     let innerWidth = $state(0);
-    let itemsPerLoop = $derived(Math.ceil(innerWidth / itemTotalWidth) + 2);
+    const itemTotalWidth = $derived(itemWidth + itemsGap);
+    
+    let itemsPerLoop = $derived(Math.ceil(innerWidth / itemTotalWidth) );
 
     let repeatedTexts = $derived(
-        Array.from({ length: itemsPerLoop * options.length }, (_, i) => options[i % options.length])
+        Array.from({ length: Math.ceil(itemsPerLoop / options.length) * options.length  }, (_, i) => options[i % options.length])
     );
-</script>
+    const SPEED_PX_PER_SECOND = 200; 
 
-<svelte:body bind:clientWidth={innerWidth} />
+    let totalListWidth = $derived(
+       options.length * itemTotalWidth * ( Math.ceil(itemsPerLoop / options.length) * options.length) 
+    );
+
+    let calculatedDuration = $derived(totalListWidth / SPEED_PX_PER_SECOND);
+</script>
+<svelte:window bind:innerWidth={innerWidth} />
 
 <section
     class={cn(classNames, 'carousel w-full')}
     style:--gap={`${itemsGap}px`}
     style:--item-width={`${itemWidth}px`}
-    style:--animation-duration={`${animationDuration}s`}
+    style:--animation-duration={`${calculatedDuration}s`}
     {...other}
 >
     <div class="scrolling-content-wrapper">
@@ -94,7 +100,7 @@
     .carousel li {
         flex: 0 0 var(--item-width);
         text-align: center;
-        font-size: clamp(1rem, 2vw, 1.5rem);
+        font-size: var(--text-2xl);
         font-weight: 600;
         white-space: nowrap;
     }
