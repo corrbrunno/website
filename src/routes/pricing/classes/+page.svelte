@@ -1,11 +1,5 @@
 <script>
-	import {
-		Book,
-		Gem,
-		HousePlugIcon,
-		Repeat,
-		Rocket
-	} from '@lucide/svelte';
+	import { Book, CalendarCheck, Car, Clock4, Gem, HousePlugIcon, Repeat, Rocket, Users } from '@lucide/svelte';
 	import FeatureGrid from '../feature-grid.svelte';
 	import PricingCard from '../pricing-card.svelte';
 	import Faq from '../faq.svelte';
@@ -75,25 +69,59 @@
 	></FeatureGrid>
 </div>
 
-<div class="flex flex-col items-center">
+<div class="text-center px-4">
 	<div class="mb-10">
-	<h1 class="pt-10 text-center text-3xl font-bold">
-		Descubra o seu <span class="text-primary">potêncial</span>.
-	</h1>
-	<p class="text-muted-foreground">
-		A tecnologia está presente em todas as áreas, faça parte do futuro.
-	</p>
+		<h1 class="pt-10 text-3xl font-bold">
+			Descubra o seu <span class="text-primary">potêncial</span>.
+		</h1>
+		<p class="pt-2 text-muted-foreground">
+			A tecnologia está presente em todas as áreas, faça parte do futuro.
+		</p>
 	</div>
+	<section class="flex items-center justify-start md:justify-center gap-4 pb-2 overflow-x-scroll">
 	<PricingCard
-		price={250}
+		price={150}
 		paymentFrequency="Aula"
-		title={'Particular (remoto)'}
-		actionButton={{ name: 'Agora!', link: 'test' }}
-		featureItems={[{ feature: 'easy', icon: HousePlugIcon }]}
+		title={'Particular (presencial)'}
+		actionButton={{ name: 'Começar agora', link: 'test' }}
+		featureItems={[
+			{ feature: 'Plano de aula exclusivo', icon: Gem },
+			{ feature: 'Uma hora de aula', icon: Clock4 },
+			{ feature: 'Ida in loco', icon: Car },
+			{ feature: 'Do básico à avançado', icon: Book },
+		]}
 	></PricingCard>
+		<PricingCard
+		price={250}
+		paymentFrequency="2 Aulas"
+		title={'Particular (remoto)'}
+		actionButton={{ name: 'Começar agora', link: 'test' }}
+		featureItems={[
+			{ feature: 'Plano de aula exclusivo', icon: Gem },
+			{ feature: 'Uma hora de aula', icon: Clock4 },
+			{ feature: 'Duas aulas por semana', icon: CalendarCheck },
+			{ feature: 'Do básico à avançado', icon: Book },
+		]}
+	></PricingCard>
+			<PricingCard
+		price={100}
+		paymentFrequency="Aula"
+		title={'Grupo (remoto)'}
+		actionButton={{ name: 'Começar agora', link: 'test' }}
+		featureItems={[
+			{ feature: 'Networking', icon: Users },
+			{ feature: 'Uma hora de aula', icon: Clock4 },
+			{ feature: 'Duas aulas por semana', icon: CalendarCheck },
+			{ feature: 'Do básico à avançado', icon: Book },
+		]}
+	></PricingCard>
+	</section>
 </div>
 
-<div class="max-w-content-width my-10 px-4 w-full items-center mx-auto">
-	<Faq faqData={[{ question: 'does this works?', answer: 'sure it does, just look at it!' }]}></Faq>
-	
+<div class="max-w-content-width mx-auto my-10 w-full items-center px-4">
+	<Faq faqData={[
+		{ question: 'É preciso conhecimento prévio?', answer: 'Não é preciso, as aulas partem de seu conhecimento atual, seja ele básico ou avançado.' },
+		{ question: 'Qual seria a disponibilidade de horários?', answer: 'Para as modalidades particular, o horário é acordado previamente, alinhando sua disponibilidade e preferência, com a minha disponibilidade.' },
+		{ question: 'Presencialmente, tem taxa de deslocamento?', answer: 'Não há taxas! Entretanto, cobrimos apenas o município de saquarema.' }
+		]}></Faq>
 </div>
