@@ -8,7 +8,7 @@
     <Card.Header class="text-center font-bold">
         <h2>FAQ</h2>
     </Card.Header>
-    <Card.Content class="max-w-content-width mx-auto grid w-full grid-cols-1 gap-10 px-10 md:grid-cols-2">
+    <Card.Content class="max-w-content-width mx-auto grid w-full grid-cols-1  gap-y-4  gap-x-10 px-10 md:grid-cols-2">
         {#each faqData as { question, answer}}
         <Accordion.Root type="single">
             <Accordion.Item>
