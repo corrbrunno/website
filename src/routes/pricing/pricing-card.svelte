@@ -6,7 +6,7 @@
 	import type { Component } from 'svelte';
 
 	type featureItem = { feature: string; icon?: Component<IconProps, {}, ''> };
-	type cardProps = {
+	export type pricingCardData = {
 		title: string;
 		paymentFrequency?: string;
 		actionButton: { name: string; link: string };
@@ -14,7 +14,7 @@
 		featureItems: featureItem[];
 	};
 
-	const { price, paymentFrequency, title, featureItems, actionButton }: cardProps = $props();
+	const { price, paymentFrequency, title, featureItems, actionButton }: pricingCardData = $props();
 </script>
 
 <Card.Root class="h-fit">

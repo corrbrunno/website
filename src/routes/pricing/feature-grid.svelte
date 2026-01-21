@@ -2,7 +2,7 @@
 	import type { IconProps } from '@lucide/svelte';
 	import type { Component } from 'svelte';
 
-	type featureItem = { header: string; description: string; icon?: Component<IconProps, {}, ''> };
+	export type featureItem = { header: string; description: string; icon?: Component<IconProps, {}, ''> };
 	const { items }: { items: featureItem[] } = $props();
 </script>
 

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import * as Accordion from "$lib/components/ui/accordion";
-    const {faqData } : {faqData : {question: string, answer:string}[]} = $props();
     import * as Card from "$lib/components/ui/card";
+    export type faqData = {question: string, answer:string}[];
+    const {content } : {content : faqData} = $props();
 </script>
 
 <Card.Root>
@@ -9,7 +10,7 @@
         <h2>FAQ</h2>
     </Card.Header>
     <Card.Content class="max-w-content-width mx-auto grid w-full grid-cols-1  gap-y-4  gap-x-10 px-10 md:grid-cols-2">
-        {#each faqData as { question, answer}}
+        {#each content as { question, answer}}
         <Accordion.Root type="single">
             <Accordion.Item>
                 <Accordion.Trigger>{question}</Accordion.Trigger>
