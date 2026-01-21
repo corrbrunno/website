@@ -26,38 +26,40 @@
 	} = $props();
 </script>
 
-<h1 class="mx-auto max-w-130 pt-10 text-center text-3xl font-bold">
-	{@render heading()}
-</h1>
+<div class="w-full my-10 grid grid-cols-1 gap-y-20">
+	<header class="mx-4">
+    <h1 class="mx-auto max-w-130 text-center text-3xl font-bold">
+		{@render heading()}
+	</h1>
+    </header>
 
-<div class="px-5 pt-10">
-	<p class="p-5 text-center text-lg font-bold">{keyPointsTitle}</p>
-	<FeatureGrid items={keyPointsData} />
-</div>
-
-<div class="bg-primary/30 mt-10 p-7 px-5">
-	<p class="pb-5 text-center text-lg font-bold">Diferenciais</p>
-	<FeatureGrid items={keyFeaturesData}></FeatureGrid>
-</div>
-
-<div class="px-4 text-center">
-	<div class="mb-10">
-		<h1 class="pt-10 text-3xl font-bold">
-			{@render pricingTitle()}
-		</h1>
-		<p class="text-muted-foreground pt-2">
-			{pricingSubtitle}
-		</p>
-	</div>
-	<section class="flex items-center justify-start gap-4 overflow-x-scroll pb-2 md:justify-center">
-		{#each pricingCardsData as pricingCardData}
-			<PricingCard {...pricingCardData} />
-		{/each}
+	<section>
+		<p class="pb-10 text-center text-lg font-bold">{keyPointsTitle}</p>
+		<FeatureGrid items={keyPointsData} />
 	</section>
-</div>
 
-<div class="max-w-content-width mx-auto my-10 w-full items-center px-4">
-	<Faq
-		content={faqContentData}
-	></Faq>
+	<div class="bg-primary/30 py-10">
+		<p class="pb-5 text-center text-lg font-bold">Diferenciais</p>
+		<FeatureGrid items={keyFeaturesData}></FeatureGrid>
+	</div>
+
+	<div class="text-center mx-4">
+		<div class="mb-10">
+			<h1 class="text-3xl font-bold">
+				{@render pricingTitle()}
+			</h1>
+			<p class="text-muted-foreground pt-2">
+				{pricingSubtitle}
+			</p>
+		</div>
+		<ul class="flex items-center justify-start gap-4 overflow-x-scroll pb-2 md:justify-center">
+			{#each pricingCardsData as pricingCardData}
+				<li><PricingCard {...pricingCardData} /></li>
+			{/each}
+		</ul>
+	</div>
+
+	<div class="max-w-content-width mx-auto w-full items-center px-4">
+		<Faq content={faqContentData} />
+	</div>
 </div>
