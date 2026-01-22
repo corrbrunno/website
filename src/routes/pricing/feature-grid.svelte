@@ -7,7 +7,7 @@
 </script>
 
 {#snippet featureBlock(item: featureItem)}
-	<div class="flex gap-2">
+	<div class="flex gap-4">
 		{#if item.icon}
 			<item.icon class="my-auto aspect-square size-15 shrink-0" />
 		{/if}
