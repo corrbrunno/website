@@ -24,26 +24,27 @@
 		pricingCardsData: pricingCardData[];
 		faqContentData: faqData;
 	} = $props();
+	
 </script>
 
-<div class="w-full my-10 grid grid-cols-1 gap-y-20">
+<div class="my-10 grid w-full grid-cols-1 gap-y-20">
 	<header class="mx-4">
-    <h1 class="mx-auto max-w-130 text-center text-3xl font-bold">
-		{@render heading()}
-	</h1>
-    </header>
+		<h1 class="mx-auto max-w-130 text-left sm:text-center text-3xl font-bold">
+			{@render heading()}
+		</h1>
+	</header>
 
 	<section>
-		<p class="pb-10 text-center text-lg font-bold">{keyPointsTitle}</p>
+		<h3 class="pb-10 text-center text-lg font-bold">{keyPointsTitle}</h3>
 		<FeatureGrid items={keyPointsData} />
 	</section>
 
-	<div class="bg-primary/30 py-10">
-		<p class="pb-5 text-center text-lg font-bold">Diferenciais</p>
+	<section class="bg-primary/30 py-14">
+		<h3 class="pb-5 text-center text-lg font-bold">Diferenciais</h3>
 		<FeatureGrid items={keyFeaturesData}></FeatureGrid>
-	</div>
+	</section>
 
-	<div class="text-center mx-4">
+	<section class="mx-4 text-center">
 		<div class="mb-10">
 			<h1 class="text-3xl font-bold">
 				{@render pricingTitle()}
@@ -57,9 +58,9 @@
 				<li><PricingCard {...pricingCardData} /></li>
 			{/each}
 		</ul>
-	</div>
+	</section>
 
-	<div class="max-w-content-width mx-auto w-full items-center px-4">
+	<section class="max-w-content-width mx-auto w-full items-center px-4">
 		<Faq content={faqContentData} />
-	</div>
+	</section>
 </div>
