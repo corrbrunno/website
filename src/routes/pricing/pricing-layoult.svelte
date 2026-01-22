@@ -28,7 +28,7 @@
 </script>
 
 <div class="my-10 grid w-full grid-cols-1 gap-y-20">
-	<header class="mx-4">
+	<header class="mx-4 text-balance">
 		<h1 class="mx-auto max-w-130 text-left sm:text-center text-3xl font-bold">
 			{@render heading()}
 		</h1>
@@ -46,10 +46,10 @@
 
 	<section class="mx-4 text-center">
 		<div class="mb-10">
-			<h1 class="text-3xl font-bold">
+			<h1 class="text-3xl text-balance font-bold">
 				{@render pricingTitle()}
 			</h1>
-			<p class="text-muted-foreground pt-2">
+			<p class="text-muted-foreground text-pretty pt-2">
 				{pricingSubtitle}
 			</p>
 		</div>
