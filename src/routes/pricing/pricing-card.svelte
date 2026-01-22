@@ -29,7 +29,7 @@
 	<Card.Content>
 		<ul class="flex flex-col gap-2">
 			{#each featureItems as item}
-				<li class="flex gap-2 text-left">
+				<li class="flex gap-2 text-left text-balance">
 					<item.icon class="size-6 shrink-0"/>
 					<p>{item.feature}</p>
 				</li>
