@@ -53,7 +53,7 @@
 				{pricingSubtitle}
 			</p>
 		</div>
-		<ul class="flex items-center justify-start gap-4 overflow-x-scroll pb-2 md:justify-center">
+		<ul class="flex justify-start md:justify-center gap-4 pb-2 overflow-x-scroll">
 			{#each pricingCardsData as pricingCardData}
 				<li><PricingCard {...pricingCardData} /></li>
 			{/each}
