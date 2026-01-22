@@ -22,7 +22,7 @@
 		<h2>{title}</h2>
 		<Separator />
 		<div>
-			<h3 class="text-primary text-4xl font-bold">R$ {price}</h3>
+			<h3 class="text-primary text-4xl font-bold">R$ {Intl.NumberFormat("pt-br").format(price)}</h3>
 			<p class="-mt-2 text-right text-sm">/{paymentFrequency}</p>
 		</div>
 	</Card.Header>
