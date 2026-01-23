@@ -17,7 +17,7 @@
 	const { price, paymentFrequency, title, featureItems, actionButton }: pricingCardData = $props();
 </script>
 
-<Card.Root class="h-fit text-pretty min-w-65">
+<Card.Root class="h-fit text-pretty w-65">
 	<Card.Header class="flex flex-col items-center">
 		<h2>{title}</h2>
 		<Separator />
