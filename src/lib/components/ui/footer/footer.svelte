@@ -1,5 +1,7 @@
 <script>
 	import { Github, Linkedin, Instagram } from '@lucide/svelte';
+	import * as m from '$lib/paraglide/messages';
+
 	const links = [
 		{ name: 'Github', alias: '@corrbrunno', link: 'https://github.com/corrbrunno', Icon: Github },
 		{
@@ -25,14 +27,14 @@
 		class="max-w-content-width grid-flow flex w-full grid-cols-3 grid-rows-1 flex-col flex-wrap items-center justify-between gap-3 p-5 pr-10 pl-10 sm:flex-row"
 	>
 		<section>Bruno Corrêa</section>
-		<section class="select-none text-center">
-			<p id="phrase">Made by me with 💜 - no AI</p>
+		<section class="text-center select-none">
+			<p id="phrase">{m.footer_made_by()}</p>
 		</section>
 		<section class="relative">
-			<h1 class="text-lg">I quite like programming!</h1>
+			<h1 class="text-lg">{m.footer_slogan()}</h1>
 			<br />
 			{#each links as { name, alias, link, Icon }}
-				<a class="flex w-full justify-between hover:*:text-primary" href={link}>
+				<a class="hover:*:text-primary flex w-full justify-between" href={link}>
 					<div class="flex items-center gap-2">
 						<Icon class="" />
 						<p class="">{name}:</p>
