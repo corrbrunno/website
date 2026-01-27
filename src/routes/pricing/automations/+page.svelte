@@ -1,167 +1,144 @@
 <script>
 	import {
-		Book,
-		CalendarCheck,
-		Car,
-		Clock4,
-		Gem,
-		Repeat,
-		Rocket,
-		Settings,
-		Zap,
-		Database,
-		FileSpreadsheet,
-		Cpu,
-		Users,
-		FileDigit,
-		ChartColumnIncreasing,
-		Bot,
 		Activity,
-		Lightbulb,
-		Smartphone,
+		Book,
+		Bot,
+		ChartColumnIncreasing,
+		FileDigit,
+		FileSpreadsheet,
 		House,
-		PlugZap
+		Lightbulb,
+		PlugZap,
+		Repeat,
+		Smartphone,
+		Users,
+		Zap
 	} from '@lucide/svelte';
 	import PricingLayoult from '../pricing-layoult.svelte';
+	import * as m from '$lib/paraglide/messages';
 
-	const faqData = [
-		{
-			question: 'Como recebo e uso as automações pontuais?',
-			answer:
-				'Eu entrego um arquivo executável ou um script simples. Você só precisará dar dois cliques para ele realizar a tarefa (como organizar arquivos ou converter dados) instantaneamente no seu computador.'
-		},
-		{
-			question: 'Preciso comprar dispositivos caros para o plano IOT?',
-			answer:
-				'Não necessariamente. Eu utilizo componentes de excelente custo-benefício (como ESP32). Eu te envio a lista do que comprar ou já entrego o dispositivo pronto e configurado para sua casa ou comércio.'
-		},
-		{
-			question: 'O que acontece se o site ou sistema que eu uso mudar?',
-			answer:
-				'Automações de navegador (RPA) podem precisar de ajustes se o site mudar drasticamente. Por isso, ofereço um período de suporte e auxílio na utilização para garantir que tudo continue rodando perfeitamente.'
-		},
-		{
-			question: 'Minhas informações e senhas estarão seguras?',
-			answer:
-				'Totalmente. No plano Pontual e Comercial, os scripts rodam localmente na sua máquina. Seus dados e senhas não passam pelo meu servidor; o código pertence a você e funciona de forma privada.'
-		},
-		{
-			question: 'Posso controlar as luzes e tomadas mesmo estando fora de casa?',
-			answer:
-				'Sim! No plano IOT, configuramos um aplicativo ou interface simples no seu celular para que você tenha controle total dos seus dispositivos de qualquer lugar com acesso à internet.'
-		}
-	];
+const faqData = [
+    {
+        question: m.automation_faq_q1,
+        answer: m.automation_faq_a1,
+    },
+    {
+        question: m.automation_faq_q2,
+        answer: m.automation_faq_a2
+    },
+    {
+        question: m.automation_faq_q3,
+        answer: m.automation_faq_a3
+    },
+    {
+        question: m.automation_faq_q4,
+        answer: m.automation_faq_a4
+    },
+    {
+        question: m.automation_faq_q5,
+        answer: m.automation_faq_a5
+    }
+];
 
-	const keyPointsData = [
-		{
-			header: 'Eliminação de Erros',
-			description:
-				'Erros manuais custam caro. Com automações e scripts validados, você garante que seus dados e relatórios estejam sempre 100% precisos, sem falhas humanas.'
-		},
-		{
-			header: 'Planilhas Inteligentes',
-			description:
-				'Vá além das fórmulas básicas. Transforme suas planilhas de Excel ou Google Sheets em sistemas robustos que processam dados e geram insights automaticamente.'
-		},
-		{
-			header: 'Integração de Sistemas',
-			description:
-				'Faça suas ferramentas conversarem. Conecte seu CRM, e-mail e planilhas para que as informações fluam sem que você precise copiar e colar nada.'
-		},
-		{
-			header: 'Recupere seu Tempo',
-			description:
-				'Tarefas repetitivas drenam sua energia. Automatize processos que levam horas e execute-os em segundos, focando no que realmente traz lucro para o seu negócio.'
-		}
-	];
+const keyPointsData = [
+    {
+        header: m.automation_point_errors_header,
+        description: m.automation_point_errors_description
+    },
+    {
+        header: m.automation_point_sheets_header,
+        description: m.automation_point_sheets_description
+    },
+    {
+        header: m.automation_point_integration_header,
+        description: m.automation_point_integration_description
+    },
+    {
+        header: m.automation_point_time_header,
+        description: m.automation_point_time_description
+    }
+];
 
-	const keyFeaturesData = [
-		{
-			header: 'Manipulação de Arquivos',
-			description:
-				'Scripts para renomear, converter e organizar grandes volumes de arquivos ou fotos em segundos, eliminando o trabalho manual no PC.',
-			icon: FileDigit
-		},
-		{
-			header: 'Robôs de Navegação (RPA)',
-			description:
-				'Automações que acessam sites, preenchem formulários e coletam dados automaticamente, simulando o comportamento humano sem erros.',
-			icon: Bot
-		},
-		{
-			header: 'Dashboards e Relatórios',
-			description:
-				'Transformação de dados brutos de planilhas ou sistemas em painéis visuais automáticos para facilitar sua tomada de decisão.',
-			icon: ChartColumnIncreasing
-		},
-		{
-			header: 'Ecossistema IOT',
-			description:
-				'Integração de sensores, lâmpadas e dispositivos inteligentes controlados por código personalizado e acessíveis pelo seu smartphone.',
-			icon: Activity
-		}
-	];
+const keyFeaturesData = [
+    {
+        header: m.automation_feature_files_header,
+        description: m.automation_feature_files_description,
+        icon: FileDigit
+    },
+    {
+        header: m.automation_feature_rpa_header,
+        description: m.automation_feature_rpa_description,
+        icon: Bot
+    },
+    {
+        header: m.automation_feature_dashboards_header,
+        description: m.automation_feature_dashboards_description,
+        icon: ChartColumnIncreasing
+    },
+    {
+        header: m.automation_feature_iot_header,
+        description: m.automation_feature_iot_description,
+        icon: Activity
+    }
+];
 
-	const pricingCardsData = [
-		{
-			price: 450,
-			paymentFrequency: 'Por Script / Tarefa',
-			title: 'Pontual',
-			actionButton: { name: 'Resolver tarefa', link: 'test' },
-			featureItems: [
-				{ feature: 'Automação de arquivos (Renomear/Mover)', icon: FileDigit },
-				{ feature: 'Conversão de dados (PDF/Excel)', icon: Repeat },
-				{ feature: 'Scripts de tarefa única no PC', icon: Zap },
-				{ feature: 'Auxilio na utilização', icon: Book }
-			]
-		},
-		{
-			price: 950,
-			paymentFrequency: 'Sob Consulta',
-			title: 'Comercial',
-			actionButton: { name: 'Automatizar agora', link: 'test' },
-			featureItems: [
-				{ feature: 'Integração entre 3 apps', icon: Repeat },
-				{ feature: 'Dashboard de indicadores', icon: ChartColumnIncreasing },
-				{ feature: 'Planilha Automatizada', icon: FileSpreadsheet },
-				{ feature: 'Automação de Navegador (RPA)', icon: Bot },
-				{ feature: 'Treinamento de equipe', icon: Users }
-			]
-		},
-		{
-			price: 340,
-			paymentFrequency: 'Sob Consulta',
-			title: 'IOT',
-			actionButton: { name: 'Consultar projeto', link: 'test' },
-			featureItems: [
-				{ feature: 'Configuração de sensores', icon: Activity },
-				{ feature: 'Automação de Lâmpadas', icon: Lightbulb },
-				{ feature: 'Automação de Tomadas', icon: PlugZap },
-				{ feature: 'Aplicativo Pessoal', icon: Smartphone },
-				{ feature: 'Automações Residenciais', icon: House }
-			]
-		}
-	];
+const pricingCardsData = [
+    {
+        price: 450,
+        paymentFrequency: m.automation_price_freq_task,
+        title: m.automation_price_pontual_title,
+        actionButton: { name: m.automation_price_pontual_btn, link: 'test' },
+        featureItems: [
+            { feature: m.automation_price_pontual_f1, icon: FileDigit },
+            { feature: m.automation_price_pontual_f2, icon: Repeat },
+            { feature: m.automation_price_pontual_f3, icon: Zap },
+            { feature: m.automation_price_pontual_f4, icon: Book }
+        ]
+    },
+    {
+        price: 950,
+        paymentFrequency: m.automation_price_freq_consult,
+        title: m.automation_price_comercial_title,
+        actionButton: { name: m.automation_price_comercial_btn, link: 'test' },
+        featureItems: [
+            { feature: m.automation_price_comercial_f1, icon: Repeat },
+            { feature: m.automation_price_comercial_f2, icon: ChartColumnIncreasing },
+            { feature: m.automation_price_comercial_f3, icon: FileSpreadsheet },
+            { feature: m.automation_price_comercial_f4, icon: Bot },
+            { feature: m.automation_price_comercial_f5, icon: Users }
+        ]
+    },
+    {
+        price: 340,
+        paymentFrequency: m.automation_price_freq_consult,
+        title: m.automation_price_iot_title,
+        actionButton: { name: m.automation_price_iot_btn, link: 'test' },
+        featureItems: [
+            { feature: m.automation_price_iot_f1, icon: Activity },
+            { feature: m.automation_price_iot_f2, icon: Lightbulb },
+            { feature: m.automation_price_iot_f3, icon: PlugZap },
+            { feature: m.automation_price_iot_f4, icon: Smartphone },
+            { feature: m.automation_price_iot_f5, icon: House }
+        ]
+    }
+];
 </script>
 
 <PricingLayoult
-	keyPointsTitle="Por que automatizar?"
+	keyPointsTitle={m.automation_key_points_title()}
 	{keyPointsData}
 	{keyFeaturesData}
-	pricingSubtitle="Pare de lutar com tarefas repetitivas e deixe a tecnologia trabalhar por você."
+	pricingSubtitle={m.automation_pricing_subtitle()}
 	{pricingCardsData}
 	faqContentData={faqData}
 >
 	{#snippet heading()}
-		<span class="text-balance">
-			Recupere seu tempo e <span class="text-primary">elimine o trabalho manual</span> com soluções de
-			automação inteligente.
-		</span>
+			{m.automation_hero_title_start()}
+			<span class="text-primary">{m.automation_hero_highlight()}</span>
+			{m.automation_hero_title_end()}
 	{/snippet}
 
 	{#snippet pricingTitle()}
-		<span class="text-balance">
-			Invista em <span class="text-primary">eficiência</span>.
-		</span>
+			{m.automation_pricing_title()} <span class="text-primary">{m.automation_pricing_highlight()}</span>.
 	{/snippet}
 </PricingLayoult>
