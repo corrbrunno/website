@@ -1,5 +1,10 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "nav_home": "Início",
+  "nav_about": "Sobre",
+  "nav_blog": "Blog",
+
   "home_impact_title": "Soluções incontáveis, foco em ",
   "home_impact_results_label": "resultados.",
   "home_impact_description": "Sou Bruno e transformo desafios digitais em processos fluidos e inteligentes.\nMovido pela inovação constante, uso este espaço para criar, apresentar e ensinar. Explore meus projetos ou mergulhe no blog para entender os bastidores dessa jornada.",
