@@ -1,8 +1,9 @@
 <script lang="ts">
+	import type { LocalizedString } from '@inlang/paraglide-js';
 	import type { IconProps } from '@lucide/svelte';
 	import type { Component } from 'svelte';
 
-	export type featureItem = { header: string; description: string; icon?: Component<IconProps, {}, ''> };
+	export type featureItem = { header: () => LocalizedString; description: () => LocalizedString; icon?: Component<IconProps, {}, ''> };
 	const { items }: { items: featureItem[] } = $props();
 </script>
 
@@ -12,8 +13,8 @@
 			<item.icon class="my-auto aspect-square size-15 shrink-0" />
 		{/if}
 		<div>
-			<h2 class="text-lg font-bold">{item.header}</h2>
-			<p class="text-justify">{item.description}</p>
+			<h2 class="text-lg font-bold">{item.header()}</h2>
+			<p class="text-justify">{item.description()}</p>
 		</div>
 	</div>
 {/snippet}

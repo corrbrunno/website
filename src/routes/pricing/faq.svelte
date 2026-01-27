@@ -1,7 +1,8 @@
 <script lang="ts">
 	import * as Accordion from "$lib/components/ui/accordion";
     import * as Card from "$lib/components/ui/card";
-    export type faqData = {question: string, answer:string}[];
+	import type { LocalizedString } from "@inlang/paraglide-js";
+    export type faqData = {question: () => LocalizedString, answer: () => LocalizedString}[];
     const {content } : {content : faqData} = $props();
 </script>
 
@@ -13,8 +14,8 @@
         {#each content as { question, answer}}
         <Accordion.Root type="single">
             <Accordion.Item>
-                <Accordion.Trigger>{question}</Accordion.Trigger>
-                <Accordion.Content><p>{answer}</p></Accordion.Content>
+                <Accordion.Trigger>{question()}</Accordion.Trigger>
+                <Accordion.Content><p>{answer()}</p></Accordion.Content>
             </Accordion.Item>
         </Accordion.Root>
             
