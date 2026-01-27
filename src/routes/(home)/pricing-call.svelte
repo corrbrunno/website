@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
+	import * as m from '$lib/paraglide/messages';
 
 	const BASE_TOP_VALUE = 10;
 	const TOP_MARGIN = 20;
@@ -9,13 +10,38 @@
 	const cardMarkers: Record<number, HTMLElement | null> = {};
 	const cardElements: Record<number, HTMLElement | null> = {};
 
+	const pricingOptions = [
+		{
+			id: 1,
+			title: m.home_pricing_card_automation_title,
+			phrase: m.home_pricing_card_automation_phrase,
+			description: m.home_pricing_card_automation_description,
+			href: '/pricing/automations'
+		},
+		{
+			id: 2,
+			title: m.home_pricing_card_classes_title,
+			phrase: m.home_pricing_card_classes_phrase,
+			description: m.home_pricing_card_classes_description,
+			href: 'pricing/classes'
+		},
+		{
+			id: 3,
+			title: m.home_pricing_card_websites_title,
+			phrase: m.home_pricing_card_websites_phrase,
+			description: m.home_pricing_card_websites_description,
+			href: 'pricing/websites'
+		}
+	];
+
 	function scrollToOriginalPosition(cardIdx: number) {
 		const markerElm = cardMarkers[cardIdx]!;
 		const cardElm = cardElements[cardIdx]!;
 
-		const y = markerElm.getBoundingClientRect().top 
-			- cardElm.getBoundingClientRect().height / 2 
-			+ window.scrollY;
+		const y =
+			markerElm.getBoundingClientRect().top -
+			cardElm.getBoundingClientRect().height / 2 +
+			window.scrollY;
 
 		window.scrollTo({
 			top: y,
@@ -24,7 +50,13 @@
 	}
 </script>
 
-{#snippet pricingCall(cardOrder: number, title: string, phrase: string, description: string)}
+{#snippet pricingCall(
+	cardOrder: number,
+	title: string,
+	phrase: string,
+	description: string,
+	href: string
+)}
 	{@const topDistance = String(BASE_TOP_VALUE + TOP_MARGIN + BASE_CARD_TITLE_HEIGHT * cardOrder)}
 
 	<div bind:this={cardMarkers[cardOrder]}></div>
@@ -40,7 +72,7 @@
 				{description}
 			</Card.Content>
 			<Card.Footer>
-				<Button href="/test" class="w-full">Teste</Button>
+				<Button {href} class="w-full">Saiba mais</Button>
 			</Card.Footer>
 		</Card.Root>
 	</div>
@@ -51,28 +83,19 @@
 		style="top: calc(var(--spacing) * {BASE_TOP_VALUE});"
 		class="sticky bottom-7 z-1 text-3xl font-bold md:static"
 	>
-		O que vamos construir juntos?
+		{m.home_pricing_section_title()}
 	</h1>
 
 	<section class="relative z-3 mt-7 flex flex-col gap-7 md:flex-row">
-		{@render pricingCall(
-			1,
-			'Automação',
-			'Deixe o trabalho repetitivo para as máquinas.',
-			'Dês de sua empresa, até sua rotina pessoal, é possível agilizar inumeras tarefas. Foque no que realmente importa, enquanto tudo está no piloto-automático!'
-		)}
-		{@render pricingCall(
-			2,
-			'Conhecimento',
-			'Ganhe autonomia de criar exatamente o que precisa.',
-			'   Aulas de programação em divérsas modalidades, do básico ao avançado, entenda cada etapa do processo, para desenvolver projetos de exelência.'
-		)}
-		{@render pricingCall(
-			3,
-			'Website | Sistemas',
-			'Sua vitrine digital, feita sob medida.',
-			'Crie uma presença online profissional e otimizada. Websites, e-commerces e sistemas internos com design exclusivo e funcionalidades pensadas para o crescimento e a gestão eficiente do seu negócio.'
-		)}
+		{#each pricingOptions as option, i}
+			{@render pricingCall(
+				i + 1,
+				option.title(),
+				option.phrase(),
+				option.description(),
+				option.href
+			)}
+		{/each}
 	</section>
 	<div
 		class="to-background absolute bottom-0 z-2 h-100 w-full bg-gradient-to-b from-transparent/100 to-20%"
