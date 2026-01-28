@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Widget from '$lib/components/posts/post-widget.svelte';
 	import * as Card from '$lib/components/ui/card';
-
+	import * as m from '$lib/paraglide/messages';
 	export let data;
 </script>
 
@@ -15,7 +15,7 @@
 			<h1>Blog</h1>
 		</Card.Header>
 		<Card.Description>
-			<p>Random and interesting posts</p>
+			<p>{m.blog_description()}</p>
 		</Card.Description>
 	</Card.Root>
 

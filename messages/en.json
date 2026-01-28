@@ -215,5 +215,7 @@
   "websites_faq_q5": "Does the site work well on mobile?",
   "websites_faq_a5": "Absolutely. I develop sites with responsive design, meaning they adapt perfectly to any screen, whether it's a computer, tablet, or smartphone.",
   "websites_faq_q6": "What if I need changes in the future?",
-  "websites_faq_a6": "In the Custom plan, you receive training to manage your own content. Additionally, I offer support for updates and new features on demand."
+  "websites_faq_a6": "In the Custom plan, you receive training to manage your own content. Additionally, I offer support for updates and new features on demand.",
+
+  "blog_description":  "Random and interesting posts"
 }
