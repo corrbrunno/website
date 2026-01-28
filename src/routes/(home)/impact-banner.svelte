@@ -9,7 +9,7 @@
 		class="max-w-content-width relative flex flex-col items-center justify-between gap-2 p-4 before:hidden after:hidden md:flex-row md:before:block md:after:block"
 	>
 		<h1 class="select-none flex-0 relative pb-2 text-left text-2xl font-bold md:text-5xl">
-			{m.home_impact_title()} <mark class="text-primary bg-transparent">{m.home_impact_results_label()}</mark>.
+			{m.home_impact_title()} <mark class="text-primary bg-transparent">{m.home_impact_results_label()}</mark>
 		</h1>
 		<p class="w-full max-w-lg px-5 text-justify whitespace-pre-line">
 			{m.home_impact_description()}
