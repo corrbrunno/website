@@ -1,11 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import TextCarousel from '$lib/components/ui/carrousel/text-carousel.svelte';
-	import * as Card from '$lib/components/ui/card';
-	import { Button } from '$lib/components/ui/button';
 	import PricingCall from './pricing-call.svelte';
 	import LatestBlogPosts from './latest-blog-posts.svelte';
 	import ImpactBanner from './impact-banner.svelte';
+	import * as m from '$lib/paraglide/messages';
 	const { data }: { data: PageData } = $props();
 	let scrollY = $state(0);
 	let innerHeight = $state(0);
@@ -33,11 +32,11 @@
 	class:opacity-0={!hasScrolled}
 	class="bg-card fixed bottom-1 left-1/2 z-1 -translate-x-1/2 transform animate-bounce rounded-xl border-2 px-4 py-2 text-xl shadow-md transition-opacity duration-500"
 >
-	<aside>Mais abaixo ↓</aside>
+	<aside>{m.home_scroll_hint()}</aside>
 </div>
 <section class="select-none bg-transparent backdrop-blur-3xl flex w-full justify-center p-2">
 	<div class="max-w-content-width w-full text-center text-xl">
-		<p>Os destaques do futuro são os melhores do agora</p>
+		<p>{m.home_future_slogan()}</p>
 	</div>
 </section>
 
