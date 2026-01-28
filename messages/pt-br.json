@@ -96,5 +96,54 @@
   "automation_card_pontual_freq": "Por Script / Tarefa",
   "automation_card_pontual_btn": "Resolver tarefa",
   "automation_feature_file_handling": "Manipulação de Arquivos",
-  "automation_feature_file_desc": "Scripts para renomear, converter e organizar grandes volumes de arquivos ou fotos em segundos, eliminando o trabalho manual no PC."
+  "automation_feature_file_desc": "Scripts para renomear, converter e organizar grandes volumes de arquivos ou fotos em segundos, eliminando o trabalho manual no PC.",
+
+  "classes_hero_title_start": "Deixe de ser apenas consumidor e ",
+  "classes_hero_highlight": "torne-se um criador do futuro",
+  "classes_hero_title_end": ".",
+
+  "classes_key_points_title": "O que vai dominar?",
+  "classes_point_prod_header": "Produtividade",
+  "classes_point_prod_desc": "Aumente sua produtividade com pensamento computacional, identifique processos que podem ser otimizados ou completamente automatizados e faça a diferença onde estiver.",
+  "classes_point_web_header": "Desenvolvimento Web",
+  "classes_point_web_desc": "Crie websites interativos e responsivos completamente do zero. Entenda toda a estrutura, código, planejamento e passos precisos para desenvolver uma página web.",
+  "classes_point_data_header": "Análise e Tratamento de Dados",
+  "classes_point_data_desc": "Dados são a fonte do conhecimento. Entenda como podemos organiza-los de forma que fique clara e objetiva a busca e inserção, além de aprender a extrair informações valiosas para seu negócio ou carreira.",
+  "classes_point_back_header": "Desenvolvimento Backend",
+  "classes_point_back_desc": "Entenda como os aplicativos e jogos são feitos, desbloqueie o poder de criar o que precisa ou idealiza, tirando idéias do papel, com suas próprias mãos.",
+  
+  "classes_feature_prod_header": "Produtividade",
+  "classes_feature_prod_desc": "Seus objetivos e modo de aprendizado são considerados em cada plano de aula. Desta forma, terá o melhor proveito de seu tempo.",
+  "classes_feature_basic_header": "Do Básico ao Avançado",
+  "classes_feature_basic_desc": "O ritmo da aula é personalizado, a aula segue seu ritmo de aprendizado e parte exatamente de seu nível atual.",
+  "classes_feature_feedback_header": "Feedback Imediato",
+  "classes_feature_feedback_desc": "Não será preciso ficar horas buscando a solução para um erro, será guiado até a solução de forma que entenda o motivo do erro.",
+  "classes_feature_custom_header": "Projetos Customizados",
+  "classes_feature_custom_desc": "Aprenda criando algo de seu real interesse, sem projetos genêricos, será focado em seus objetivos e gostos pessoais.",
+
+  "classes_pricing_subtitle": "A tecnologia está presente em todas as áreas, faça parte do futuro.",
+  "classes_pricing_title": "Descubra o seu ",
+  "classes_pricing_highlight": "potêncial",
+  
+  "classes_price_btn_start": "Começar agora",
+  "classes_price_freq_1": "Aula",
+  "classes_price_freq_2": "2 Aulas",
+
+  "classes_card_private_pres_title": "Particular (presencial)",
+  "classes_card_private_rem_title": "Particular (remoto)",
+  "classes_card_group_rem_title": "Grupo (remoto)",
+
+  "classes_price_feat_plan": "Plano de aula exclusivo",
+  "classes_price_feat_1h": "Uma hora de aula",
+  "classes_price_feat_loco": "Ida in loco",
+  "classes_price_feat_basic_adv": "Do básico à avançado",
+  "classes_price_feat_2wk": "Duas aulas por semana",
+  "classes_price_feat_network": "Networking",
+
+  "classes_faq_q1": "É preciso conhecimento prévio?",
+  "classes_faq_a1": "Não é preciso, as aulas partem de seu conhecimento atual, seja ele básico ou avançado.",
+  "classes_faq_q2": "Qual seria a disponibilidade de horários?",
+  "classes_faq_a2": "Para as modalidades particular, o horário é acordado previamente, alinhando sua disponibilidade e preferência, com a minha disponibilidade.",
+  "classes_faq_q3": "Presencialmente, tem taxa de deslocamento?",
+  "classes_faq_a3": "Não há taxas! Entretanto, cobrimos apenas o município de saquarema."
 }
