@@ -8,15 +8,14 @@
 <section
 	class="max-w-content-width mt-10 mr-auto ml-auto flex w-full flex-col content-center items-center p-5"
 >
-	<Card.Root
-		class="mb-10 w-full flex-row justify-between pr-5 pl-5"
-	>
-		<Card.Header class="p-0">
-			<h1>Blog</h1>
+	<Card.Root class="mb-10 w-full">
+		<Card.Header class="flex flex-row justify-between pr-5 pl-5">
+			<Card.Title class="text-3xl font-bold">Blog</Card.Title>
+
+			<Card.Description class="mt-2 text-lg">
+				{m.blog_description()}
+			</Card.Description>
 		</Card.Header>
-		<Card.Description>
-			<p>{m.blog_description()}</p>
-		</Card.Description>
 	</Card.Root>
 
 	<ul class="grid w-full grid-cols-1 flex-wrap gap-3 md:grid-cols-2">
