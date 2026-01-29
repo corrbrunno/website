@@ -1,9 +1,19 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
 
+  "language_portuguese": "Portuguese",
+  "language_english": "English",
+
   "nav_home": "Home",
   "nav_about": "About",
   "nav_blog": "Blog",
+
+  "nav_general_section": "Welcome",
+  "nav_service_section": "Serviços",
+
+  "nav_pricing_automation": "Automation",
+  "nav_pricing_class": "Classes",
+  "nav_pricing_website": "Webpages",
 
   "footer_made_by": "Handcrafted by me with 💜 - no AI",
   "footer_slogan": "I truly love to code!",

@@ -1,9 +1,19 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
 
+  "language_portuguese": "Português",
+  "language_english": "Inglês",
+
   "nav_home": "Início",
   "nav_about": "Sobre",
   "nav_blog": "Blog",
+
+  "nav_general_section": "Bem-vindo",
+  "nav_service_section": "Serviços",
+
+  "nav_pricing_automation": "Automação",
+  "nav_pricing_class": "Aulas",
+  "nav_pricing_website": "Página Web",
 
   "footer_made_by": "Feito por mim com 💜 - sem IA",
   "footer_slogan": "Eu gosto bastante de programar!",
