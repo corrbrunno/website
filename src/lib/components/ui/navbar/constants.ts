@@ -1,5 +1,7 @@
 import { HouseIcon, SquareUserRound, NotebookPen, Bot, Book, MonitorCloud } from "@lucide/svelte";
 import * as m from '$lib/paraglide/messages';
+import type { LocalizedString } from "@inlang/paraglide-js";
+import type { Locale } from "$lib/paraglide/runtime";
 
 export const NAVEGATION_BUTTONS = [
     { slug: m.nav_home(), url: '/', icon: HouseIcon },
@@ -13,6 +15,7 @@ export const SERVICE_PAGES = [
     {slug: m.nav_pricing_website, url: "/pricing/websites", icon: MonitorCloud}
 ]
 
-export const SUPPORTED_LANGUAGES = [
-    { lang: m.language_portuguese, locale: "pt-br", emoji: ``}
+export const SUPPORTED_LANGUAGES  : {lang: () => LocalizedString, locale: Locale, emoji: string}[] = [
+    { lang: m.language_portuguese, locale: "pt-br", emoji: `/brasil-flag.svg`},
+    { lang: m.language_english, locale: "en", emoji: `/usa-flag.svg`}
 ]

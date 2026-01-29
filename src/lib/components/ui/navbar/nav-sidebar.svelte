@@ -5,6 +5,7 @@
 	import { NAVEGATION_BUTTONS, SERVICE_PAGES } from './constants';
 	import * as m from '$lib/paraglide/messages';
 	import NavbarThemeToggle from './navbar-theme-toggle.svelte';
+	import LangChooser from './lang-chooser.svelte';
 
 </script>
 
@@ -53,8 +54,9 @@
 			</Sidebar.GroupContent>
 		</Sidebar.Group>
 	</Sidebar.Content>
-	<Sidebar.Footer class="p-5">
+	<Sidebar.Footer class="p-5 flex flex-row">
 		<NavbarThemeToggle/>
+		<LangChooser></LangChooser>
 	</Sidebar.Footer>
 </Sidebar.Root>
 
