@@ -12,13 +12,13 @@
 	const selectedLanguage = getSelectedLanguage();
 </script>
 
-<Popover.Root>
+<Popover.Root >
 	<Popover.Trigger>
 		<Button class={className} variant="outline" size="icon">
 			<img class="size-5" alt={`${selectedLanguage.lang} flag`} src={selectedLanguage.emoji} />
 		</Button>
 	</Popover.Trigger>
-	<Popover.Content>
+	<Popover.Content class="w-full">
 		<Command.Root>
 			<Command.List>
 				{#each SUPPORTED_LANGUAGES as language}
@@ -26,7 +26,7 @@
 					<Command.Item
 						value={language.lang()}
 						onclick={() => setLocale(language.locale)}
-						class={cn('flex-1', isSelectedLanguage ? 'bg-muted' : '')}
+						class={cn('flex-1 px-5', isSelectedLanguage ? 'bg-muted' : '')}
 					>
 						<img class="size-5" src={language.emoji} alt={`${language.lang()} flag`} />
 						<p class="text-muted-foreground">{language.lang()}</p>
