@@ -4,9 +4,16 @@
   "language_portuguese": "Portuguese",
   "language_english": "English",
 
+  "global_personal_first_name": "Bruno",
+  "global_personal_second_name": "Corrêa",
+
   "nav_home": "Home",
   "nav_about": "About",
   "nav_blog": "Blog",
+  "nav_config": "Configuration",
+
+  "nav_light_mode_bright": "Bright mode",
+  "nav_light_mode_dark": "Dark mode",
 
   "nav_general_section": "Welcome",
   "nav_service_section": "Serviços",

@@ -19,3 +19,4 @@ export const SUPPORTED_LANGUAGES  : {lang: () => LocalizedString, locale: Locale
     { lang: m.language_portuguese, locale: "pt-br", emoji: `/brasil-flag.svg`},
     { lang: m.language_english, locale: "en", emoji: `/usa-flag.svg`}
 ]
+

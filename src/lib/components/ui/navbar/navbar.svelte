@@ -3,6 +3,7 @@
 	import ThemeToggle from './navbar-theme-toggle.svelte';
 	import { NAVEGATION_BUTTONS } from './constants.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import LangChooser from './lang-chooser.svelte';
 
 </script>
 
@@ -17,7 +18,10 @@
 				{/each}
 			</section>
 			<section>
+				<div class="hidden sm:flex gap-2">
+				<LangChooser></LangChooser>
 				<ThemeToggle></ThemeToggle>
+				</div>
 				<Sidebar.Trigger class="sm:hidden"/>
 			</section>
 		</section>
