@@ -12,7 +12,7 @@
 </script>
 
 <svelte:window bind:innerHeight bind:scrollY />
-
+<div class="flex flex-col gap-15">
 <section
 	class="from-background select-none to-secondary relative flex h-dvh content-center items-center justify-center bg-gradient-to-t pb-10"
 >
@@ -50,6 +50,7 @@
 <PricingCall />
 
 <LatestBlogPosts posts={data.posts} />
+</div>
 <style>
 	.bg-grid-pattern {
 		--line-color: color-mix(in lch, var(--foreground) 13%, transparent);

@@ -16,7 +16,7 @@
 		</p>
 		<h1
 			style="anchor-name: --slogan;"
-			class="relative items-center py-4 text-center text-xl font-bold select-none md:pt-0 md:text-right md:text-5xl"
+			class="relative flex-0 items-center py-4 text-center text-xl font-bold select-none md:pt-0 md:text-right md:text-5xl"
 		>
 			<Sparkle
 				class="md:invisible absolute top-1/2 left-0 aspect-square h-12 -translate-x-120/100 -translate-y-1/2 animate-[pulse_5s_ease-in-out_infinite]"

@@ -6,7 +6,7 @@
     const {posts} : {posts : PostMetadata[]}= $props()
 </script>
 
-<section class="mt-10 bg-accent mb-10 flex w-full flex-col items-center p-10">
+<section class="bg-accent mb-10 flex w-full flex-col items-center p-10">
 	<div class="mb-5 flex flex-col items-center justify-center">
 		<h1 class=" text- text-2xl font-bold">{m.home_blog_title()}</h1>
 		<p class="text-muted-foreground">{m.home_blog_subtitle()}</p>
