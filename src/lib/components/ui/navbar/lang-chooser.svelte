@@ -1,9 +1,10 @@
 <script lang="ts">
 	import * as Command from '$lib/components/ui/command/index.js';
 	import * as Popover from '$lib/components/ui/popover/index';
-	import { getLocale, setLocale } from '$lib/paraglide/runtime';
+	import { deLocalizeHref, getLocale, localizeHref, setLocale } from '$lib/paraglide/runtime';
 	import { cn } from '$lib/utils';
 	import Button from '../button/button.svelte';
+	import { page } from '$app/state';
 
 	import { SUPPORTED_LANGUAGES } from './constants';
 	import { getSelectedLanguage } from './utils.svelte';
@@ -25,11 +26,12 @@
 					{@const isSelectedLanguage = language == selectedLanguage}
 					<Command.Item
 						value={language.lang()}
-						onclick={() => setLocale(language.locale)}
-						class={cn('flex-1 px-5', isSelectedLanguage ? 'bg-muted' : '')}
+						class={isSelectedLanguage ? 'bg-muted' : ''}
 					>
+					<a class="flex px-5 gap-2" data-sveltekit-reload href={localizeHref(page.url.href, {locale: language.locale})}>
 						<img class="size-5" src={language.emoji} alt={`${language.lang()} flag`} />
 						<p class="text-muted-foreground">{language.lang()}</p>
+					</a>
 					</Command.Item>
 				{/each}
 			</Command.List>
