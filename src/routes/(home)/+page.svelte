@@ -12,9 +12,8 @@
 </script>
 
 <svelte:window bind:innerHeight bind:scrollY />
-<div class="flex flex-col gap-15">
 <section
-	class="from-background select-none to-secondary relative flex h-dvh content-center items-center justify-center bg-gradient-to-t pb-10"
+	class="from-background to-secondary relative flex h-dvh content-center items-center justify-center bg-gradient-to-t pb-10 select-none"
 >
 	<div class="bg-grid-pattern absolute inset-0 size-full opacity-20"></div>
 	<section
@@ -34,28 +33,30 @@
 >
 	<aside>{m.home_scroll_hint()}</aside>
 </div>
-<section class="select-none bg-transparent backdrop-blur-3xl flex w-full justify-center p-2">
-	<div class="max-w-content-width w-full text-center text-xl">
+<section class="flex w-full justify-center bg-transparent p-2 backdrop-blur-3xl select-none">
+	<div class="max-w-content-width w-full text-center text-xl text-balance">
 		<p>{m.home_future_slogan()}</p>
 	</div>
 </section>
+<div class="flex flex-col gap-15">
+	<TextCarousel
+		class="max-w-content-width m-auto mt-2"
+		options={['Java', 'Javascript', 'C#', 'Python', 'Rust']}
+	/>
 
-<TextCarousel
-	class="max-w-content-width m-auto mt-2"
-	options={['Java', 'Javascript', 'C#', 'Python', 'Rust']}
-/>
+	<ImpactBanner />
 
-<ImpactBanner />
+	<PricingCall />
 
-<PricingCall />
-
-<LatestBlogPosts posts={data.posts} />
+	<LatestBlogPosts posts={data.posts} />
 </div>
+
 <style>
 	.bg-grid-pattern {
 		--line-color: color-mix(in lch, var(--foreground) 13%, transparent);
 		background-image:
-			linear-gradient(90deg, var(--line-color) 1px, #0000 1px), linear-gradient(var(--line-color) 1px, #0000 1px);
+			linear-gradient(90deg, var(--line-color) 1px, #0000 1px),
+			linear-gradient(var(--line-color) 1px, #0000 1px);
 		background-size: 40px 40px;
 	}
 </style>
