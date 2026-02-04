@@ -9,10 +9,10 @@
 	class="max-w-content-width mt-10 mr-auto ml-auto flex w-full flex-col content-center items-center p-5"
 >
 	<Card.Root class="mb-10 w-full">
-		<Card.Header class="flex flex-row justify-between pr-5 pl-5">
-			<Card.Title class="text-3xl font-bold">Blog</Card.Title>
+		<Card.Header class="flex justify-between">
+			<Card.Title class="text-3xl">Blog</Card.Title>
 
-			<Card.Description class="mt-2 text-lg">
+			<Card.Description class="text-lg text-right text-balance">
 				{m.blog_description()}
 			</Card.Description>
 		</Card.Header>
