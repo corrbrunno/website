@@ -68,7 +68,7 @@
 		<Card.Root onclick={() => scrollToOriginalPosition(cardOrder)}>
 			<Card.Title class="text-center text-xl font-bold">{title}</Card.Title>
 			<Card.Content class="text-justify">
-				<p class="p-3 italic">{phrase}</p>
+				<p class="p-3 text-pretty italic">{phrase}</p>
 				{description}
 			</Card.Content>
 			<Card.Footer>

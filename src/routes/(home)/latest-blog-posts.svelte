@@ -9,7 +9,7 @@
 <section class="bg-accent mb-10 flex w-full flex-col items-center p-10">
 	<div class="mb-5 flex flex-col items-center justify-center">
 		<h1 class=" text- text-2xl font-bold">{m.home_blog_title()}</h1>
-		<p class="text-muted-foreground">{m.home_blog_subtitle()}</p>
+		<p class="text-muted-foreground text-center text-pretty">{m.home_blog_subtitle()}</p>
 	</div>
 	<ul class="max-w-content-width grid w-full grid-cols-1 flex-wrap gap-3 md:grid-cols-2">
 		{#each posts as post}
