@@ -55,7 +55,7 @@
 		</div>
 		<ul class="flex justify-start md:justify-center gap-4 pb-2 overflow-x-scroll">
 			{#each pricingCardsData as pricingCardData}
-				<li><PricingCard {...pricingCardData} /></li>
+				<li class="mt-auto"><PricingCard {...pricingCardData} /></li>
 			{/each}
 		</ul>
 	</section>
