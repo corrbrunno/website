@@ -95,7 +95,7 @@
 		<ul class="ml-4 flex flex-wrap gap-x-4 gap-y-1">
 			{#each myInfo as info}
 				<li class="flex gap-2">
-					<info.icon />
+					<info.icon class="text-primary" />
 					<p>{info.label}</p>
 				</li>
 			{/each}
@@ -113,7 +113,7 @@
 
 	<section class="flex flex-col gap-y-2">
 		<h2><strong>Habilidades</strong></h2>
-		<ul class="flex flex-col gap-1 pl-4">
+		<ul class="flex list-disc flex-col gap-1 pl-4">
 			<li>
 				<p>
 					<strong>Linguagens:</strong>
@@ -138,7 +138,7 @@
 					Docker, Docker-Compose, Git, Scrum, Kanban;
 				</p>
 			</li>
-            <li>
+			<li>
 				<p>
 					<strong>Soft Skills:</strong>
 					Resolução de Problemas, Raciocínio Lógico, Autonomia, Comunicação Técnica e Adaptabilidade;
@@ -172,6 +172,34 @@
 					</ul>
 				</li>
 			{/each}
+		</ul>
+	</section>
+
+	<section class="flex flex-col gap-y-2">
+		<h2><strong>Educação</strong></h2>
+		<div class="ml-4">
+			<h3 class="inline"><strong>Bacharelado em Engenharia de Software</strong></h3>
+			|
+			<p class="text-primary inline">Universidade de Vassouras ( Univassouras )</p>
+			<p class="text-sm opacity-50">Previsão de conclusão 2027.2</p>
+		</div>
+	</section>
+
+	<section class="flex flex-col gap-y-2">
+		<h2><strong>Idiomas</strong></h2>
+		<ul class="ml-4 flex list-disc flex-col gap-1">
+			<li>
+				<p>
+					<strong>Inglês:</strong>
+					Avançado ( Leitura, Escrita, Escuta);
+				</p>
+			</li>
+			<li>
+				<p>
+					<strong>Português:</strong>
+					Nativo;
+				</p>
+			</li>
 		</ul>
 	</section>
 </div>
