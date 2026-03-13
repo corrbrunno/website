@@ -9,6 +9,22 @@
 		{ icon: Mail, label: 'correabruno43trabalho@gmail.com' }
 	];
 
+	const summary = `Desenvolvedor de Software (Java, TypeScript, SvelteKit) focado em performance e automação. 
+		Experiência na criação de soluções backend para servidores internacionais (EUA) e na 
+		digitalização ponta a ponta de processos administrativos. Inglês avançado.`;
+
+	const skills = [
+		{ category: 'Linguagens', items: 'TypeScript, JavaScript, HTML, Java, CSS, Python, Rust' },
+		{ category: 'Frameworks & Tecnologias', items: 'SvelteKit, React, Node.js, Arduino' },
+		{ category: 'Banco de Dados', items: 'MySQL, PostgreSQL, SQLite' },
+		{ category: 'DevOps & Ferramentas', items: 'Docker, Docker-Compose, Git, Scrum, Kanban' },
+		{
+			category: 'Soft Skills',
+			items:
+				'Resolução de Problemas, Raciocínio Lógico, Autonomia, Comunicação Técnica e Adaptabilidade'
+		}
+	];
+
 	const roles = [
 		{
 			name: 'Instrutor de Programação',
@@ -30,12 +46,22 @@
 		{
 			name: 'Desenvolvedor / Analista de Tecnologia',
 			company: 'Subsecretaria de Ciência, Tecnologia e Inovação da Educação (SMECICT)',
-			date: 'Setembro 2023',
+			date: 'Setembro 2023 - Dezembro 2025',
 			achievements: [
 				{
 					name: 'Liderou a transformação digital',
 					description:
 						'De processos administrativos da secretaria, desenvolvendo automações que substituíram 100% dos fluxos em papel, garantindo maior segurança, integração e rastreabilidade de dados.'
+				},
+				{
+					name: 'Desenvolvimento de Jogos Educativos',
+					description:
+						'Criou soluções interativas para eventos municipais (feiras literárias), atendendo a demandas intersetoriais de secretarias como Cultura, Mulher e Direitos dos Animais.'
+				},
+				{
+					name: 'Gestão Estratégica e Inovação',
+					description:
+						'Atuou no planejamento de eventos de tecnologia educacional e alinhamento administrativo, além de representar a secretaria em polos de inovação (Rio Innovation Week, Alterdata, TechForMe) para mapear tendências tecnológicas aplicáveis à gestão pública.'
 				},
 				{
 					name: 'Automatizou a criação e gestão de e-mails institucionais',
@@ -52,7 +78,7 @@
 		{
 			name: 'Suporte Tecnológico',
 			company: 'Escola Municipal Edilênio da Silva de Souza',
-			date: 'Agosto 2023',
+			date: 'Agosto 2023 - Setembro 2023',
 			achievements: [
 				{
 					name: 'Auxílio à equipe escolar e estudantes',
@@ -64,7 +90,7 @@
 		{
 			name: 'Desenvolvedor Backend Freelancer (Internacional / EUA)',
 			company: 'Home Office',
-			date: 'Janeiro 2021',
+			date: 'Janeiro 2021 - Agosto 2023',
 			achievements: [
 				{
 					name: 'Desenvolveu plugins personalizados em Java (Paper Spigot)',
@@ -84,12 +110,25 @@
 			]
 		}
 	];
+
+	const education = [
+		{
+			degree: 'Bacharelado em Engenharia de Software',
+			institution: 'Universidade de Vassouras ( Univassouras )',
+			date: 'Previsão de conclusão 2027.2'
+		}
+	];
+
+	const languages = [
+		{ name: 'Inglês', level: 'Avançado ( Leitura, Escrita, Escuta)' },
+		{ name: 'Português', level: 'Nativo' }
+	];
 </script>
 
-<div class="max-w-content-width mx-auto mt-10 flex flex-col gap-y-5 p-4">
+<div id="wrapper" class="max-w-content-width mx-auto my-10 flex flex-col gap-y-5 p-4 text-balance">
 	<section class="flex flex-col gap-y-2">
 		<div>
-			<p><strong>Bruno Corrêa dos Santos</strong></p>
+			<h1 class="text-2xl font-bold"><strong>Bruno Corrêa dos Santos</strong></h1>
 			<p>Desenvolvedor Full Stack / Backend</p>
 		</div>
 		<ul class="ml-4 flex flex-wrap gap-x-4 gap-y-1">
@@ -104,46 +143,46 @@
 
 	<section>
 		<h2><strong>Resumo Profissional</strong></h2>
-		<p>
-			Desenvolvedor de Software (Java, TypeScript, SvelteKit) focado em performance e automação.
-			Experiência na criação de soluções backend para servidores internacionais (EUA) e na
-			digitalização ponta a ponta de processos administrativos. Inglês avançado.
-		</p>
+		<p>{summary}</p>
 	</section>
 
 	<section class="flex flex-col gap-y-2">
 		<h2><strong>Habilidades</strong></h2>
 		<ul class="flex list-disc flex-col gap-1 pl-4">
-			<li>
-				<p>
-					<strong>Linguagens:</strong>
-					TypeScript, JavaScript, HTML, Java, CSS, Python, Rust;
-				</p>
-			</li>
-			<li>
-				<p>
-					<strong>Frameworks & Tecnologias:</strong>
-					SvelteKit, React, Node.js, Arduino;
-				</p>
-			</li>
-			<li>
-				<p>
-					<strong>Banco de Dados:</strong>
-					MySQL, PostgreSQL, SQLite;
-				</p>
-			</li>
-			<li>
-				<p>
-					<strong>DevOps & Ferramentas:</strong>
-					Docker, Docker-Compose, Git, Scrum, Kanban;
-				</p>
-			</li>
-			<li>
-				<p>
-					<strong>Soft Skills:</strong>
-					Resolução de Problemas, Raciocínio Lógico, Autonomia, Comunicação Técnica e Adaptabilidade;
-				</p>
-			</li>
+			{#each skills as skill}
+				<li>
+					<p>
+						<strong>{skill.category}:</strong>
+						{skill.items};
+					</p>
+				</li>
+			{/each}
+		</ul>
+	</section>
+
+	<section class="flex flex-col gap-y-2">
+		<h2><strong>Educação</strong></h2>
+		{#each education as edu}
+			<div class="ml-4">
+				<h3 class="inline"><strong>{edu.degree}</strong></h3>
+				|
+				<p class="text-primary inline">{edu.institution}</p>
+				<p class="text-sm opacity-50">{edu.date}</p>
+			</div>
+		{/each}
+	</section>
+
+	<section class="flex flex-col gap-y-2">
+		<h2><strong>Idiomas</strong></h2>
+		<ul class="ml-4 flex list-disc flex-col gap-1">
+			{#each languages as lang}
+				<li>
+					<p>
+						<strong>{lang.name}:</strong>
+						{lang.level};
+					</p>
+				</li>
+			{/each}
 		</ul>
 	</section>
 
@@ -174,32 +213,25 @@
 			{/each}
 		</ul>
 	</section>
-
-	<section class="flex flex-col gap-y-2">
-		<h2><strong>Educação</strong></h2>
-		<div class="ml-4">
-			<h3 class="inline"><strong>Bacharelado em Engenharia de Software</strong></h3>
-			|
-			<p class="text-primary inline">Universidade de Vassouras ( Univassouras )</p>
-			<p class="text-sm opacity-50">Previsão de conclusão 2027.2</p>
-		</div>
-	</section>
-
-	<section class="flex flex-col gap-y-2">
-		<h2><strong>Idiomas</strong></h2>
-		<ul class="ml-4 flex list-disc flex-col gap-1">
-			<li>
-				<p>
-					<strong>Inglês:</strong>
-					Avançado ( Leitura, Escrita, Escuta);
-				</p>
-			</li>
-			<li>
-				<p>
-					<strong>Português:</strong>
-					Nativo;
-				</p>
-			</li>
-		</ul>
-	</section>
 </div>
+
+<style>
+	@media print {
+		@page {
+			background-color: var(--color-background) !important;
+			print-color-adjust: exact !important;
+			-webkit-print-color-adjust: exact !important;
+			size: auto;
+			margin: 1.5cm;
+		}
+
+		#wrapper {
+			margin: 0;
+			padding: 0;
+		}
+		
+		li:not(:has(ul)) {
+			break-inside: avoid;
+		}
+	}
+</style>
