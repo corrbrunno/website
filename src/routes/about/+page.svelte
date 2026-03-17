@@ -20,13 +20,14 @@
 
 	const summary = m.about_summary;
 
-	const skills = [
-		{ category: m.about_skills_lang_cat, items: m.about_skills_lang_items },
-		{ category: m.about_skills_framework_cat, items: m.about_skills_framework_items },
-		{ category: m.about_skills_db_cat, items: m.about_skills_db_items },
-		{ category: m.about_skills_devops_cat, items: m.about_skills_devops_items },
-		{ category: m.about_skills_soft_cat, items: m.about_skills_soft_items }
-	];
+const skills = [
+    { category: m.about_skills_logic_cat, items: m.about_skills_logic_items },
+    { category: m.about_skills_web_cat, items: m.about_skills_web_items },
+    { category: m.about_skills_data_cat, items: m.about_skills_data_items },
+    { category: m.about_skills_infra_cat, items: m.about_skills_infra_items },
+    { category: m.about_skills_hardware_cat, items: m.about_skills_hardware_items },
+    { category: m.about_skills_soft_cat, items: m.about_skills_soft_items }
+];
 
 	const roles = [
 		{
@@ -105,9 +106,9 @@
 
 	const education = [
 		{
-			degree: m.about_edu_degree,
+			degree: m.about_role_edu_degree,
 			institution: m.about_edu_institution,
-			date: m.about_edu_date
+			date: m.about_role_edu_date
 		}
 	];
 
