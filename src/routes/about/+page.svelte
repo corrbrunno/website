@@ -3,6 +3,7 @@
 	import * as m from '$lib/paraglide/messages';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import AboutQrcode from './about-qrcode.svelte';
+	import { socialMediaLinks } from '$lib/client/common/links';
 
 	const pageName = m.about_name;
 	const titleRole = m.about_title_role;
@@ -14,9 +15,7 @@
 
 	const myInfo = [
 		{ icon: MapPin, label: m.about_info_location },
-		{ icon: Phone, label: m.about_info_phone },
-		{ icon: Linkedin, label: m.about_info_linkedin },
-		{ icon: Github, label: m.about_info_github },
+		...socialMediaLinks.map(({ alias, Icon, link }) => ({ icon: Icon, label: alias, link })),
 		{ icon: Mail, label: m.about_info_email }
 	];
 
@@ -120,37 +119,40 @@
 </script>
 
 <div id="wrapper" class="max-w-content-width mx-auto my-10 flex flex-col gap-y-5 p-4 text-balance">
-<section class="flex justify-between items-start ">
-    <div class="flex flex-col gap-y-3 flex-1">
-        <header>
-            <h1 class="text-2xl font-bold"><strong>{pageName()}</strong></h1>
-            <p class="text-lg">{titleRole()}</p>
-        </header>
+	<section class="flex items-start justify-between">
+		<div class="flex flex-1 flex-col gap-y-3">
+			<header>
+				<h1 class="text-2xl font-bold"><strong>{pageName()}</strong></h1>
+				<p class="text-lg">{titleRole()}</p>
+			</header>
 
-		<ul class="ml-4 flex flex-wrap gap-x-4 gap-y-1">
-			{#each myInfo as info}
-				<li class="flex gap-2">
-					<info.icon class="text-primary" />
-					<p>{info.label()}</p>
-				</li>
-			{/each}
-		</ul>
-    </div>
+			<ul class="ml-4 flex flex-wrap gap-x-4 gap-y-1">
+				{#each myInfo as info}
+					<li class="flex gap-2">
+						{#if 'link' in info && info.link}
+							<a class="flex gap-2" href={info.link}>
+								<info.icon class="text-primary" />
+								<p>{info.label()}</p>
+							</a>
+						{:else}
+							<info.icon class="text-primary" />
+							<p>{info.label()}</p>
+						{/if}
+					</li>
+				{/each}
+			</ul>
+		</div>
 
-    <div class="flex flex-col items-end shrink-0">
-        <Button 
-            variant="secondary" 
-            class="mb-2 print:hidden" 
-            onclick={() => window.print()}
-        >
-            Imprimir
-        </Button>
+		<div class="flex shrink-0 flex-col items-end">
+			<Button variant="secondary" class="mb-2 print:hidden" onclick={() => window.print()}>
+				Imprimir
+			</Button>
 
-        <div class="hidden h-24 w-24 print:block">
-            <AboutQrcode />
-        </div>
-    </div>
-</section>
+			<div class="hidden h-24 w-24 print:block">
+				<AboutQrcode />
+			</div>
+		</div>
+	</section>
 	<section>
 		<h2><strong>{sectionSummary()}</strong></h2>
 		<p>{summary()}</p>
@@ -238,7 +240,8 @@
 			padding: 0;
 		}
 
-		li:not(:has(ul)), .nobreak {
+		li:not(:has(ul)),
+		.nobreak {
 			break-inside: avoid;
 		}
 	}
