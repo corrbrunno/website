@@ -1,9 +1,9 @@
 <script>
-	import { Github, Linkedin, Mail, MapPin, Phone } from '@lucide/svelte';
-	import * as m from '$lib/paraglide/messages';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import AboutQrcode from './about-qrcode.svelte';
 	import { socialMediaLinks } from '$lib/client/common/links';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as m from '$lib/paraglide/messages';
+	import { Mail, MapPin } from '@lucide/svelte';
+	import AboutQrcode from './about-qrcode.svelte';
 
 	const pageName = m.about_name;
 	const titleRole = m.about_title_role;
@@ -130,7 +130,7 @@
 				{#each myInfo as info}
 					<li class="flex gap-2">
 						{#if 'link' in info && info.link}
-							<a class="flex gap-2" href={info.link}>
+							<a class="flex gap-2 hover:underline hover:text-primary" href={info.link}>
 								<info.icon class="text-primary" />
 								<p>{info.label()}</p>
 							</a>
