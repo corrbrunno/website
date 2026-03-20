@@ -1,22 +1,6 @@
 <script>
-	import { Github, Linkedin, Instagram } from '@lucide/svelte';
 	import * as m from '$lib/paraglide/messages';
-
-	const links = [
-		{ name: 'Github', alias: '@corrbrunno', link: 'https://github.com/corrbrunno', Icon: Github },
-		{
-			name: 'Linkedin',
-			alias: '@corr-brunno',
-			link: 'https://www.linkedin.com/in/corr-brunno/',
-			Icon: Linkedin
-		},
-		{
-			name: 'Instagram',
-			alias: '@brunno.corr',
-			link: 'https://www.instagram.com/brunno.corr/',
-			Icon: Instagram
-		}
-	];
+	import { socialMediaLinks } from '$lib/client/common/links';
 </script>
 
 <footer
@@ -33,13 +17,13 @@
 		<section class="relative">
 			<h1 class="text-lg">{m.footer_slogan()}</h1>
 			<br />
-			{#each links as { name, alias, link, Icon }}
+			{#each socialMediaLinks as { name, alias, link, Icon }}
 				<a class="hover:*:text-primary flex w-full justify-between" href={link}>
 					<div class="flex items-center gap-2">
 						<Icon class="" />
-						<p class="">{name}:</p>
+						<p class="">{name()}:</p>
 					</div>
-					<p class="text-muted">{alias}</p>
+					<p class="text-muted">{alias()}</p>
 				</a>
 			{/each}
 		</section>

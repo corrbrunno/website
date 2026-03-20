@@ -1,6 +1,9 @@
 <script>
-	import { Github, Linkedin, Mail, MapPin, Phone } from '@lucide/svelte';
+	import { socialMediaLinks } from '$lib/client/common/links';
+	import Button from '$lib/components/ui/button/button.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { Mail, MapPin } from '@lucide/svelte';
+	import AboutQrcode from './about-qrcode.svelte';
 
 	const pageName = m.about_name;
 	const titleRole = m.about_title_role;
@@ -12,22 +15,19 @@
 
 	const myInfo = [
 		{ icon: MapPin, label: m.about_info_location },
-		{ icon: Phone, label: m.about_info_phone },
-		{ icon: Linkedin, label: m.about_info_linkedin },
-		{ icon: Github, label: m.about_info_github },
+		...socialMediaLinks.map(({ alias, Icon, link }) => ({ icon: Icon, label: alias, link })),
 		{ icon: Mail, label: m.about_info_email }
 	];
 
 	const summary = m.about_summary;
 
-const skills = [
-    { category: m.about_skills_logic_cat, items: m.about_skills_logic_items },
-    { category: m.about_skills_web_cat, items: m.about_skills_web_items },
-    { category: m.about_skills_data_cat, items: m.about_skills_data_items },
-    { category: m.about_skills_infra_cat, items: m.about_skills_infra_items },
-    { category: m.about_skills_hardware_cat, items: m.about_skills_hardware_items },
-    { category: m.about_skills_soft_cat, items: m.about_skills_soft_items }
-];
+	const skills = [
+		{ category: m.about_skills_logic_cat, items: m.about_skills_logic_items },
+		{ category: m.about_skills_web_cat, items: m.about_skills_web_items },
+		{ category: m.about_skills_data_cat, items: m.about_skills_data_items },
+		{ category: m.about_skills_infra_cat, items: m.about_skills_infra_items },
+		{ category: m.about_skills_soft_cat, items: m.about_skills_soft_items }
+	];
 
 	const roles = [
 		{
@@ -119,21 +119,40 @@ const skills = [
 </script>
 
 <div id="wrapper" class="max-w-content-width mx-auto my-10 flex flex-col gap-y-5 p-4 text-balance">
-	<section class="flex flex-col gap-y-2">
-		<div>
-			<h1 class="text-2xl font-bold"><strong>{pageName()}</strong></h1>
-			<p>{titleRole()}</p>
-		</div>
-		<ul class="ml-4 flex flex-wrap gap-x-4 gap-y-1">
-			{#each myInfo as info}
-				<li class="flex gap-2">
-					<info.icon class="text-primary" />
-					<p>{info.label()}</p>
-				</li>
-			{/each}
-		</ul>
-	</section>
+	<section class="flex items-start justify-between">
+		<div class="flex flex-1 flex-col gap-y-3">
+			<header>
+				<h1 class="text-2xl font-bold"><strong>{pageName()}</strong></h1>
+				<p class="text-lg">{titleRole()}</p>
+			</header>
 
+			<ul class="ml-4 flex flex-wrap gap-x-4 gap-y-1">
+				{#each myInfo as info}
+					<li class="flex gap-2">
+						{#if 'link' in info && info.link}
+							<a class="flex gap-2 hover:underline hover:text-primary" href={info.link}>
+								<info.icon class="text-primary" />
+								<p>{info.label()}</p>
+							</a>
+						{:else}
+							<info.icon class="text-primary" />
+							<p>{info.label()}</p>
+						{/if}
+					</li>
+				{/each}
+			</ul>
+		</div>
+
+		<div class="flex shrink-0 flex-col items-end">
+			<Button variant="secondary" class="mb-2 print:hidden" onclick={() => window.print()}>
+				Imprimir
+			</Button>
+
+			<div class="hidden h-24 w-24 print:block">
+				<AboutQrcode />
+			</div>
+		</div>
+	</section>
 	<section>
 		<h2><strong>{sectionSummary()}</strong></h2>
 		<p>{summary()}</p>
@@ -184,7 +203,7 @@ const skills = [
 		<ul class="flex flex-col gap-4 pl-4">
 			{#each roles as role}
 				<li class="flex flex-col gap-2">
-					<div>
+					<div class="nobreak">
 						<h3 class="inline"><strong>{role.name()}</strong></h3>
 						|
 						<p class="text-primary inline">
@@ -221,7 +240,8 @@ const skills = [
 			padding: 0;
 		}
 
-		li:not(:has(ul)) {
+		li:not(:has(ul)),
+		.nobreak {
 			break-inside: avoid;
 		}
 	}
