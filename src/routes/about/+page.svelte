@@ -2,8 +2,9 @@
 	import { socialMediaLinks } from '$lib/client/common/links';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as m from '$lib/paraglide/messages';
-	import { Mail, MapPin } from '@lucide/svelte';
+	import { Mail, MapPin, Printer } from '@lucide/svelte';
 	import AboutQrcode from './about-qrcode.svelte';
+	import PrintButton from './print-button.svelte';
 
 	const pageName = m.about_name;
 	const titleRole = m.about_title_role;
@@ -143,10 +144,8 @@
 			</ul>
 		</div>
 
-		<div class="flex shrink-0 flex-col items-end">
-			<Button variant="secondary" class="mb-2 print:hidden" onclick={() => window.print()}>
-				Imprimir
-			</Button>
+		<div class="flex shrink-0 flex-col">
+			<PrintButton/>
 
 			<div class="hidden h-24 w-24 print:block">
 				<AboutQrcode />

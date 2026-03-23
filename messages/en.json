@@ -266,5 +266,6 @@
   "about_lang_en_name": "English",
   "about_lang_en_level": "Advanced (Reading, Writing, Listening)",
   "about_lang_pt_name": "Portuguese",
-  "about_lang_pt_level": "Native"
+  "about_lang_pt_level": "Native",
+  "about_print_button": "Print"
 }
