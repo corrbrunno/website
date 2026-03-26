@@ -4,7 +4,6 @@
 	import * as m from '$lib/paraglide/messages';
 	import { Mail, MapPin, Printer } from '@lucide/svelte';
 	import AboutQrcode from './about-qrcode.svelte';
-	import PrintButton from './print-button.svelte';
 
 	const pageName = m.about_name;
 	const titleRole = m.about_title_role;
@@ -145,9 +144,9 @@
 		</div>
 
 		<div class="flex shrink-0 flex-col">
-			<PrintButton/>
+			<Button onclick={() => window.print()} class="print:hidden" variant="outline">{m.about_print_button()}</Button>
 
-			<div class="hidden h-24 w-24 print:block">
+			<div class="hidden h-24 w-24 print:block text-primary">
 				<AboutQrcode />
 			</div>
 		</div>
@@ -227,13 +226,19 @@
 <style>
 	@media print {
 		@page {
-			background-color: var(--color-background) !important;
+			background-color: white !important;
+			color: black;
 			print-color-adjust: exact !important;
 			-webkit-print-color-adjust: exact !important;
 			size: auto;
 			margin: 1.5cm;
 		}
 
+		:global(body){
+			background-color: white !important;
+			color: black;
+		}
+		
 		#wrapper {
 			margin: 0;
 			padding: 0;
