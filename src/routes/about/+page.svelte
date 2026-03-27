@@ -148,18 +148,18 @@
 			<Tooltip.Provider>
 				<Tooltip.Root>
 					<Tooltip.Trigger>
-						<Button onclick={() => window.print()} class="* print:hidden" variant="outline">
+						<Button onclick={() => window.print()} class="print:hidden" variant="outline">
 							<PrinterIcon />
 							<p class="hidden md:block">{m.about_print_button()}</p>
 						</Button></Tooltip.Trigger
 					>
-					<Tooltip.Content>
+					<Tooltip.Content class="print:hidden">
 						<p>{m.about_print_button()}</p>
 					</Tooltip.Content>
 				</Tooltip.Root>
 			</Tooltip.Provider>
 
-			<div class="highlight hidden h-24 w-24 print:block">
+			<div class="hidden h-24 w-24 print:block text-primary">
 				<AboutQrcode />
 			</div>
 		</div>
