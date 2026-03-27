@@ -2,7 +2,8 @@
 	import { socialMediaLinks } from '$lib/client/common/links';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as m from '$lib/paraglide/messages';
-	import { Mail, MapPin, Printer } from '@lucide/svelte';
+	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
+	import { Mail, MapPin, Printer, PrinterIcon } from '@lucide/svelte';
 	import AboutQrcode from './about-qrcode.svelte';
 
 	const pageName = m.about_name;
@@ -130,7 +131,7 @@
 				{#each myInfo as info}
 					<li class="flex gap-2">
 						{#if 'link' in info && info.link}
-							<a class="flex gap-2 hover:underline hover:text-primary" href={info.link}>
+							<a class="hover:text-primary flex gap-2 hover:underline" href={info.link}>
 								<info.icon class="text-primary" />
 								<p>{info.label()}</p>
 							</a>
@@ -144,9 +145,21 @@
 		</div>
 
 		<div class="flex shrink-0 flex-col">
-			<Button onclick={() => window.print()} class="print:hidden" variant="outline">{m.about_print_button()}</Button>
+			<Tooltip.Provider>
+				<Tooltip.Root>
+					<Tooltip.Trigger>
+						<Button onclick={() => window.print()} class="* print:hidden" variant="outline">
+							<PrinterIcon />
+							<p class="hidden md:block">{m.about_print_button()}</p>
+						</Button></Tooltip.Trigger
+					>
+					<Tooltip.Content>
+						<p>{m.about_print_button()}</p>
+					</Tooltip.Content>
+				</Tooltip.Root>
+			</Tooltip.Provider>
 
-			<div class="hidden h-24 w-24 print:block text-primary">
+			<div class="highlight hidden h-24 w-24 print:block">
 				<AboutQrcode />
 			</div>
 		</div>
@@ -234,11 +247,11 @@
 			margin: 1.5cm;
 		}
 
-		:global(body){
+		:global(body) {
 			background-color: white !important;
 			color: black;
 		}
-		
+
 		#wrapper {
 			margin: 0;
 			padding: 0;
