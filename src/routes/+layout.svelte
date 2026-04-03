@@ -27,6 +27,7 @@
 <Sidebar.Provider open={false}>
 	<NavSidebar />
 	<main class="relative flex min-h-screen w-full flex-col">
+		<div id="background"></div>
 		<Navbar />
 		{@render children()}
 		<Footer />
@@ -34,6 +35,18 @@
 </Sidebar.Provider>
 
 <style lang="postcss">
+	#background {
+		z-index: -1;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		opacity: 0.3;
+		background-size: 900px;
+		background-image: url('/hand-drawn-background.svg');
+		background-repeat: repeat;
+		background-position: center center;
+	}
+
 	:global(::-webkit-scrollbar) {
 		width: 10px;
 	}
@@ -98,7 +111,8 @@
 
 	:global(
 		::view-transition-group(sheet-overlay-main-sidebar),
-		::view-transition-group(content-main-sidebar)){
+		::view-transition-group(content-main-sidebar)
+	) {
 		z-index: 100;
 	}
 </style>
