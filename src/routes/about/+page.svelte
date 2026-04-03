@@ -253,6 +253,7 @@
 		}
 
 		#wrapper {
+			background-color: white !important;
 			margin: 0;
 			padding: 0;
 		}
