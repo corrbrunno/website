@@ -78,13 +78,17 @@
 	</div>
 {/snippet}
 
-<section class="relative flex flex-col items-center bg-transparent p-4">
-	<h1
-		style="top: calc(var(--spacing) * {BASE_TOP_VALUE});"
-		class="sticky bottom-7 z-1 text-3xl font-bold md:static"
-	>
-		{m.home_pricing_section_title()}
-	</h1>
+<section class="relative flex flex-col items-center p-4 pt-20"> 
+    <div class="absolute inset-0 pointer-events-none mask-[linear-gradient(to_bottom,black_65%,transparent_80%)]">
+        <div class="flex h-full w-full pl-4 justify-center pt-4">
+            <h1
+                style="top: calc(var(--spacing) * {BASE_TOP_VALUE});"
+                class="text-left pointer-events-auto sticky bottom-7 z-1 h-fit text-3xl font-bold md:static"
+            >
+                {m.home_pricing_section_title()}
+            </h1>
+        </div>
+    </div>
 
 	<section class="relative z-3 mt-7 flex flex-col gap-7 md:flex-row">
 		{#each pricingOptions as option, i}
@@ -97,7 +101,4 @@
 			)}
 		{/each}
 	</section>
-	<div
-		class="to-background absolute bottom-0 z-2 h-100 w-full bg-gradient-to-b from-transparent/100 to-20%"
-	></div>
 </section>
