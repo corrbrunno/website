@@ -7,6 +7,7 @@
 	import { onNavigate } from '$app/navigation';
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import NavSidebar from '$lib/components/ui/navbar/nav-sidebar.svelte';
+	import { page } from '$app/state';
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -20,6 +21,12 @@
 	});
 
 	let { children }: { children: Snippet<[]> } = $props();
+
+	let backgroundStyle = $derived(
+		page.data.backgroundImage
+			? `--pattern-url: url('${page.data.backgroundImage}'); --pattern-color: var(--foreground);`
+			: ''
+	);
 </script>
 
 <ModeWatcher />
@@ -27,7 +34,7 @@
 <Sidebar.Provider open={false}>
 	<NavSidebar />
 	<main class="relative flex min-h-screen w-full flex-col">
-		<div id="background"></div>
+		<div id="background" style={backgroundStyle}></div>
 		<Navbar />
 		{@render children()}
 		<Footer />
@@ -36,15 +43,19 @@
 
 <style lang="postcss">
 	#background {
-		z-index: -1;
 		position: absolute;
-		width: 100%;
-		height: 100%;
-		opacity: 0.3;
-		background-size: 900px;
-		background-image: url('/hand-drawn-background.svg');
-		background-repeat: repeat;
-		background-position: center center;
+		inset: 0;
+		z-index: -1;
+
+		background-color: var(--pattern-color);
+		opacity: 0.1;
+		mask-image: var(--pattern-url);
+		mask-repeat: repeat;
+		mask-size: 100px;
+
+		-webkit-mask-image: var(--pattern-url);
+		-webkit-mask-repeat: repeat;
+		-webkit-mask-size: 100px;
 	}
 
 	:global(::-webkit-scrollbar) {
