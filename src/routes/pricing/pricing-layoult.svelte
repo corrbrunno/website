@@ -24,12 +24,11 @@
 		pricingCardsData: pricingCardData[];
 		faqContentData: faqData;
 	} = $props();
-	
 </script>
 
 <div class="my-10 grid w-full grid-cols-1 gap-y-20">
 	<header class="mx-4 text-balance">
-		<h1 class="mx-auto max-w-130 text-left sm:text-center text-3xl font-bold">
+		<h1 class="mx-auto max-w-130 text-left text-3xl font-bold sm:text-center">
 			{@render heading()}
 		</h1>
 	</header>
@@ -39,23 +38,23 @@
 		<FeatureGrid items={keyPointsData} />
 	</section>
 
-	<section class="bg-primary/30 py-14 text-primary-foreground">
+	<section class="bg-primary/30 text-primary-foreground py-14">
 		<h3 class="pb-5 text-center text-lg font-bold">Diferenciais</h3>
 		<FeatureGrid items={keyFeaturesData}></FeatureGrid>
 	</section>
 
 	<section class="mx-4 text-center">
 		<div class="mb-10">
-			<h1 class="text-3xl text-balance font-bold">
+			<h1 class="text-3xl font-bold text-balance">
 				{@render pricingTitle()}
 			</h1>
-			<p class="text-muted-foreground text-pretty pt-2">
+			<p class="text-muted-foreground pt-2 text-pretty">
 				{pricingSubtitle}
 			</p>
 		</div>
-		<ul class="flex justify-start md:justify-center gap-4 pb-2 overflow-x-scroll">
+		<ul class="flex justify-start gap-4 overflow-x-scroll pb-2 md:justify-center">
 			{#each pricingCardsData as pricingCardData}
-it pu				<li ><PricingCard {...pricingCardData} /></li>
+				<li><PricingCard {...pricingCardData} /></li>
 			{/each}
 		</ul>
 	</section>
