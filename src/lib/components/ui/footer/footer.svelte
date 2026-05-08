@@ -10,7 +10,7 @@
 	<div
 		class="max-w-content-width grid-flow flex w-full grid-cols-3 grid-rows-1 flex-col flex-wrap items-center justify-between gap-3 p-5 pr-10 pl-10 sm:flex-row"
 	>
-		<section>Bruno Corrêa</section>
+		<p class="text-xl font-bold">Bruno Corrêa</p>
 		<section class="text-center select-none">
 			<p id="phrase">{m.footer_made_by()}</p>
 		</section>
@@ -23,7 +23,7 @@
 						<Icon class="" />
 						<p class="">{name()}:</p>
 					</div>
-					<p class="text-muted">{alias()}</p>
+					<p class="text-muted-foreground">{alias()}</p>
 				</a>
 			{/each}
 		</section>
