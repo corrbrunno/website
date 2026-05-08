@@ -144,7 +144,7 @@
 			</ul>
 		</div>
 
-		<div class="flex shrink-0 flex-col">
+		<div class="flex shrink-0 flex-col pr-5">
 			<Tooltip.Provider>
 				<Tooltip.Root>
 					<Tooltip.Trigger>
