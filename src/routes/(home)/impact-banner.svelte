@@ -1,5 +1,6 @@
 <script>
 	import Sparkle from '$lib/components/decorations/sparkle.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import * as m from '$lib/paraglide/messages';
 </script>
 
@@ -8,8 +9,9 @@
 		id="impact"
 		class="max-w-content-width relative flex flex-col items-center justify-between gap-2 p-4 before:hidden after:hidden md:flex-row md:before:block md:after:block"
 	>
-		<h1 class="select-none flex-0 relative pb-2 text-left text-2xl font-bold md:text-5xl">
-			{m.home_impact_title()} <mark class="text-primary bg-transparent">{m.home_impact_results_label()}</mark>
+		<h1 class="relative flex-0 pb-2 text-left text-2xl font-bold select-none md:text-5xl">
+			{m.home_impact_title()}
+			<mark class="text-primary bg-transparent">{m.home_impact_results_label()}</mark>
 		</h1>
 		<p class="w-full max-w-lg px-5 text-justify whitespace-pre-line">
 			{m.home_impact_description()}
@@ -19,22 +21,24 @@
 			class="relative flex-0 items-center py-4 text-center text-xl font-bold select-none md:pt-0 md:text-right md:text-5xl"
 		>
 			<Sparkle
-				class="md:invisible absolute top-1/2 left-0 aspect-square h-12 -translate-x-120/100 -translate-y-1/2 animate-[pulse_5s_ease-in-out_infinite]"
+				class="absolute top-1/2 left-0 aspect-square h-12 -translate-x-120/100 -translate-y-1/2 animate-[pulse_5s_ease-in-out_infinite] md:invisible"
 			/>
 			<Sparkle
-				class="md:invisible absolute top-1/2 right-0 aspect-square h-12 translate-x-110/100 -translate-y-80/100 animate-[pulse_5s_ease-in-out_infinite_1s]"
+				class="absolute top-1/2 right-0 aspect-square h-12 translate-x-110/100 -translate-y-80/100 animate-[pulse_5s_ease-in-out_infinite_1s] md:invisible"
 			/>
-	
+
 			<Sparkle
-				class="md:invisible absolute top-1/2 right-0 aspect-square size-6 translate-x-100/100  translate-y-80/100 animate-[pulse_5s_ease-in-out_infinite_0.4s]"
+				class="absolute top-1/2 right-0 aspect-square size-6 translate-x-100/100 translate-y-80/100  animate-[pulse_5s_ease-in-out_infinite_0.4s] md:invisible"
 			/>
-			{m.home_impact_slogan()} <mark class="text-primary bg-transparent">{m.home_impact_smart_label()}</mark>
+			{m.home_impact_slogan()}
+			<mark class="text-primary bg-transparent">{m.home_impact_smart_label()}</mark>
 		</h1>
 	</section>
+
+	<Button class="mt-3 rounded-2xl p-5" href="/about">{m.home_impact_about_me()}</Button>
 </section>
 
 <style>
-	
 	@keyframes floating-animation {
 		0%,
 		100% {
