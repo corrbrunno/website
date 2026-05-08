@@ -21,13 +21,13 @@
 	style="view-transition-name: blog-post-controls;"
 	class="max-w-content-width m-auto mt-4 mb-4 flex w-full justify-between">
 		<li>
-			<Button href="/blog">
+			<Button variant="secondary" href="/blog">
 				<ChevronLeft />
 				Posts
 			</Button>
 		</li>
 		<li>
-			<Button href={`/blog/random?exclude=${data.metadata.slug}`}>
+			<Button variant="secondary" href={`/blog/random?exclude=${data.metadata.slug}`}>
 				Random
 				<ChevronRight />
 			</Button>
