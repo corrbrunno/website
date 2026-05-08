@@ -39,7 +39,7 @@
 		<FeatureGrid items={keyPointsData} />
 	</section>
 
-	<section class="bg-primary/30 py-14">
+	<section class="bg-primary/30 py-14 text-primary-foreground">
 		<h3 class="pb-5 text-center text-lg font-bold">Diferenciais</h3>
 		<FeatureGrid items={keyFeaturesData}></FeatureGrid>
 	</section>
@@ -55,7 +55,7 @@
 		</div>
 		<ul class="flex justify-start md:justify-center gap-4 pb-2 overflow-x-scroll">
 			{#each pricingCardsData as pricingCardData}
-				<li class="mt-auto"><PricingCard {...pricingCardData} /></li>
+				<li ><PricingCard {...pricingCardData} /></li>
 			{/each}
 		</ul>
 	</section>

@@ -21,12 +21,12 @@ import Button from '$lib/components/ui/button/button.svelte';
 	const { price, highlight, paymentFrequency, title, featureItems, actionButton }: pricingCardData = $props();
 </script>
 
-<div class="flex flex-col gap-2 justify-start">
+<div class="flex h-full flex-col gap-2 justify-start">
 	{#if highlight}
 		<Badge>{highlight()}</Badge>
 	{/if}
 	
-	<Card.Root class="h-fit text-pretty w-65">
+	<Card.Root class="h-full text-pretty w-65">
 		<Card.Header class="flex flex-col items-center">
 			<h2>{title()}</h2>
 			<Separator />
@@ -45,8 +45,8 @@ import Button from '$lib/components/ui/button/button.svelte';
 			{/each}
 		</ul>
 	</Card.Content>
-	<Card.Footer>
-		<Button href={actionButton.link} class="w-full">{actionButton.name()}</Button>
+	<Card.Footer class="h-full">
+		<Button href={actionButton.link} class="w-full mt-auto">{actionButton.name()}</Button>
 	</Card.Footer>
 </Card.Root>
 </div>
