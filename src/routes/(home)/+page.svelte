@@ -5,6 +5,7 @@
 	import LatestBlogPosts from './latest-blog-posts.svelte';
 	import ImpactBanner from './impact-banner.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import Bruno from './bruno.svelte';
 	const { data }: { data: PageData } = $props();
 	let scrollY = $state(0);
 	let innerHeight = $state(0);
@@ -17,11 +18,11 @@
 >
 	<div class="bg-grid-pattern absolute inset-0 size-full opacity-20"></div>
 	<section
-		class="max-w-9xl flex max-h-full flex-col flex-nowrap content-center items-center justify-center overflow-hidden bg-clip-text p-10 text-center text-clip text-transparent lg:flex-row lg:p-0"
+		class="w-full flex h-full flex-col flex-nowrap items-center justify-center overflow-hidden bg-clip-text p-10 text-center text-clip text-transparent lg:flex-row lg:p-0"
 	>
-		<img class=" max-h-full min-h-0 min-w-0 flex-shrink" src="/bruno.svg" alt="test" />
+	  <div class="max-h-full flex-2"><Bruno/></div>
 		<h1
-			class=" from-primary to-secondary/40 flex-shrink bg-gradient-to-b from-10% to-85% bg-clip-text text-8xl font-black text-transparent"
+			class=" flex-none from-primary to-secondary/40 lg:w-50/100  bg-gradient-to-b from-10% to-85% bg-clip-text text-8xl font-black text-transparent"
 		>
 			Bruno Corrêa
 		</h1>

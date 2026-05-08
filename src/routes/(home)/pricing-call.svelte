@@ -72,7 +72,7 @@
 				{description}
 			</Card.Content>
 			<Card.Footer>
-				<Button {href} class="w-full">Saiba mais</Button>
+				<Button {href} class="w-full text-primary-foreground">Saiba mais</Button>
 			</Card.Footer>
 		</Card.Root>
 	</div>
