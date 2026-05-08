@@ -68,27 +68,33 @@
 		<Card.Root onclick={() => scrollToOriginalPosition(cardOrder)}>
 			<Card.Title class="text-center text-xl font-bold">{title}</Card.Title>
 			<Card.Content class="text-justify">
-				<p class="p-3 text-pretty italic">{phrase}</p>
+				<p
+					class="text-muted-foreground border-l-secondary mb-6 ml-3 border-4 border-transparent pl-2 text-pretty italic"
+				>
+					{phrase}
+				</p>
 				{description}
 			</Card.Content>
 			<Card.Footer>
-				<Button {href} class="w-full text-primary-foreground">Saiba mais</Button>
+				<Button {href} class="text-primary-foreground w-full">Saiba mais</Button>
 			</Card.Footer>
 		</Card.Root>
 	</div>
 {/snippet}
 
-<section class="relative flex flex-col items-center p-4 pt-20"> 
-    <div class="absolute inset-0 pointer-events-none mask-[linear-gradient(to_bottom,black_65%,transparent_80%)]">
-        <div class="flex h-full w-full pl-4 justify-center pt-4">
-            <h1
-                style="top: calc(var(--spacing) * {BASE_TOP_VALUE});"
-                class="text-left pointer-events-auto sticky bottom-7 z-1 h-fit text-3xl font-bold md:static"
-            >
-                {m.home_pricing_section_title()}
-            </h1>
-        </div>
-    </div>
+<section class="relative flex flex-col items-center p-4 pt-20">
+	<div
+		class="pointer-events-none absolute inset-0 mask-[linear-gradient(to_bottom,black_65%,transparent_80%)]"
+	>
+		<div class="flex h-full w-full justify-center pt-4 pl-4">
+			<h1
+				style="top: calc(var(--spacing) * {BASE_TOP_VALUE});"
+				class="pointer-events-auto sticky bottom-7 z-1 h-fit text-left text-3xl font-bold md:static"
+			>
+				{m.home_pricing_section_title()}
+			</h1>
+		</div>
+	</div>
 
 	<section class="relative z-3 mt-7 flex flex-col gap-7 md:flex-row">
 		{#each pricingOptions as option, i}
