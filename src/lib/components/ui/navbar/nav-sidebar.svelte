@@ -8,6 +8,7 @@
 	import { getSelectedLanguage } from './utils.svelte';
 
 	import { mode as selectedMode } from 'mode-watcher';
+	import { page } from '$app/state';
 
 	const selectedLanguage = getSelectedLanguage();
 </script>
@@ -25,9 +26,10 @@
 						<Sidebar.MenuItem>
 							<Sidebar.MenuButton class="flex justify-start">
 								{#snippet child({ props })}
+								{@const onPage = page.url.pathname == button.url}
 									<Button variant="link" href={button.url} {...props}>
-										<button.icon />
-										<span>{button.slug}</span>
+										<button.icon class={ onPage ? "text-primary" : "text-foreground"}/>
+										<span class={ onPage ? "text-primary" : "text-muted"}>{button.slug}</span>
 									</Button>
 								{/snippet}
 							</Sidebar.MenuButton>
@@ -47,9 +49,11 @@
 							"
 							>
 								{#snippet child({ props })}
-									<Button variant="link" href={button.url} {...props}>
-										<button.icon />
-										<span>{button.slug()}</span>
+								{@const onPage = page.url.pathname == button.url}
+									
+								<Button variant="link" href={button.url} {...props}>
+										<button.icon  class={ onPage ? "text-primary" : "text-foreground"}/>
+										<span class={ onPage ? "text-primary" : "text-muted"}>{button.slug()}</span>
 									</Button>
 								{/snippet}
 							</Sidebar.MenuButton>
