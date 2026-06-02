@@ -18,11 +18,11 @@
 >
 	<div class="bg-grid-pattern absolute inset-0 size-full opacity-20"></div>
 	<section
-		class="w-full flex h-full flex-col flex-nowrap items-center justify-center overflow-hidden bg-clip-text p-10 text-center text-clip text-transparent lg:flex-row lg:p-0"
+		class="w-full flex h-full flex-col flex-nowrap items-center justify-center overflow-hidden bg-clip-text p-10 text-center text-clip text-transparent md:flex-row md:p-0"
 	>
-	  <div class="lg:max-h-fit h-full max-w-fit w-full "><Bruno/></div>
+	  <div class="md:max-h-fit h-full max-w-fit w-full "><Bruno/></div>
 		<h1
-			class=" flex-none from-primary to-secondary/40 lg:w-50/100  bg-gradient-to-b from-10% to-85% bg-clip-text text-8xl font-black text-transparent"
+			class=" flex-none from-primary to-secondary/40 md:w-50/100  bg-gradient-to-b from-10% to-85% bg-clip-text text-8xl font-black text-transparent"
 		>
 			Bruno Corrêa
 		</h1>
