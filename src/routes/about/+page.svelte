@@ -16,8 +16,7 @@
 
 	const myInfo = [
 		{ icon: MapPin, label: m.about_info_location },
-		...socialMediaLinks.map(({ alias, Icon, link }) => ({ icon: Icon, label: alias, link })),
-		{ icon: Mail, label: m.about_info_email }
+		...socialMediaLinks.map(({ alias, Icon, link }) => ({ icon: Icon, label: alias, link }))
 	];
 
 	const summary = m.about_summary;
@@ -131,7 +130,7 @@
 				{#each myInfo as info}
 					<li class="flex gap-2">
 						{#if 'link' in info && info.link}
-							<a class="hover:text-primary flex gap-2 hover:underline" href={info.link}>
+							<a class="hover:text-primary flex gap-2 hover:underline" href={info.link()}>
 								<info.icon class="text-primary" />
 								<p>{info.label()}</p>
 							</a>
@@ -159,7 +158,7 @@
 				</Tooltip.Root>
 			</Tooltip.Provider>
 
-			<div class="hidden h-24 w-24 print:block text-primary">
+			<div class="text-primary hidden h-24 w-24 print:block">
 				<AboutQrcode />
 			</div>
 		</div>

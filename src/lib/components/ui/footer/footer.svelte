@@ -18,7 +18,7 @@
 			<h1 class="text-lg">{m.footer_slogan()}</h1>
 			<br />
 			{#each socialMediaLinks as { name, alias, link, Icon }}
-				<a class="hover:*:text-primary flex w-full justify-between" href={link}>
+				<a class="hover:*:text-primary flex w-full justify-between" href={link()}>
 					<div class="flex items-center gap-2">
 						<Icon class="" />
 						<p class="">{name()}:</p>
