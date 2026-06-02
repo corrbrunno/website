@@ -2,7 +2,7 @@
 
 <svg
 	viewBox="0 0 205.48563 249.46931"
-    preserveAspectRatio="xMinYMin meet"
+    preserveAspectRatio="xMinYMin xMid"
 	version="1.1"
 	class="max-h-full max-w-full w-full h-full"
 	fill="url('#svg-linear-to-l')"
