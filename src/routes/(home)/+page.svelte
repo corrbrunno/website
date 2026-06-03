@@ -6,11 +6,14 @@
 	import ImpactBanner from './impact-banner.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import Bruno from './bruno.svelte';
+	import Seo from '$lib/components/meta/seo.svelte';
 	const { data }: { data: PageData } = $props();
 	let scrollY = $state(0);
 	let innerHeight = $state(0);
 	let hasScrolled = $derived(scrollY <= innerHeight / 5);
 </script>
+
+<Seo title={m.seo_home_title()} description={m.seo_home_desc()} />
 
 <svelte:window bind:innerHeight bind:scrollY />
 <section

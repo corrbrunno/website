@@ -5,6 +5,7 @@
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 	import { Mail, MapPin, Printer, PrinterIcon } from '@lucide/svelte';
 	import AboutQrcode from './about-qrcode.svelte';
+	import Seo from '$lib/components/meta/seo.svelte';
 
 	const pageName = m.about_name;
 	const titleRole = m.about_title_role;
@@ -117,6 +118,8 @@
 		{ name: m.about_lang_pt_name, level: m.about_lang_pt_level }
 	];
 </script>
+
+<Seo title={m.seo_about_title()} description={m.seo_about_desc()} type="profile" />
 
 <div id="wrapper" class="max-w-content-width mx-auto my-10 flex flex-col gap-y-5 p-4 text-balance">
 	<section class="flex items-start justify-between">

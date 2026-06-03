@@ -16,6 +16,7 @@
 	} from '@lucide/svelte';
 	import PricingLayoult from '../pricing-layoult.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import Seo from '$lib/components/meta/seo.svelte';
 
 const faqData = [
     {
@@ -123,6 +124,8 @@ const pricingCardsData = [
     }
 ];
 </script>
+
+<Seo title={m.seo_automations_title()} description={m.seo_automations_desc()} />
 
 <PricingLayoult
 	keyPointsTitle={m.automation_key_points_title()}

@@ -1,9 +1,12 @@
 <script lang="ts">
+	import Seo from '$lib/components/meta/seo.svelte';
 	import Widget from '$lib/components/posts/post-widget.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import * as m from '$lib/paraglide/messages';
 	export let data;
 </script>
+
+<Seo title={m.seo_blog_title()} description={m.seo_blog_desc()} type="website" />
 
 <section
 	class="max-w-content-width mt-10 mr-auto ml-auto flex w-full flex-col content-center items-center p-5"
