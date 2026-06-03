@@ -1,25 +1,17 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import * as Command from '$lib/components/ui/command/index.js';
 	import * as Popover from '$lib/components/ui/popover/index';
-	import { deLocalizeHref, getLocale, localizeHref, setLocale, type Locale, type LocalizedString } from '$lib/paraglide/runtime';
-	import { cn } from '$lib/utils';
+	import { localizeHref } from '$lib/paraglide/runtime';
 	import Button from '../button/button.svelte';
-	import { page } from '$app/state';
-	import * as m from '$lib/paraglide/messages';
 
+	import { SUPPORTED_LANGUAGES } from './constants';
 	import { getSelectedLanguage } from './utils.svelte';
 
 	const { class: className }: { class?: string } = $props();
 	const selectedLanguage = getSelectedLanguage();
 
-	const SUPPORTED_LANGUAGES: {
-		lang: () => LocalizedString;
-		locale: Locale;
-		emoji: string;
-	}[] = [
-		{ lang: m.language_portuguese, locale: 'pt-br', emoji: `/brasil-flag.svg` },
-		{ lang: m.language_english, locale: 'en', emoji: `/usa-flag.svg` }
-	];
+
 </script>
 
 <Popover.Root>
