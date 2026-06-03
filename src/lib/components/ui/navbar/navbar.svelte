@@ -14,7 +14,7 @@
 		<section class="flex w-full content-center  justify-between p-2 pr-10 pl-10">
 			<section class="flex *:first:block *:hidden sm:*:block" >
 				{#each NAVEGATION_BUTTONS as { url, slug }}
-					<Button variant="ghost" href={url}>{slug}</Button>
+					<Button variant="ghost" href={url}>{slug()}</Button>
 				{/each}
 			</section>
 			<section>

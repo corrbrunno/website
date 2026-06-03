@@ -1,14 +1,23 @@
 <script lang="ts">
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { Button } from '../button';
-	import { NAVEGATION_BUTTONS, SERVICE_PAGES } from './constants';
-	import * as m from '$lib/paraglide/messages';
-	import NavbarThemeToggle from './navbar-theme-toggle.svelte';
-	import LangChooser from './lang-chooser.svelte';
-	import { getSelectedLanguage } from './utils.svelte';
-
-	import { mode as selectedMode } from 'mode-watcher';
 	import { page } from '$app/state';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import * as m from '$lib/paraglide/messages';
+	import type { Locale } from '$lib/paraglide/runtime';
+	import { localizeHref } from '$lib/paraglide/runtime';
+	import type { LocalizedString } from '@inlang/paraglide-js';
+	import { Book, Bot, HouseIcon, MonitorCloud, NotebookPen, SquareUserRound } from '@lucide/svelte';
+	import { mode as selectedMode } from 'mode-watcher';
+	import { Button } from '../button';
+	import LangChooser from './lang-chooser.svelte';
+	import NavbarThemeToggle from './navbar-theme-toggle.svelte';
+	import { getSelectedLanguage } from './utils.svelte';
+	import { NAVEGATION_BUTTONS, SERVICE_PAGES } from './constants';
+
+
+	const groups = [
+		{ title: m.nav_general_section, buttons: NAVEGATION_BUTTONS },
+		{ title: m.nav_service_section, buttons: SERVICE_PAGES }
+	];
 
 	const selectedLanguage = getSelectedLanguage();
 </script>
@@ -18,50 +27,34 @@
 		<Sidebar.Header class="text-2xl font-bold"
 			>{`${m.global_personal_first_name()} ${m.global_personal_second_name()}`}</Sidebar.Header
 		>
-		<Sidebar.Group>
-			<Sidebar.GroupLabel>{m.nav_general_section()}</Sidebar.GroupLabel>
-			<Sidebar.GroupContent>
-				<Sidebar.Menu>
-					{#each NAVEGATION_BUTTONS as button (button.slug)}
-						<Sidebar.MenuItem>
-							<Sidebar.MenuButton class="flex justify-start">
-								{#snippet child({ props })}
-								{@const onPage = page.url.pathname == button.url}
-									<Button variant="link" href={button.url} {...props}>
-										<button.icon class={ onPage ? "text-primary" : "text-foreground"}/>
-										<span class={ onPage ? "text-primary" : "text-muted"}>{button.slug}</span>
-									</Button>
-								{/snippet}
-							</Sidebar.MenuButton>
-						</Sidebar.MenuItem>
-					{/each}
-				</Sidebar.Menu>
-			</Sidebar.GroupContent>
-		</Sidebar.Group>
-		<Sidebar.Group>
-			<Sidebar.GroupLabel>{m.nav_service_section()}</Sidebar.GroupLabel>
-			<Sidebar.GroupContent>
-				<Sidebar.Menu>
-					{#each SERVICE_PAGES as button (button.slug)}
-						<Sidebar.MenuItem>
-							<Sidebar.MenuButton
-								class="flex justify-start
-							"
-							>
-								{#snippet child({ props })}
-								{@const onPage = page.url.pathname == button.url}
-									
-								<Button variant="link" href={button.url} {...props}>
-										<button.icon  class={ onPage ? "text-primary" : "text-foreground"}/>
-										<span class={ onPage ? "text-primary" : "text-muted"}>{button.slug()}</span>
-									</Button>
-								{/snippet}
-							</Sidebar.MenuButton>
-						</Sidebar.MenuItem>
-					{/each}
-				</Sidebar.Menu>
-			</Sidebar.GroupContent>
-		</Sidebar.Group>
+		{#each groups as { title, buttons }}
+			<Sidebar.Group>
+				<Sidebar.GroupLabel>{title()}</Sidebar.GroupLabel>
+				<Sidebar.GroupContent>
+					<Sidebar.Menu>
+						{#each buttons as button (button.slug)}
+							<Sidebar.MenuItem>
+								<Sidebar.MenuButton class="flex justify-start">
+									{#snippet child({ props })}
+										{@const route = localizeHref(button.url)}
+										{@const onPage =
+											page.url.pathname.replaceAll('/', '') == route.replaceAll('/', '')}
+
+										<Button variant="link" href={route} {...props}>
+											<button.icon class={onPage ? 'text-primary' : 'text-foreground'} />
+											<span class={onPage ? 'text-primary' : 'text-muted-foreground'}
+												>{button.slug()}</span
+											>
+										</Button>
+									{/snippet}
+								</Sidebar.MenuButton>
+							</Sidebar.MenuItem>
+						{/each}
+					</Sidebar.Menu>
+				</Sidebar.GroupContent>
+			</Sidebar.Group>
+		{/each}
+		
 	</Sidebar.Content>
 	<Sidebar.Footer class="p-5">
 		<Sidebar.Group class="flex gap-2">
