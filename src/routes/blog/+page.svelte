@@ -3,6 +3,7 @@
 	import Widget from '$lib/components/posts/post-widget.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import * as m from '$lib/paraglide/messages';
+	import { reveal } from '$lib/client/animations/reveal';
 	export let data;
 </script>
 
@@ -22,10 +23,10 @@
 	</Card.Root>
 
 	<ul class="grid w-full grid-cols-1 flex-wrap gap-3 md:grid-cols-2">
-		{#each data.posts as post}
+		{#each data.posts as post, i}
 			<li
-				class="line-clamp-2 flex
-    w-full transition hover:scale-102"
+				class="line-clamp-2 flex w-full transition hover:scale-102"
+				use:reveal={{ direction: 'up', duration: 500, stagger: i * 80 }}
 			>
 				<Widget class="w-10" {post}></Widget>
 			</li>

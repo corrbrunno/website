@@ -12,10 +12,15 @@
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 
+		document.body.dataset.vtActive = 'true';
+
 		return new Promise((resolve) => {
 			document.startViewTransition(async () => {
 				resolve();
 				await navigation.complete;
+				setTimeout(() => {
+					delete document.body.dataset.vtActive;
+				}, 100);
 			});
 		});
 	});

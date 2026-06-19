@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import * as m from '$lib/paraglide/messages';
 	import Seo from '$lib/components/meta/seo.svelte';
+	import { reveal } from '$lib/client/animations/reveal';
 
 	function descriptionFromContent(content: string, max = 155): string {
 		const clean = content
@@ -13,7 +14,7 @@
 			.replace(/\[([^\]]*)\]\(.*?\)/g, '$1')
 			.replace(/#{1,6}\s/g, '')
 			.trim();
-		return clean.length > max ? clean.slice(0, max).trimEnd() + '…' : clean;
+		return clean.length > max ? clean.slice(0, max).trimEnd() + 'â€¦' : clean;
 	}
 
 	const { data }: { data: PageData } = $props();
@@ -28,9 +29,9 @@
 />
 
 <div class="mr-4 ml-4">
-	<section class="max-w-content-width mr-auto ml-auto w-full pt-15">
+	<div use:reveal={{ direction: 'up', duration: 500 }} class="max-w-content-width mr-auto ml-auto w-full pt-15">
 		<Widget abbreviate={false} post={data.metadata} />
-	</section>
+	</div>
 
 	<ul
 		style="view-transition-name: blog-post-controls;"
@@ -50,16 +51,18 @@
 		</li>
 	</ul>
 
-	<Card.Root
-		style="view-transition-name: blog-post-content;"
-		class="max-w-block-width mt-10 mr-auto mb-10 ml-auto w-full p-5"
-	>
-		<Card.Content>
-			<article
-				class="prose prose-purple dark:prose-invert lg:prose-lg text-foreground max-w-none justify-center"
-			>
-				<PostComponent />
-			</article>
-		</Card.Content>
-	</Card.Root>
+	<div use:reveal={{ direction: 'up', duration: 600, delay: 100 }}>
+		<Card.Root
+			style="view-transition-name: blog-post-content;"
+			class="max-w-block-width mt-10 mr-auto mb-10 ml-auto w-full p-5"
+		>
+			<Card.Content>
+				<article
+					class="prose prose-purple dark:prose-invert lg:prose-lg text-foreground max-w-none justify-center"
+				>
+					<PostComponent />
+				</article>
+			</Card.Content>
+		</Card.Root>
+	</div>
 </div>

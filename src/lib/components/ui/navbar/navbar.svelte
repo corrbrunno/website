@@ -13,6 +13,7 @@
 
   let servicesOpen = $state(false);
   let servicesTriggerRef = $state<HTMLButtonElement>(null!);
+  let scrollY = $state(0);
 
   function closeAndFocusTrigger() {
     servicesOpen = false;
@@ -23,18 +24,26 @@
     closeAndFocusTrigger();
     goto(localizeHref(path));
   }
+
+  const headerClass = $derived(
+    scrollY > 30
+      ? 'bg-background/70 backdrop-blur-md shadow-sm'
+      : 'bg-transparent backdrop-blur-0'
+  );
 </script>
+
+<svelte:window bind:scrollY />
 
 <header
   style="view-transition-name: navbar"
-  class="print:hidden fixed top-0 z-49 flex w-full justify-center"
+  class="print:hidden fixed top-0 z-49 flex w-full justify-center transition-all duration-300 {headerClass}"
 >
-  <nav class="w-full">
+  <nav class="flex w-full justify-center">
     <section
-      class="flex w-full content-center p-2 pr-10 pl-10 relative overflow-hidden"
+      class="flex max-w-content-width h-14 md:h-16 w-full items-center px-4 md:px-6 relative overflow-hidden"
     >
       <section
-        class="flex items-center gap-1 overflow-hidden flex-1">
+        class="flex items-center gap-2 md:gap-3 overflow-hidden flex-1 text-sm">
         {#each NAVEGATION_BUTTONS as { url, slug }}
           <Button variant="ghost" href={localizeHref(url)}>{slug()}</Button>
         {/each}
@@ -71,12 +80,12 @@
         </Popover.Root>
       </section>
 
-      <section class="shrink-0 relative z-10  backdrop-blur-sm pl-3">
-        <div class="hidden sm:flex gap-2">
+      <section class="flex shrink-0 items-center gap-1 md:gap-2 relative z-10 pl-3">
+        <div class="hidden sm:flex items-center gap-1 md:gap-2">
           <LangChooser />
           <ThemeToggle />
         </div>
-        <Sidebar.Trigger class="sm:hidden" />
+        <Sidebar.Trigger class="sm:hidden size-9" />
       </section>
     </section>
   </nav>

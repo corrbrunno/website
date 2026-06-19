@@ -6,6 +6,7 @@
 	import { Mail, MapPin, Printer, PrinterIcon } from '@lucide/svelte';
 	import AboutQrcode from './about-qrcode.svelte';
 	import Seo from '$lib/components/meta/seo.svelte';
+	import { reveal } from '$lib/client/animations/reveal';
 
 	const pageName = m.about_name;
 	const titleRole = m.about_title_role;
@@ -122,10 +123,10 @@
 <Seo title={m.seo_about_title()} description={m.seo_about_desc()} type="profile" />
 
 <div id="wrapper" class="max-w-content-width mx-auto my-10 flex flex-col gap-y-5 p-4 text-balance">
-	<section class="flex items-start justify-between">
+	<section use:reveal={{ direction: 'up', duration: 600 }} class="flex items-start justify-between">
 		<div class="flex flex-1 flex-col gap-y-3">
 			<header>
-				<h1 class="text-2xl font-bold"><strong>{pageName()}</strong></h1>
+				<h1 class="text-xl md:text-h1 font-bold"><strong>{pageName()}</strong></h1>
 				<p class="text-lg">{titleRole()}</p>
 			</header>
 
@@ -166,12 +167,12 @@
 			</div>
 		</div>
 	</section>
-	<section>
+	<section use:reveal={{ direction: 'up', duration: 600, delay: 80 }}>
 		<h2><strong>{sectionSummary()}</strong></h2>
 		<p>{summary()}</p>
 	</section>
 
-	<section class="flex flex-col gap-y-2">
+	<section use:reveal={{ direction: 'up', duration: 600, delay: 120 }} class="flex flex-col gap-y-2">
 		<h2><strong>{sectionSkills()}</strong></h2>
 		<ul class="flex list-disc flex-col gap-1 pl-4">
 			{#each skills as skill}
@@ -185,7 +186,7 @@
 		</ul>
 	</section>
 
-	<section class="flex flex-col gap-y-2">
+	<section use:reveal={{ direction: 'up', duration: 600, delay: 160 }} class="flex flex-col gap-y-2">
 		<h2><strong>{sectionEducation()}</strong></h2>
 		{#each education as edu}
 			<div class="ml-4">
@@ -197,7 +198,7 @@
 		{/each}
 	</section>
 
-	<section class="flex flex-col gap-y-2">
+	<section use:reveal={{ direction: 'up', duration: 600, delay: 200 }} class="flex flex-col gap-y-2">
 		<h2><strong>{sectionLanguages()}</strong></h2>
 		<ul class="ml-4 flex list-disc flex-col gap-1">
 			{#each languages as lang}
@@ -211,7 +212,7 @@
 		</ul>
 	</section>
 
-	<section class="flex flex-col gap-y-2">
+	<section use:reveal={{ direction: 'up', duration: 600, delay: 240 }} class="flex flex-col gap-y-2">
 		<h2><strong>{sectionExperience()}</strong></h2>
 		<ul class="flex flex-col gap-4 pl-4">
 			{#each roles as role}

@@ -2,20 +2,21 @@
 	import type { PostMetadata } from "$lib/types";
 	import Widget from '$lib/components/posts/post-widget.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import { reveal } from '$lib/client/animations/reveal';
 
     const {posts} : {posts : PostMetadata[]}= $props()
 </script>
 
 <section class="bg-accent/70 flex w-full flex-col items-center p-10">
 	<div class="mb-5 flex flex-col items-center justify-center">
-		<h1 class=" text- text-2xl font-bold">{m.home_blog_title()}</h1>
+		<h1 class="text-2xl font-bold">{m.home_blog_title()}</h1>
 		<p class="text-muted-foreground text-center text-pretty">{m.home_blog_subtitle()}</p>
 	</div>
 	<ul class="max-w-content-width grid w-full grid-cols-1 flex-wrap gap-3 md:grid-cols-2">
-		{#each posts as post}
+		{#each posts as post, i}
 			<li
-				class="line-clamp-2 flex
-    w-full transition hover:scale-102"
+				class="line-clamp-2 flex w-full transition hover:scale-102"
+				use:reveal={{ direction: 'up', duration: 500, stagger: i * 80 }}
 			>
 				<Widget class="w-10" {post}></Widget>
 			</li>
