@@ -17,13 +17,13 @@ export const socialMediaLinks = [
     {
         name: m.common_social_linkedin_name,
         alias: m.common_social_linkedin_alias,
-        link: () => 'https://www.linkedin.com/in/corr-brunno/',
+        link: () => 'https://www.linkedin.com/in/corrbrunno/',
         Icon: Linkedin
     },
     {
         name: m.common_social_instagram_name,
         alias: m.common_social_instagram_alias,
-        link: () => 'https://www.instagram.com/brunno.corr/',
+        link: () => 'https://www.instagram.com/corrbrunno/',
         Icon: Instagram
     },
 ];
