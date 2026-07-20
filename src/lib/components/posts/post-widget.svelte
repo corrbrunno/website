@@ -9,7 +9,7 @@
 		class: className
 	}: { post: PostMetadata; class?: string; abbreviate?: boolean } = $props();
 
-	const viewTransitionName = post.slug.replaceAll(' ', '');
+	const viewTransitionName = $derived(post.slug.replaceAll(' ', ''));
 </script>
 
 <a href="/blog/{post.slug}" class={cn('min-w-full flex-1', className)}>

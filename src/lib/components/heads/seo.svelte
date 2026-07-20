@@ -21,15 +21,13 @@
 
   const siteUrl = "https://corrbrunno.dev.br";
   const fullUrl = `${siteUrl}${$page.url.pathname}`;
-  const ogImage = image ? `${siteUrl}${image}` : `${siteUrl}/og-default.png`;
+  const ogImage = $derived(image ? `${siteUrl}${image}` : `${siteUrl}/og-default.png`);
 
   // Normaliza pra sempre ser array
-  let jsonldItems: Record<string, unknown>[];
-  if (children) {
-    jsonldItems = Array.isArray(children) ? children : [children];
-  } else {
-    jsonldItems = [];
-  }
+  let jsonldItems: Record<string, unknown>[] = $derived(
+  children ? (Array.isArray(children) ? children : [children])
+  : []);
+  
 </script>
 
 <svelte:head>
