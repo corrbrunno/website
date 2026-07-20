@@ -29,7 +29,7 @@
 
 <div class="my-10 grid w-full grid-cols-1 gap-y-20">
 	<header use:reveal={{ direction: 'up', duration: 600 }} class="mx-4 text-balance">
-		<h1 class="mx-auto max-w-130 text-left text-3xl font-bold sm:text-center">
+		<h1 class="mx-auto max-w-full  md:p-20 py-20 text-3xl md:text-6xl text-left font-bold sm:text-center sm:text-3xl">
 			{@render heading()}
 		</h1>
 	</header>
@@ -53,7 +53,7 @@
 				{pricingSubtitle}
 			</p>
 		</div>
-		<ul class="flex justify-start gap-4 overflow-x-scroll pb-2 md:justify-center">
+		<ul class="flex justify-start gap-4 overflow-x-scroll overflow-y-hidden pb-2 md:justify-center">
 			{#each pricingCardsData as pricingCardData, i}
 				<li use:reveal={{ direction: 'up', duration: 500, stagger: i * 100 }}>
 					<PricingCard {...pricingCardData} />
