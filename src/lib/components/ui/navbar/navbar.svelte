@@ -50,14 +50,17 @@
 
         <Popover.Root bind:open={servicesOpen}>
           <Popover.Trigger bind:ref={servicesTriggerRef}>
-            <Button
-              variant="ghost"
-              role="combobox"
-              aria-expanded={servicesOpen}
-              aria-label={m.nav_service_section()}
-            >
-              {m.nav_service_section()}
-            </Button>
+            {#snippet child({ props })}
+              <Button
+                variant="ghost"
+                role="combobox"
+                aria-expanded={servicesOpen}
+                aria-label={m.nav_service_section()}
+                {...props}
+              >
+                {m.nav_service_section()}
+              </Button>
+            {/snippet}
           </Popover.Trigger>
           <Popover.Content class="w-fit p-0" align="start">
             <Command.Root>

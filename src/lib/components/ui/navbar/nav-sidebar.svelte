@@ -10,7 +10,7 @@
 	import { Button } from '../button';
 	import LangChooser from './lang-chooser.svelte';
 	import NavbarThemeToggle from './navbar-theme-toggle.svelte';
-	import { getSelectedLanguage } from './utils.svelte';
+	import { getSelectedLanguage } from './utils';
 	import { NAVEGATION_BUTTONS, SERVICE_PAGES } from './constants';
 
 

@@ -6,19 +6,19 @@
 	import Button from '../button/button.svelte';
 
 	import { SUPPORTED_LANGUAGES } from './constants';
-	import { getSelectedLanguage } from './utils.svelte';
+	import { getSelectedLanguage } from './utils';
 
 	const { class: className }: { class?: string } = $props();
 	const selectedLanguage = getSelectedLanguage();
-
-
 </script>
 
 <Popover.Root>
 	<Popover.Trigger>
-		<Button class={className} variant="outline" size="icon">
-			<img class="size-5" alt={`${selectedLanguage.lang} flag`} src={selectedLanguage.emoji} />
-		</Button>
+		{#snippet child({ props })}
+			<Button class={className} variant="outline" size="icon" {...props}>
+				<img class="size-5" alt={`${selectedLanguage.lang} flag`} src={selectedLanguage.emoji} />
+			</Button>
+		{/snippet}
 	</Popover.Trigger>
 	<Popover.Content class="w-full">
 		<Command.Root>
