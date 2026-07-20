@@ -6,7 +6,7 @@
 	import ImpactBanner from './impact-banner.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import Bruno from './bruno.svelte';
-	import Seo from '$lib/components/meta/seo.svelte';
+	import Seo from '$lib/components/heads/seo.svelte';
 	import { onMount } from 'svelte';
 	import { reveal, seq } from '$lib/client/animations/reveal';
 

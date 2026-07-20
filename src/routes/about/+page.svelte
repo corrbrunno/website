@@ -5,7 +5,7 @@
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 	import { Mail, MapPin, Printer, PrinterIcon } from '@lucide/svelte';
 	import AboutQrcode from './about-qrcode.svelte';
-	import Seo from '$lib/components/meta/seo.svelte';
+	import Seo from '$lib/components/heads/seo.svelte';
 	import { reveal } from '$lib/client/animations/reveal';
 
 	const pageName = m.about_name;

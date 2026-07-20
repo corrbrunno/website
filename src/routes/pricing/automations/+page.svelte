@@ -16,7 +16,7 @@
 	} from '@lucide/svelte';
 	import PricingLayoult from '../pricing-layoult.svelte';
 	import * as m from '$lib/paraglide/messages';
-	import Seo from '$lib/components/meta/seo.svelte';
+	import Seo from '$lib/components/heads/seo.svelte';
 
 const faqData = [
     {

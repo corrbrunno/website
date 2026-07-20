@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import Navbar from '$lib/components/ui/navbar/navbar.svelte';
 	import type { Snippet } from 'svelte';
 	import '../app.css';
@@ -8,6 +8,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import NavSidebar from '$lib/components/ui/navbar/nav-sidebar.svelte';
 	import { page } from '$app/state';
+	import Analytics from '$lib/components/heads/analytics.svelte';
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -33,6 +34,8 @@
 			: ''
 	);
 </script>
+
+<Analytics />
 
 <ModeWatcher />
 

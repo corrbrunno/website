@@ -5,7 +5,7 @@
 	import { ChevronRight, ChevronLeft } from '@lucide/svelte';
 	import type { PageData } from './$types';
 	import * as m from '$lib/paraglide/messages';
-	import Seo from '$lib/components/meta/seo.svelte';
+	import Seo from '$lib/components/heads/seo.svelte';
 	import { reveal } from '$lib/client/animations/reveal';
 
 	function descriptionFromContent(content: string, max = 155): string {

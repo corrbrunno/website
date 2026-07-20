@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Seo from '$lib/components/meta/seo.svelte';
+	import Seo from '$lib/components/heads/seo.svelte';
 	import Widget from '$lib/components/posts/post-widget.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import * as m from '$lib/paraglide/messages';
