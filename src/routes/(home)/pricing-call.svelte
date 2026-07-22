@@ -86,7 +86,7 @@
 	<div
 		bind:this={cardElements[cardOrder]}
 		style="top: calc(var(--spacing) * {topDistance});"
-		class="sticky h-fit max-w-xs md:static"
+		class="sticky h-fit max-w-xs md:static hover:scale-102"
 	>
 		<Card.Root onclick={() => scrollToOriginalPosition(cardOrder)}>
 			<Card.Title class="text-center text-xl font-bold">{title}</Card.Title>
