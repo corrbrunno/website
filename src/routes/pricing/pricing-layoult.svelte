@@ -29,7 +29,7 @@
 
 <div class="my-10 grid w-full grid-cols-1 gap-y-20">
 	<header use:reveal={{ direction: 'up', duration: 600 }} class="mx-4 text-balance">
-		<h1 class="mx-auto max-w-full  md:p-20 py-20 text-3xl md:text-6xl text-left font-bold sm:text-center sm:text-3xl">
+		<h1 class="mx-auto max-w-content-width  md:p-20 py-20 text-3xl md:text-6xl text-left font-bold sm:text-center sm:text-3xl">
 			{@render heading()}
 		</h1>
 	</header>
