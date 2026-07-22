@@ -2,10 +2,14 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as m from '$lib/paraglide/messages';
-
-	const BASE_TOP_VALUE = 10;
+	import { browser } from '$app/environment';
+	import { twMerge } from 'tailwind-merge';
+	import { Dot } from '@lucide/svelte';
+	const BASE_TOP_VALUE = 14;
 	const TOP_MARGIN = 20;
 	const BASE_CARD_TITLE_HEIGHT = 14;
+
+	let viewportTopPosition: number = -1;
 
 	const cardMarkers: Record<number, HTMLElement | null> = {};
 	const cardElements: Record<number, HTMLElement | null> = {};
@@ -34,6 +38,21 @@
 		}
 	];
 
+	function getMarkerPosition(num: number): number {
+		const rect = cardMarkers[num]?.getBoundingClientRect();
+		if (rect != null) return rect.top + viewportTopPosition;
+
+		// ── upper bound do último indicador = final do último card ──
+		if (num === pricingOptions.length + 1) {
+			const lastCard = cardElements[pricingOptions.length];
+			if (lastCard) {
+				return lastCard.getBoundingClientRect().bottom + viewportTopPosition;
+			}
+		}
+
+		return 0;
+	}
+
 	function scrollToOriginalPosition(cardIdx: number) {
 		const markerElm = cardMarkers[cardIdx]!;
 		const cardElm = cardElements[cardIdx]!;
@@ -50,6 +69,8 @@
 	}
 </script>
 
+<svelte:window onscroll={(e) => (viewportTopPosition = e.currentTarget.scrollY)} />
+
 {#snippet pricingCall(
 	cardOrder: number,
 	title: string,
@@ -57,7 +78,9 @@
 	description: string,
 	href: string
 )}
-	{@const topDistance = String(BASE_TOP_VALUE + TOP_MARGIN + BASE_CARD_TITLE_HEIGHT * cardOrder)}
+	{@const topDistance = String(
+		BASE_TOP_VALUE / 2 + TOP_MARGIN + BASE_CARD_TITLE_HEIGHT * cardOrder
+	)}
 
 	<div bind:this={cardMarkers[cardOrder]}></div>
 	<div
@@ -82,7 +105,7 @@
 	</div>
 {/snippet}
 
-<section class="relative flex flex-col items-center p-4 pt-20">
+<section class="relative flex flex-col items-center pt-20 pr-4">
 	<div
 		class="pointer-events-none absolute inset-0 mask-[linear-gradient(to_bottom,black_65%,transparent_80%)]"
 	>
@@ -96,15 +119,41 @@
 		</div>
 	</div>
 
-	<section class="relative z-3 mt-7 flex flex-col gap-7 md:flex-row">
-		{#each pricingOptions as option, i}
-			{@render pricingCall(
-				i + 1,
-				option.title(),
-				option.phrase(),
-				option.description(),
-				option.href
-			)}
-		{/each}
+	<section class="relative z-3 mt-7 flex w-full flex-row">
+		<div class="flex items-center md:hidden">
+			<div id="rail" class="h-8/10">
+				<ul
+					class="bg-card sticky top-50/100 mt-7 mr-2 flex flex-col rounded-tr-2xl rounded-br-2xl p-1 pl-0 text-center"
+				>
+					{#each pricingOptions as _, i}
+						{@const current = getMarkerPosition(i)}
+						{@const next = getMarkerPosition(i + 1)}
+						{@const halfHeight = browser ? window.innerHeight / 2 : 0}
+						{@const top = viewportTopPosition + halfHeight}
+						{@const onView = next < top && current < top}
+						<li>
+							<Dot
+								class={twMerge(
+									'size-7 rounded-2xl',
+									onView ? 'text-accent-foreground' : 'text-accent'
+								)}
+							>
+							</Dot>
+						</li>
+					{/each}
+				</ul>
+			</div>
+		</div>
+		<div class="relative m-auto flex flex-col gap-7 md:flex-row">
+			{#each pricingOptions as option, i}
+				{@render pricingCall(
+					i + 1,
+					option.title(),
+					option.phrase(),
+					option.description(),
+					option.href
+				)}
+			{/each}
+		</div>
 	</section>
 </section>
