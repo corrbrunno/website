@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as m from '$lib/paraglide/messages';
   import { page } from '$app/stores';
-	import { localizeHref } from '$lib/paraglide/runtime';
+	import { deLocalizeUrl, localizeHref } from '$lib/paraglide/runtime';
 
   let {
     title,
@@ -20,6 +20,7 @@
   } = $props();
 
   const siteUrl = "https://corrbrunno.dev.br";
+  const path = deLocalizeUrl($page.url).pathname;
   const fullUrl = `${siteUrl}${$page.url.pathname}`;
   const ogImage = $derived(image ? `${siteUrl}${image}` : `${siteUrl}/og-default.png`);
 
@@ -53,9 +54,9 @@
 
   <link rel="canonical" href={fullUrl} />
 
-  <link rel="alternate" hreflang="pt-BR" href={localizeHref("", {locale: "pt-br"})} />
-  <link rel="alternate" hreflang="en" href={localizeHref("", {locale: "en"})} />
-  <link rel="alternate" hreflang="x-default" href={localizeHref("", {locale: "pt-br"})} />
+  <link rel="alternate" hreflang="pt-BR" href={localizeHref(path, {locale: "pt-br"})} />
+  <link rel="alternate" hreflang="en" href={localizeHref(path, {locale: "en"})} />
+  <link rel="alternate" hreflang="x-default" href={localizeHref(path, {locale: "pt-br"})} />
 
   {#if jsonldItems.length}
     <script type="application/ld+json">
