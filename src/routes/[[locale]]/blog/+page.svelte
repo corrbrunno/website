@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Seo from '$lib/components/heads/seo.svelte';
+	import Seo, { type BlogJsonLd } from '$lib/components/heads/seo.svelte';
+	import { getSelectedLanguage } from '$lib/components/ui/navbar/utils';
 	import Widget from '$lib/components/posts/post-widget.svelte';
 	import * as Card from '$lib/components/ui/card';
 	import * as m from '$lib/paraglide/messages';
@@ -7,7 +8,24 @@
 	export let data;
 </script>
 
-<Seo title={m.seo_blog_title()} description={m.seo_blog_desc()} type="website" />
+<Seo
+	title={m.seo_blog_title()}
+	description={m.seo_blog_desc()}
+	type="website"
+	children={{
+		'@context': 'https://schema.org',
+		'@type': 'Blog',
+		inLanguage: getSelectedLanguage().locale,
+		name: m.seo_sitename(),
+		url: 'https://corrbrunno.dev.br/blog',
+		blogPost: data.posts.map((post) => ({
+			'@type': 'BlogPosting',
+			headline: post.title,
+			url: `https://corrbrunno.dev.br/blog/${encodeURIComponent(post.slug)}`,
+			datePublished: post.date.split('/').reverse().join('-')
+		}))
+	}}
+/>
 
 <section
 	class="max-w-content-width mt-10 mr-auto ml-auto flex w-full flex-col content-center items-center p-5"

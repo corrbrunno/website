@@ -12,6 +12,7 @@
     import PricingLayoult from '../pricing-layoult.svelte';
     import * as m from '$lib/paraglide/messages';
 	import Seo from '$lib/components/heads/seo.svelte';
+	import { getSelectedLanguage } from '$lib/components/ui/navbar/utils';
 
     const faqData = [
         {
@@ -123,7 +124,53 @@
     ];
 </script>
 
-<Seo title={m.seo_websites_title()} description={m.seo_websites_desc()} />
+<Seo
+	title={m.seo_websites_title()}
+	description={m.seo_websites_desc()}
+	children={[
+		{
+			'@context': 'https://schema.org',
+			'@type': 'WebPage',
+			inLanguage: getSelectedLanguage().locale,
+			name: m.seo_websites_title(),
+			mainEntity: { '@id': 'https://corrbrunno.dev.br/#websites' }
+		},
+		{
+			'@context': 'https://schema.org',
+			'@type': 'Service',
+			'@id': 'https://corrbrunno.dev.br/#websites',
+			name: m.seo_service_websites_name(),
+			serviceType: m.seo_service_websites_name(),
+			description: m.seo_websites_desc(),
+			areaServed: 'Saquarema',
+			offers: {
+				'@type': 'AggregateOffer',
+				lowPrice: Math.min(...pricingCardsData.map((card) => card.price)),
+				highPrice: Math.max(...pricingCardsData.map((card) => card.price)),
+				priceCurrency: 'BRL',
+				offerCount: pricingCardsData.length,
+				offers: pricingCardsData.map((card) => ({
+					'@type': 'Offer',
+					name: card.title(),
+					description: card.paymentFrequency(),
+					price: card.price,
+					priceCurrency: 'BRL'
+				}))
+			},
+			provider: { '@type': 'Person', name: m.about_name(), url: 'https://corrbrunno.dev.br/about' }
+		},
+		{
+			'@context': 'https://schema.org',
+			'@type': 'FAQPage',
+			inLanguage: getSelectedLanguage().locale,
+			mainEntity: faqData.map((item) => ({
+				'@type': 'Question',
+				name: item.question(),
+				acceptedAnswer: { '@type': 'Answer', text: item.answer() }
+			}))
+		}
+	]}
+/>
 
 <PricingLayoult
     keyPointsTitle={m.websites_key_points_title()}

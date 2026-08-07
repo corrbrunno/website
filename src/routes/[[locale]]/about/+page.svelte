@@ -6,6 +6,7 @@
 	import { Mail, MapPin, Printer, PrinterIcon } from '@lucide/svelte';
 	import AboutQrcode from './about-qrcode.svelte';
 	import Seo from '$lib/components/heads/seo.svelte';
+	import { getSelectedLanguage } from '$lib/components/ui/navbar/utils';
 	import { reveal } from '$lib/client/animations/reveal';
 
 	const pageName = m.about_name;
@@ -120,7 +121,40 @@
 	];
 </script>
 
-<Seo title={m.seo_about_title()} description={m.seo_about_desc()} type="profile" />
+<Seo
+	title={m.seo_about_title()}
+	description={m.seo_about_desc()}
+	type="profile"
+	children={[
+		{
+			'@context': 'https://schema.org',
+			'@type': 'ProfilePage',
+			inLanguage: getSelectedLanguage().locale,
+			name: m.seo_about_title(),
+			url: 'https://corrbrunno.dev.br/about',
+			mainEntity: { '@id': 'https://corrbrunno.dev.br/#person' }
+		},
+		{
+			'@context': 'https://schema.org',
+			'@type': 'Person',
+			'@id': 'https://corrbrunno.dev.br/#person',
+			name: m.about_name(),
+			url: 'https://corrbrunno.dev.br/about',
+			jobTitle: m.about_title_role(),
+			description: m.seo_about_desc(),
+			address: { '@type': 'PostalAddress', addressLocality: 'Saquarema', addressRegion: 'RJ', addressCountry: 'BR' },
+			knowsAbout: [
+				...m.about_skills_logic_items().split(',').map((s) => s.trim()),
+				...m.about_skills_web_items().split(',').map((s) => s.trim()),
+				...m.about_skills_data_items().split(',').map((s) => s.trim()),
+				...m.about_skills_infra_items().split(',').map((s) => s.trim())
+			],
+			worksFor: { '@type': 'Organization', name: m.about_role_instructor_company() },
+			alumniOf: { '@type': 'CollegeOrUniversity', name: m.about_edu_institution() },
+			sameAs: socialMediaLinks.filter((l) => l.link().startsWith('http')).map((l) => l.link())
+		}
+	]}
+/>
 
 <div id="wrapper" class="max-w-content-width mx-auto my-10 flex flex-col gap-y-5 p-4 text-balance">
 	<section use:reveal={{ direction: 'up', duration: 600 }} class="flex items-start justify-between">

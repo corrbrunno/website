@@ -6,7 +6,9 @@
 	import ImpactBanner from './impact-banner.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import Bruno from './bruno.svelte';
-	import Seo from '$lib/components/heads/seo.svelte';
+	import Seo, { type PersonJsonLd } from '$lib/components/heads/seo.svelte';
+	import { getSelectedLanguage } from '$lib/components/ui/navbar/utils';
+	import { socialMediaLinks } from '$lib/client/common/links';
 	import { onMount } from 'svelte';
 	import { reveal, seq } from '$lib/client/animations/reveal';
 
@@ -27,7 +29,32 @@
 
 </script>
 
-<Seo title={m.seo_home_title()} description={m.seo_home_desc()} />
+<Seo
+	title={m.seo_home_title()}
+	description={m.seo_home_desc()}
+	children={[
+		{
+			'@context': 'https://schema.org',
+			'@type': 'WebPage',
+			inLanguage: getSelectedLanguage().locale,
+			name: m.seo_home_title(),
+			mainEntity: { '@id': 'https://corrbrunno.dev.br/#person' }
+		},
+		{
+			'@context': 'https://schema.org',
+			'@type': 'Person',
+			'@id': 'https://corrbrunno.dev.br/#person',
+			name: m.about_name(),
+			url: 'https://corrbrunno.dev.br',
+			jobTitle: m.about_title_role(),
+			description: m.seo_home_desc(),
+			address: { '@type': 'PostalAddress', addressLocality: 'Saquarema', addressRegion: 'RJ', addressCountry: 'BR' },
+			knowsAbout: m.seo_home_knowsabout().split(',').map((s) => s.trim()),
+			worksFor: { '@type': 'Organization', name: m.about_role_instructor_company() },
+			sameAs: socialMediaLinks.filter((l) => l.link().startsWith('http')).map((l) => l.link())
+		}
+	]}
+/>
 
 <svelte:window bind:innerHeight bind:scrollY />
 <section

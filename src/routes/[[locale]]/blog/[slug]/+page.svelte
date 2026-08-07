@@ -5,7 +5,8 @@
 	import { ChevronRight, ChevronLeft } from '@lucide/svelte';
 	import type { PageData } from './$types';
 	import * as m from '$lib/paraglide/messages';
-	import Seo from '$lib/components/heads/seo.svelte';
+	import Seo, { type BlogPostingJsonLd } from '$lib/components/heads/seo.svelte';
+	import { getSelectedLanguage } from '$lib/components/ui/navbar/utils';
 	import { reveal } from '$lib/client/animations/reveal';
 
 	function descriptionFromContent(content: string, max = 155): string {
@@ -26,6 +27,15 @@
 	description={m.seo_blog_post_desc({ description: data.metadata.description ? data.metadata.description : "" })}
 	type="article"
 	publishedTime={data.metadata.date}
+	children={{
+		'@context': 'https://schema.org',
+		'@type': 'BlogPosting',
+		inLanguage: getSelectedLanguage().locale,
+		headline: data.metadata.title,
+		description: data.metadata.description ? data.metadata.description : '',
+		datePublished: data.metadata.date.split('/').reverse().join('-'),
+		author: { '@type': 'Person', name: m.about_name(), url: 'https://corrbrunno.dev.br/about' }
+	}}
 />
 
 <div class="mr-4 ml-4">
