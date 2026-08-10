@@ -9,7 +9,7 @@ export const GET: RequestHandler = async () => {
 		locales: { default: 'pt-br', alternates: ['en'] },
 		excludeRoutePatterns: [/^\/blog\/random/],
 		paramValues: {
-			'/[[locale]]/blog/[slug]': posts.map((p) => p.slug)
+			'/[[locale=locale]]/blog/[slug]': posts.map((p) => p.slug)
 		},
 		defaultChangefreq: 'weekly'
 	});
