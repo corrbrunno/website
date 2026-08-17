@@ -149,7 +149,7 @@
   const siteUrl = "https://corrbrunno.dev.br";
   const path = deLocalizeUrl($page.url).pathname;
   const fullUrl = `${siteUrl}${$page.url.pathname}`;
-  const ogImage = $derived(image ? `${siteUrl}${image}` : `${siteUrl}/og-default.png`);
+  const ogImage = $derived(image ? `${siteUrl}${image}` : `${siteUrl}/og-default.webp`);
 
   // Normaliza pra sempre ser array — inLanguage é responsabilidade de quem chama
   let jsonldItems: JsonLdNode[] = $derived(
