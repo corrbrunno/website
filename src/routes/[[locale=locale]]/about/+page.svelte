@@ -1,5 +1,5 @@
 <script>
-	import { socialMediaLinks } from '$lib/client/common/links';
+	import { socialMediaLinks } from '$lib/client/constants/links';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';

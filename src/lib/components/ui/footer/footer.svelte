@@ -1,6 +1,6 @@
 <script>
 	import * as m from '$lib/paraglide/messages';
-	import { socialMediaLinks } from '$lib/client/common/links';
+	import { socialMediaLinks } from '$lib/client/constants/links';
 </script>
 
 <footer

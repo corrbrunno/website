@@ -8,7 +8,7 @@
 	import Bruno from './bruno.svelte';
 	import Seo, { type PersonJsonLd } from '$lib/components/heads/seo.svelte';
 	import { getSelectedLanguage } from '$lib/components/ui/navbar/utils';
-	import { socialMediaLinks } from '$lib/client/common/links';
+	import { socialMediaLinks } from '$lib/client/constants/links';
 	import { onMount } from 'svelte';
 	import { reveal, seq } from '$lib/client/animations/reveal';
 
