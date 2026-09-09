@@ -13,6 +13,10 @@
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 
+		// Only query/hash changed → no View Transition (screen 'blinking")
+		if (!navigation.from || !navigation.to) return;
+		if (navigation.from.url.pathname === navigation.to.url.pathname) return;
+
 		document.body.dataset.vtActive = 'true';
 
 		return new Promise((resolve) => {
