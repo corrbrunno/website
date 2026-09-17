@@ -8,6 +8,9 @@
 	import Seo, { type BlogPostingJsonLd } from '$lib/components/heads/seo.svelte';
 	import { getSelectedLanguage } from '$lib/components/ui/navbar/utils';
 	import { reveal } from '$lib/client/animations/reveal';
+	import { onMount } from 'svelte';
+	import Comments from './comments.svelte';
+	import { localizeHref } from '$lib/paraglide/runtime';
 
 	function descriptionFromContent(content: string, max = 155): string {
 		const clean = content
@@ -20,11 +23,30 @@
 
 	const { data }: { data: PageData } = $props();
 	const PostComponent = $derived(data.content);
+
+	// O load não escreve; a visita é somada no /views (load reexecuta em prefetch/invalidate).
+	let sessionViews = $state<number | null>(null);
+	const views = $derived(sessionViews ?? data.views);
+
+	onMount(async () => {
+		try {
+			const response = await fetch(`/api/posts/${encodeURIComponent(data.metadata.slug)}/views`, {
+				method: 'POST'
+			});
+			if (!response.ok) return;
+			const payload = (await response.json()) as { views?: number };
+			if (typeof payload.views === 'number') sessionViews = payload.views;
+		} catch (error) {
+			console.warn('[blog] não foi possível contar a visita:', error);
+		}
+	});
 </script>
 
 <Seo
 	title={m.seo_blog_post_title({ title: data.metadata.title })}
-	description={m.seo_blog_post_desc({ description: data.metadata.description ? data.metadata.description : "" })}
+	description={m.seo_blog_post_desc({
+		description: data.metadata.description ? data.metadata.description : ''
+	})}
 	type="article"
 	publishedTime={data.metadata.date}
 	children={{
@@ -39,8 +61,29 @@
 />
 
 <div class="mr-4 ml-4">
-	<div use:reveal={{ direction: 'up', duration: 500 }} class="max-w-content-width mr-auto ml-auto w-full pt-15">
+	<div
+		use:reveal={{ direction: 'up', duration: 500 }}
+		class="max-w-content-width mr-auto ml-auto w-full pt-15"
+	>
 		<Widget abbreviate={false} post={data.metadata} />
+
+		{#if views !== null}
+			<p class="text-muted-foreground mt-2 text-sm tabular-nums">
+				{m.blog_views({ count: views })}
+			</p>
+		{/if}
+
+		{#if data.tags?.length}
+			<ul class="mt-3 flex flex-wrap gap-2">
+				{#each data.tags as tag (tag.slug)}
+					<li>
+						<Button variant="secondary" size="sm" href={localizeHref(`/blog?tag=${tag.slug}`)}>
+							{tag.name}
+						</Button>
+					</li>
+				{/each}
+			</ul>
+		{/if}
 	</div>
 
 	<ul
@@ -75,4 +118,6 @@
 			</Card.Content>
 		</Card.Root>
 	</div>
+
+	<Comments slug={data.metadata.slug} comments={data.comments} dbReady={data.dbReady} />
 </div>
