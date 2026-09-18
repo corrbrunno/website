@@ -122,9 +122,12 @@ async function main() {
 		return;
 	}
 
-	const entries = (await readdir(postsDir)).filter((name) => /\.(svx|md)$/i.test(name));
+	// The repo may ship no markdown at all: content lives in the database.
+	const entries = (await readdir(postsDir).catch(() => [])).filter((name) =>
+		/\.(svx|md)$/i.test(name)
+	);
 	if (entries.length === 0) {
-		console.warn('[db:sync] no posts found in src/posts.');
+		console.warn('[db:sync] no markdown in src/posts — nothing to import (content lives in the DB).');
 		return;
 	}
 

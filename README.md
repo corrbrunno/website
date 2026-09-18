@@ -32,12 +32,13 @@ Em runtime o banco é a **única** fonte: o blog não lê arquivo nenhum.
 | **Comentários**        | tabela `comments`                          | dado que o usuário gera — não tem lugar no git                   |
 | **Contador de views**  | coluna `posts.views` + tabela `post_views` | contador + uma linha por visitante, sem contar a mesma pessoa    |
 
-O mdsvex continua no pipeline, mas **na escrita**: `npm run db:sync` lê os `.svx` de
-`src/posts/`, compila o markdown com mdsvex e grava `body_md`/`body_html` no banco. O runtime
-apenas renderiza o HTML com `{@html}`. Duas consequências: o corpo do post não pode conter
-componente Svelte interativo (vira HTML estático) e editar conteúdo é editar o banco — para
-reimportar dos arquivos use `npm run db:sync -- --force-body`. O import do corpo é único por
-post: o que já está gravado não é sobrescrito pelos arquivos.
+O mdsvex continua no pipeline, mas **na escrita**: `npm run db:sync` compila markdown com
+mdsvex e grava `body_md`/`body_html` no banco; o runtime apenas renderiza o HTML com `{@html}`.
+O repositório **não tem mais arquivos de post** — `src/posts/` está vazio e o conteúdo vive só
+no banco. Um `.svx`/`.md` colocado em `src/posts/` volta a ser importado pelo `db:sync`
+(`--force-body` reimporta o corpo de um post que já existe); os originais dos posts atuais
+seguem no histórico do git. Duas consequências: editar conteúdo é editar o banco, e o corpo do
+post não aceita componente Svelte interativo (vira HTML estático).
 
 Com o banco fora do ar, as rotas do blog respondem **503 com mensagem** (via `+error.svelte`);
 não existe mais degradação para lista vazia nem fallback para arquivo. A home continua no ar,
