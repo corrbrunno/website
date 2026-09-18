@@ -3,7 +3,6 @@ import type { RequestHandler } from './$types';
 import { getPosts } from '$lib/client/posts';
 import { getPostStats, getTagsByPost, isDbConfigured } from '$lib/server/db/queries';
 
-/** GET /api/posts — metadados do mdsvex + contadores e tags do banco. */
 export const GET: RequestHandler = async () => {
 	const posts = await getPosts();
 
@@ -24,7 +23,7 @@ export const GET: RequestHandler = async () => {
 			}))
 		});
 	} catch (error) {
-		console.error('[api/posts] falha ao consultar o banco:', error);
+		console.error('[api/posts] query failed:', error);
 		return json({ count: posts.length, database: 'unavailable', posts }, { status: 503 });
 	}
 };

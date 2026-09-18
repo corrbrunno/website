@@ -14,7 +14,7 @@ export function isDbConfigured(): boolean {
 export function getDb(): PostgresJsDatabase<typeof schema> {
 	if (!database) {
 		if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
-		// prepare: false (pooler do Neon) e max: 1 (serverless não segura socket).
+		// prepare: false for the Neon pooler; max: 1 because serverless must not hold sockets.
 		client = postgres(env.DATABASE_URL, { prepare: false, max: 1 });
 		database = drizzle(client, { schema });
 	}

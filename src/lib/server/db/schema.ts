@@ -9,7 +9,7 @@ import {
 	timestamp
 } from 'drizzle-orm/pg-core';
 
-/** Índice consultável dos posts — o conteúdo continua sendo o `.svx` (mdsvex). */
+// Queryable index of the posts; the content itself stays in the .svx files (mdsvex).
 export const posts = pgTable('posts', {
 	slug: text('slug').primaryKey(),
 	title: text('title').notNull(),
@@ -39,6 +39,19 @@ export const postTags = pgTable(
 	(table) => [primaryKey({ columns: [table.postSlug, table.tagId] })]
 );
 
+// One row per visitor per post: keeps `posts.views` from counting the same person twice.
+export const postViews = pgTable(
+	'post_views',
+	{
+		postSlug: text('post_slug')
+			.notNull()
+			.references(() => posts.slug, { onDelete: 'cascade' }),
+		visitorHash: text('visitor_hash').notNull(),
+		viewedAt: timestamp('viewed_at', { withTimezone: true }).notNull().defaultNow()
+	},
+	(table) => [primaryKey({ columns: [table.postSlug, table.visitorHash] })]
+);
+
 export const comments = pgTable(
 	'comments',
 	{
@@ -49,15 +62,15 @@ export const comments = pgTable(
 		author: text('author').notNull(),
 		body: text('body').notNull(),
 		status: text('status').notNull().default('approved'),
-		// Posse, não autenticação: o autor guarda o token e remove o próprio comentário sem login.
+		// Proof of ownership, not authentication: the author keeps the token to delete their own comment.
 		deleteToken: text('delete_token').notNull(),
-		// HMAC do IP (nunca o IP cru) — só para limitar frequência.
-		ipHash: text('ip_hash'),
+		// HMAC of the visitor identity (never the raw IP), used for the rate limit.
+		visitorHash: text('visitor_hash'),
 		createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
 	},
 	(table) => [
 		index('comments_slug_created_idx').on(table.postSlug, table.createdAt),
-		index('comments_ip_idx').on(table.ipHash, table.createdAt)
+		index('comments_visitor_idx').on(table.visitorHash, table.createdAt)
 	]
 );
 

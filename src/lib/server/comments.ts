@@ -1,8 +1,7 @@
 import { createHmac } from 'node:crypto';
 import { env } from '$env/dynamic/private';
 
-// Regras usadas pela form action E pela API — se cada porta validasse sozinha, a mais frouxa viraria a regra real.
-
+// Validation used by both the form action and the API: a weaker rule on one door becomes the real rule.
 export const COMMENT_LIMITS = {
 	authorMin: 2,
 	authorMax: 40,
@@ -40,16 +39,17 @@ export function validateComment(author: unknown, body: unknown): ValidationResul
 	return { ok: true, value: { author: cleanAuthor, body: cleanBody } };
 }
 
-/** Só campo preenchido é sinal de bot: ausente pode ser cliente legítimo (curl, API). */
+// Only a filled field signals a bot: an absent one can be a legit client (curl, API).
 export function isHoneypotFilled(value: unknown): boolean {
 	return typeof value === 'string' && value.trim().length > 0;
 }
 
 export const RATE_LIMIT_SECONDS = 30;
 
-/** Sem `COMMENT_IP_SECRET` devolve null: o rate limit fica desligado em vez de bloquear. */
-export function hashIp(ip: string | null | undefined): string | null {
-	const secret = env.COMMENT_IP_SECRET;
+// Pseudonymous visitor id for the rate limit and the view counter. Returns null
+// without VISITOR_HASH_SECRET, which disables both instead of blocking anything.
+export function hashVisitor(ip: string | null | undefined): string | null {
+	const secret = env.VISITOR_HASH_SECRET;
 	if (!ip || !secret) return null;
 	return createHmac('sha256', secret).update(ip).digest('hex').slice(0, 32);
 }

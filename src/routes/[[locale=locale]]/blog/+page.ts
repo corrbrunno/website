@@ -1,7 +1,7 @@
 import type { PageLoad } from './$types';
 import { getPosts } from '$lib/client/posts';
 
-// Corpo e metadados vêm do mdsvex; contadores, tags e busca vêm do índice no banco.
+// Content and metadata come from mdsvex; counters, tags and search come from the DB index.
 export const load: PageLoad = async ({ data }) => {
 	const posts = await getPosts();
 

@@ -24,13 +24,13 @@ npm run lint       # prettier + eslint
 
 A divisão de responsabilidade é intencional:
 
-| Camada                 | Onde vive                          | Por quê                                                         |
-| ---------------------- | ---------------------------------- | --------------------------------------------------------------- |
-| **Conteúdo dos posts** | `src/posts/*.svx` (git)            | versionado, renderizado pelo mdsvex, sem dependência de runtime |
-| **Índice dos posts**   | tabela `posts`                     | listar, buscar e filtrar precisa de consulta, não de arquivo    |
-| **Tags**               | tabelas `tags` + `post_tags` (N:N) | filtrar por tag e montar a nuvem de tags                        |
-| **Comentários**        | tabela `comments`                  | dado que o usuário gera — não tem lugar no git                  |
-| **Contador de views**  | coluna `posts.views`               | escrita automática, incremento atômico                          |
+| Camada                 | Onde vive                                  | Por quê                                                                       |
+| ---------------------- | ------------------------------------------ | ----------------------------------------------------------------------------- |
+| **Conteúdo dos posts** | `src/posts/*.svx` (git)                    | versionado, renderizado pelo mdsvex, sem dependência de runtime               |
+| **Índice dos posts**   | tabela `posts`                             | listar, buscar e filtrar precisa de consulta, não de arquivo                  |
+| **Tags**               | tabelas `tags` + `post_tags` (N:N)         | filtrar por tag e montar a nuvem de tags                                      |
+| **Comentários**        | tabela `comments`                          | dado que o usuário gera — não tem lugar no git                                |
+| **Contador de views**  | coluna `posts.views` + tabela `post_views` | contador + uma linha por visitante, para não contar a mesma pessoa duas vezes |
 
 O `.svx` continua sendo a **fonte da verdade do conteúdo**: o banco é um índice sincronizado
 por `npm run db:sync` (roda também no `prebuild`). Se o banco cair, o blog continua
@@ -45,7 +45,7 @@ Copie `.env.example` para `.env` e preencha:
 | `DATABASE_URL`          | sim         | endpoint **pooled** (`-pooler`) do Neon — é o que a aplicação usa                                          |
 | `DATABASE_URL_UNPOOLED` | para migrar | endpoint **direto** (sem `-pooler`), usado por `db:push`/`db:migrate`; se ausente, cai para `DATABASE_URL` |
 | `COMMENTS_ADMIN_TOKEN`  | não         | token que autoriza remover qualquer comentário via API                                                     |
-| `COMMENT_IP_SECRET`     | não         | segredo do hash de IP usado no rate limit; sem ele o rate limit fica desligado                             |
+| `VISITOR_HASH_SECRET`   | sim         | segredo do hash pseudônimo do visitante (rate limit e dedupe de views); sem ele os dois ficam desligados   |
 
 ### Comandos
 

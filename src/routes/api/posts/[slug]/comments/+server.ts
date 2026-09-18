@@ -7,9 +7,8 @@ import {
 	isRateLimited,
 	listComments
 } from '$lib/server/db/queries';
-import { hashIp, isHoneypotFilled, validateComment } from '$lib/server/comments';
+import { hashVisitor, isHoneypotFilled, validateComment } from '$lib/server/comments';
 
-/** GET — comentários aprovados (nunca inclui o token de posse). */
 export const GET: RequestHandler = async ({ params }) => {
 	if (!isDbConfigured()) return json({ error: 'database_not_configured' }, { status: 503 });
 
@@ -17,12 +16,12 @@ export const GET: RequestHandler = async ({ params }) => {
 		const comments = await listComments(params.slug);
 		return json({ count: comments.length, comments });
 	} catch (error) {
-		console.error('[api/comments] falha ao listar:', error);
+		console.error('[api/comments] list failed:', error);
 		return json({ error: 'database_unavailable' }, { status: 503 });
 	}
 };
 
-/** POST — cria comentário. Body: { author, body, website? } */
+/** POST — creates a comment. Body: { author, body, website? } */
 export const POST: RequestHandler = async ({ params, request, getClientAddress }) => {
 	if (!isDbConfigured()) return json({ error: 'database_not_configured' }, { status: 503 });
 
@@ -40,14 +39,14 @@ export const POST: RequestHandler = async ({ params, request, getClientAddress }
 	if (!result.ok) return json({ error: result.code }, { status: 400 });
 
 	try {
-		const ipHash = hashIp(getClientAddress());
-		if (await isRateLimited(ipHash)) return json({ error: 'rate_limited' }, { status: 429 });
+		const visitorHash = hashVisitor(getClientAddress());
+		if (await isRateLimited(visitorHash)) return json({ error: 'rate_limited' }, { status: 429 });
 
 		const comment = await addComment({
 			postSlug: params.slug,
 			author: result.value.author,
 			body: result.value.body,
-			ipHash
+			visitorHash
 		});
 
 		return json(
@@ -60,12 +59,12 @@ export const POST: RequestHandler = async ({ params, request, getClientAddress }
 			{ status: 201 }
 		);
 	} catch (error) {
-		console.error('[api/comments] falha ao gravar:', error);
+		console.error('[api/comments] insert failed:', error);
 		return json({ error: 'save_failed' }, { status: 503 });
 	}
 };
 
-/** DELETE — Body: { id, token } (o token da criação, ou COMMENTS_ADMIN_TOKEN). */
+/** DELETE — Body: { id, token } (the token from creation, or COMMENTS_ADMIN_TOKEN). */
 export const DELETE: RequestHandler = async ({ params, request }) => {
 	if (!isDbConfigured()) return json({ error: 'database_not_configured' }, { status: 503 });
 
@@ -85,7 +84,7 @@ export const DELETE: RequestHandler = async ({ params, request }) => {
 		if (!removed) return json({ error: 'not_allowed' }, { status: 403 });
 		return new Response(null, { status: 204 });
 	} catch (error) {
-		console.error('[api/comments] falha ao remover:', error);
+		console.error('[api/comments] delete failed:', error);
 		return json({ error: 'delete_failed' }, { status: 503 });
 	}
 };

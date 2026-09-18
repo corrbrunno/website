@@ -5,6 +5,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
+	import TagCombobox from './tag-combobox.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { reveal } from '$lib/client/animations/reveal';
 	import type { PageData } from './$types';
@@ -44,41 +45,28 @@
 		</Card.Header>
 	</Card.Root>
 
-	<form method="GET" class="mb-4 flex w-full flex-wrap items-center gap-2">
-		<Input
-			name="q"
-			value={data.filters.q ?? ''}
-			placeholder={m.blog_search_placeholder()}
-			aria-label={m.blog_search_placeholder()}
-			class="max-w-sm"
-		/>
-		{#if data.filters.tag}
-			<input type="hidden" name="tag" value={data.filters.tag} />
+	<div class="mb-8 flex w-full flex-wrap items-center gap-2">
+		{#if data.tagCloud.length > 0}
+			<TagCombobox tags={data.tagCloud} selected={data.filters.tag} />
 		{/if}
-		<Button type="submit" variant="secondary">{m.blog_search_action()}</Button>
-		{#if data.filters.q || data.filters.tag}
-			<Button variant="ghost" href="?">{m.blog_filter_clear()}</Button>
-		{/if}
-	</form>
 
-	{#if data.tagCloud.length > 0}
-		<ul class="mb-8 flex w-full flex-wrap gap-2">
-			{#each data.tagCloud as tag, i (tag.slug)}
-				<li use:reveal={{ direction: 'up', duration: 400, stagger: i * 40 }}>
-					<a
-						href="?tag={tag.slug}"
-						class="hover:border-primary inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition-colors {data
-							.filters.tag === tag.slug
-							? 'border-primary text-primary'
-							: 'text-muted-foreground'}"
-					>
-						{tag.name}
-						<span class="text-xs tabular-nums opacity-70">{tag.total}</span>
-					</a>
-				</li>
-			{/each}
-		</ul>
-	{/if}
+		<form method="GET" class="flex flex-1 flex-wrap items-center gap-2">
+			<Input
+				name="q"
+				value={data.filters.q ?? ''}
+				placeholder={m.blog_search_placeholder()}
+				aria-label={m.blog_search_placeholder()}
+				class="max-w-sm"
+			/>
+			{#if data.filters.tag}
+				<input type="hidden" name="tag" value={data.filters.tag} />
+			{/if}
+			<Button type="submit" variant="secondary">{m.blog_search_action()}</Button>
+			{#if data.filters.q || data.filters.tag}
+				<Button variant="ghost" href="/blog">{m.blog_filter_clear()}</Button>
+			{/if}
+		</form>
+	</div>
 
 	{#if data.searchUnavailable}
 		<p class="text-muted-foreground mb-4 w-full rounded-xl border border-dashed p-3 text-sm">

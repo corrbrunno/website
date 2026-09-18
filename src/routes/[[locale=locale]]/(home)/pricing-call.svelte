@@ -42,7 +42,7 @@
 		const rect = cardMarkers[num]?.getBoundingClientRect();
 		if (rect != null) return rect.top + viewportTopPosition;
 
-		// ── upper bound do último indicador = final do último card ──
+		// ── upper bound of the last indicator = end of the last card ──
 		if (num === pricingOptions.length + 1) {
 			const lastCard = cardElements[pricingOptions.length];
 			if (lastCard) {
@@ -86,7 +86,7 @@
 	<div
 		bind:this={cardElements[cardOrder]}
 		style="top: calc(var(--spacing) * {topDistance});"
-		class="sticky h-fit max-w-xs md:static hover:scale-102"
+		class="sticky h-fit max-w-xs hover:scale-102 md:static"
 	>
 		<Card.Root onclick={() => scrollToOriginalPosition(cardOrder)}>
 			<Card.Title class="text-center text-xl font-bold">{title}</Card.Title>
@@ -137,8 +137,7 @@
 									'size-7 rounded-2xl',
 									onView ? 'text-accent-foreground' : 'text-accent'
 								)}
-							>
-							</Dot>
+							></Dot>
 						</li>
 					{/each}
 				</ul>

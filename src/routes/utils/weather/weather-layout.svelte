@@ -38,7 +38,7 @@
 
 	const locale = getLocale();
 
-	// ---- Ícone WMO (weather_code) → componente lucide -------------------------
+	// ---- WMO icon (weather_code) → lucide component -------------------------
 
 	type IconComponent = Component<{ class?: string }>;
 	const WMO_ICONS: Record<number, IconComponent> = {
@@ -103,7 +103,6 @@
 			block: 'nearest'
 		});
 	});
-
 
 	function formatTime(epochSeconds: number, options: Intl.DateTimeFormatOptions = {}): string {
 		return new Intl.DateTimeFormat(locale, { timeZone: 'UTC', ...options }).format(
@@ -296,42 +295,42 @@
 					{text(weather?.current.temperature, (wct) => tempText(wct))}
 				</p>
 			</div>
-			<dl class="flex justify-center flex-1">
+			<dl class="flex flex-1 justify-center">
 				<div class="flex flex-wrap justify-between gap-x-9 gap-y-3 text-sm *:gap-x-8">
-                <div class="flex max-w-full flex-1 justify-between">
-					<div>
-						<dt class="text-muted-foreground text-xs">{m.utils_weather_feels_like()}</dt>
-						<dd class="font-medium tabular-nums">
-							{text(weather?.current.apparentTemperature, (wcaT) => tempText(wcaT))}
-						</dd>
+					<div class="flex max-w-full flex-1 justify-between">
+						<div>
+							<dt class="text-muted-foreground text-xs">{m.utils_weather_feels_like()}</dt>
+							<dd class="font-medium tabular-nums">
+								{text(weather?.current.apparentTemperature, (wcaT) => tempText(wcaT))}
+							</dd>
+						</div>
+						<div>
+							<dt class="text-muted-foreground text-xs">{m.utils_weather_precipitation()}</dt>
+							<dd class="font-medium tabular-nums">
+								{text(weather?.current.precipitation, (wcp) => amountText(wcp))}
+							</dd>
+						</div>
 					</div>
-					<div>
-						<dt class="text-muted-foreground text-xs">{m.utils_weather_precipitation()}</dt>
-						<dd class="font-medium tabular-nums">
-							{text(weather?.current.precipitation, (wcp) => amountText(wcp))}
-						</dd>
+					<div class="flex max-w-full flex-1 justify-between">
+						<div>
+							<dt class="text-muted-foreground text-xs">{m.utils_weather_wind()}</dt>
+							<dd class="font-medium text-nowrap tabular-nums">
+								{text(weather?.current.windSpeed, (wcws) => `${Math.round(wcws)} km/h`)}
+								{#if weather?.current.windDirection != null}
+									<span class="text-muted-foreground ml-1">
+										{windDirection(weather.current.windDirection)}
+									</span>
+								{/if}
+							</dd>
+						</div>
+						<div>
+							<dt class="text-muted-foreground text-xs">{m.utils_weather_humidity()}</dt>
+							<dd class="font-medium tabular-nums">
+								{text(weather?.current.humidity, (wch) => `${Math.round(wch)}%`)}
+							</dd>
+						</div>
 					</div>
 				</div>
-				<div class="flex max-w-full flex-1 justify-between">
-					<div>
-						<dt class="text-muted-foreground text-xs">{m.utils_weather_wind()}</dt>
-						<dd class="font-medium text-nowrap tabular-nums">
-							{text(weather?.current.windSpeed, (wcws) => `${Math.round(wcws)} km/h`)}
-							{#if weather?.current.windDirection != null}
-								<span class="text-muted-foreground ml-1">
-									{windDirection(weather.current.windDirection)}
-								</span>
-							{/if}
-						</dd>
-					</div>
-					<div>
-						<dt class="text-muted-foreground text-xs">{m.utils_weather_humidity()}</dt>
-						<dd class="font-medium tabular-nums">
-							{text(weather?.current.humidity, (wch) => `${Math.round(wch)}%`)}
-						</dd>
-					</div>
-				</div>
-                </div>
 			</dl>
 		</div>
 

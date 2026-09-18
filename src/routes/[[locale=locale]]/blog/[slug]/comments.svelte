@@ -10,7 +10,7 @@
 	const { slug, comments, dbReady }: { slug: string; comments: Comment[]; dbReady: boolean } =
 		$props();
 
-	// Nome lembrado entre visitas + comprovante de posse dos comentários deste navegador.
+	// Remembers the author name and the ownership token of this browser's comments.
 	const authorKey = 'blog:comment-author';
 	const tokensKey = 'blog:comment-tokens';
 

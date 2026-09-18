@@ -24,7 +24,7 @@
 	const { data }: { data: PageData } = $props();
 	const PostComponent = $derived(data.content);
 
-	// O load não escreve; a visita é somada no /views (load reexecuta em prefetch/invalidate).
+	// The load never writes; the view is counted in /views (loads re-run on prefetch/invalidate).
 	let sessionViews = $state<number | null>(null);
 	const views = $derived(sessionViews ?? data.views);
 

@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { and, asc, count, desc, eq, ilike, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, sql } from 'drizzle-orm';
 import { env } from '$env/dynamic/private';
 import { getDb, isDbConfigured } from './index';
 import { comments, postTags, posts, tags } from './schema';
@@ -7,6 +7,9 @@ import type { Comment, PostStats, TagSummary } from '$lib/types';
 import { RATE_LIMIT_SECONDS } from '$lib/server/comments';
 
 export { isDbConfigured };
+
+// A view counts once per visitor per window, not on every reload.
+const VIEW_WINDOW_DAYS = 1;
 
 export async function getPostStats(): Promise<Record<string, PostStats>> {
 	const db = getDb();
@@ -31,7 +34,7 @@ export async function getPostStats(): Promise<Record<string, PostStats>> {
 export async function getTagsByPost(): Promise<Record<string, string[]>> {
 	const db = getDb();
 	const rows = await db
-		.select({ postSlug: postTags.postSlug, name: tags.name, slug: tags.slug })
+		.select({ postSlug: postTags.postSlug, name: tags.name })
 		.from(postTags)
 		.innerJoin(tags, eq(tags.id, postTags.tagId))
 		.orderBy(asc(tags.name));
@@ -65,7 +68,7 @@ export async function listTagsForPost(slug: string): Promise<TagSummary[]> {
 	return rows.map((row) => ({ slug: row.slug, name: row.name, total: 0 }));
 }
 
-/** Sem filtro devolve null: a listagem completa vem dos arquivos do mdsvex. */
+/** Returns null when there is no filter, so the caller keeps the full mdsvex list. */
 export async function findPostSlugs(filter: {
 	q?: string | null;
 	tag?: string | null;
@@ -110,7 +113,7 @@ export async function findPostSlugs(filter: {
 	return rows.map((row) => row.slug);
 }
 
-/** null = slug ainda não sincronizado (a UI esconde o contador). */
+/** null means the slug is not synced yet (the UI hides the counter). */
 export async function getPostViews(slug: string): Promise<number | null> {
 	const db = getDb();
 	const [row] = await db
@@ -121,20 +124,47 @@ export async function getPostViews(slug: string): Promise<number | null> {
 	return row?.views ?? null;
 }
 
-/** Não cria linha: post não sincronizado não ganha view. */
-export async function registerView(slug: string): Promise<number | null> {
+/**
+ * Counts a view and returns the new total, once per visitor per VIEW_WINDOW_DAYS.
+ * An unclaimed insert means the visitor is still inside the window.
+ */
+export async function registerView(
+	slug: string,
+	visitorHash: string | null
+): Promise<number | null> {
 	const db = getDb();
-	const rows = await db
+
+	const [post] = await db
+		.select({ views: posts.views })
+		.from(posts)
+		.where(eq(posts.slug, slug))
+		.limit(1);
+	if (!post) return null;
+
+	if (visitorHash) {
+		const claimed = await db.execute(sql`
+			insert into post_views (post_slug, visitor_hash, viewed_at)
+			values (${slug}, ${visitorHash}, now())
+			on conflict (post_slug, visitor_hash)
+			do update set viewed_at = now()
+			where post_views.viewed_at < now() - interval '1 day' * ${VIEW_WINDOW_DAYS}
+			returning viewed_at
+		`);
+		if (claimed.length === 0) return post.views;
+	}
+
+	const [updated] = await db
 		.update(posts)
 		.set({ views: sql`${posts.views} + 1` })
 		.where(eq(posts.slug, slug))
 		.returning({ views: posts.views });
-	return rows[0]?.views ?? null;
+
+	return updated?.views ?? post.views;
 }
 
 export async function listComments(slug: string): Promise<Comment[]> {
 	const db = getDb();
-	// Nunca expõe delete_token: vazado na leitura pública, qualquer um apagaria tudo.
+	// Never selects delete_token: leaking it in a public read would let anyone delete anything.
 	const rows = await db
 		.select({
 			id: comments.id,
@@ -154,9 +184,9 @@ export async function listComments(slug: string): Promise<Comment[]> {
 	}));
 }
 
-/** Sem hash sempre false: configuração ausente não bloqueia comentário. */
-export async function isRateLimited(ipHash: string | null): Promise<boolean> {
-	if (!ipHash) return false;
+/** A missing hash returns false: absent configuration disables the limit instead of blocking. */
+export async function isRateLimited(visitorHash: string | null): Promise<boolean> {
+	if (!visitorHash) return false;
 
 	const db = getDb();
 	const [row] = await db
@@ -164,7 +194,7 @@ export async function isRateLimited(ipHash: string | null): Promise<boolean> {
 		.from(comments)
 		.where(
 			and(
-				eq(comments.ipHash, ipHash),
+				eq(comments.visitorHash, visitorHash),
 				sql`${comments.createdAt} > now() - interval '1 second' * ${RATE_LIMIT_SECONDS}`
 			)
 		)
@@ -177,7 +207,7 @@ export async function addComment(input: {
 	postSlug: string;
 	author: string;
 	body: string;
-	ipHash: string | null;
+	visitorHash: string | null;
 }): Promise<{ id: number; deleteToken: string }> {
 	const db = getDb();
 	const [row] = await db
@@ -186,7 +216,7 @@ export async function addComment(input: {
 			postSlug: input.postSlug,
 			author: input.author,
 			body: input.body,
-			ipHash: input.ipHash,
+			visitorHash: input.visitorHash,
 			deleteToken: randomUUID()
 		})
 		.returning({ id: comments.id, deleteToken: comments.deleteToken });
@@ -194,7 +224,7 @@ export async function addComment(input: {
 	return { id: row.id, deleteToken: row.deleteToken };
 }
 
-/** Aceita o token do autor ou o COMMENTS_ADMIN_TOKEN. */
+/** Accepts the author's token or the COMMENTS_ADMIN_TOKEN. */
 export async function deleteComment(input: {
 	id: number;
 	postSlug: string;

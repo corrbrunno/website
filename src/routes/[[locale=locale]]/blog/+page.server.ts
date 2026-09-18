@@ -13,7 +13,7 @@ export interface BlogFilters {
 	tag: string | null;
 }
 
-/** Índice do banco para a listagem. Sem banco, a lista vem dos arquivos do mdsvex. */
+// DB index for the listing; without a database the list falls back to the mdsvex files.
 export const load: PageServerLoad = async ({ url }) => {
 	const filters: BlogFilters = {
 		q: url.searchParams.get('q')?.trim() || null,
@@ -41,7 +41,7 @@ export const load: PageServerLoad = async ({ url }) => {
 
 		return { stats, tagsByPost, tagCloud, matchedSlugs, filters, dbReady: true };
 	} catch (error) {
-		console.error('[blog] banco indisponível na listagem:', error);
+		console.error('[blog] listing load failed:', error);
 		return empty;
 	}
 };

@@ -1,17 +1,14 @@
 #!/usr/bin/env node
-// Espelha o frontmatter dos .svx no índice do banco (posts / tags / post_tags).
-// Idempotente e não-fatal: sem banco ou sem env var, avisa e sai com 0.
+// Mirrors the .svx frontmatter into the DB index; idempotent and non-fatal (warns and exits 0).
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import postgres from 'postgres';
 
-// Node não carrega .env sozinho (o drizzle-kit carrega). Sem isso, `npm run db:sync`
-// roda sem DATABASE_URL. Na Vercel não existe .env — as variáveis vêm do ambiente.
+// Node does not load .env on its own (drizzle-kit does). Without this, `npm run db:sync`
+// runs without DATABASE_URL. On Vercel there is no .env — the platform provides the vars.
 try {
 	process.loadEnvFile('.env');
-} catch {
-	// sem .env: segue com o que já está no ambiente
-}
+} catch {}
 
 const postsDir = join(process.cwd(), 'src', 'posts');
 
@@ -83,13 +80,13 @@ function normalizeTags(value) {
 async function main() {
 	const connectionString = process.env.DATABASE_URL;
 	if (!connectionString) {
-		console.warn('[db:sync] DATABASE_URL ausente — sincronização ignorada.');
+		console.warn('[db:sync] DATABASE_URL missing — sync skipped.');
 		return;
 	}
 
 	const entries = (await readdir(postsDir)).filter((name) => /\.(svx|md)$/i.test(name));
 	if (entries.length === 0) {
-		console.warn('[db:sync] nenhum post encontrado em src/posts.');
+		console.warn('[db:sync] no posts found in src/posts.');
 		return;
 	}
 
@@ -102,7 +99,7 @@ async function main() {
 
 		if (!publishedAt) {
 			console.warn(
-				`[db:sync] "${entry}": campo "date" ausente ou fora do formato DD/MM/AAAA — ignorado.`
+				`[db:sync] "${entry}": missing or invalid "date" (expected DD/MM/YYYY) — skipped.`
 			);
 			continue;
 		}
@@ -117,7 +114,7 @@ async function main() {
 	}
 
 	if (rows.length === 0) {
-		console.warn('[db:sync] nada válido para sincronizar.');
+		console.warn('[db:sync] nothing valid to sync.');
 		return;
 	}
 
@@ -176,5 +173,5 @@ async function main() {
 }
 
 main().catch((error) => {
-	console.warn('[db:sync] falhou (build segue normalmente):', error.message);
+	console.warn('[db:sync] failed (build continues):', error.message);
 });

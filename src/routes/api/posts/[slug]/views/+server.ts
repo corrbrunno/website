@@ -1,8 +1,8 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getPostViews, isDbConfigured, registerView } from '$lib/server/db/queries';
+import { hashVisitor } from '$lib/server/comments';
 
-/** GET — leitura do contador. */
 export const GET: RequestHandler = async ({ params }) => {
 	if (!isDbConfigured()) return json({ error: 'database_not_configured' }, { status: 503 });
 
@@ -11,21 +11,21 @@ export const GET: RequestHandler = async ({ params }) => {
 		if (views === null) return json({ error: 'post_not_synced' }, { status: 404 });
 		return json({ slug: params.slug, views });
 	} catch (error) {
-		console.error('[api/views] falha ao ler:', error);
+		console.error('[api/views] read failed:', error);
 		return json({ error: 'database_unavailable' }, { status: 503 });
 	}
 };
 
-/** POST — incrementa o contador (uma chamada por visita do cliente). */
-export const POST: RequestHandler = async ({ params }) => {
+/** POST — counts one view per visitor (see registerView for the dedupe window). */
+export const POST: RequestHandler = async ({ params, getClientAddress }) => {
 	if (!isDbConfigured()) return json({ error: 'database_not_configured' }, { status: 503 });
 
 	try {
-		const views = await registerView(params.slug);
+		const views = await registerView(params.slug, hashVisitor(getClientAddress()));
 		if (views === null) return json({ error: 'post_not_synced' }, { status: 404 });
 		return json({ slug: params.slug, views });
 	} catch (error) {
-		console.error('[api/views] falha ao incrementar:', error);
+		console.error('[api/views] increment failed:', error);
 		return json({ error: 'database_unavailable' }, { status: 503 });
 	}
 };

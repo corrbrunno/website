@@ -9,10 +9,9 @@ import {
 	listComments,
 	listTagsForPost
 } from '$lib/server/db/queries';
-import { hashIp, isHoneypotFilled, validateComment } from '$lib/server/comments';
+import { hashVisitor, isHoneypotFilled, validateComment } from '$lib/server/comments';
 import type { Comment, TagSummary } from '$lib/types';
 
-// Só dados serializáveis aqui; o componente do mdsvex vem do `+page.ts` universal.
 export const load: PageServerLoad = async ({ params }) => {
 	if (!isDbConfigured()) {
 		return { comments: [] as Comment[], views: null, tags: [] as TagSummary[], dbReady: false };
@@ -26,7 +25,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		]);
 		return { comments, views, tags, dbReady: true };
 	} catch (error) {
-		console.error('[blog] banco indisponível no post:', error);
+		console.error('[blog] post load failed:', error);
 		return { comments: [] as Comment[], views: null, tags: [] as TagSummary[], dbReady: false };
 	}
 };
@@ -43,19 +42,19 @@ export const actions: Actions = {
 		if (!result.ok) return fail(400, { code: result.code });
 
 		try {
-			const ipHash = hashIp(getClientAddress());
-			if (await isRateLimited(ipHash)) return fail(429, { code: 'rate_limited' });
+			const visitorHash = hashVisitor(getClientAddress());
+			if (await isRateLimited(visitorHash)) return fail(429, { code: 'rate_limited' });
 
 			const { id, deleteToken } = await addComment({
 				postSlug: params.slug,
 				author: result.value.author,
 				body: result.value.body,
-				ipHash
+				visitorHash
 			});
 
 			return { ok: true, id, deleteToken };
 		} catch (error) {
-			console.error('[blog] falha ao gravar comentário:', error);
+			console.error('[blog] comment insert failed:', error);
 			return fail(500, { code: 'save_failed' });
 		}
 	},
@@ -74,7 +73,7 @@ export const actions: Actions = {
 			if (!removed) return fail(403, { code: 'not_allowed' });
 			return { ok: true, removed: id };
 		} catch (error) {
-			console.error('[blog] falha ao remover comentário:', error);
+			console.error('[blog] comment delete failed:', error);
 			return fail(500, { code: 'delete_failed' });
 		}
 	}
