@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { and, asc, count, desc, eq, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, ne, sql } from 'drizzle-orm';
 import { env } from '$env/dynamic/private';
 import { getDb, isDbConfigured } from './index';
 import { comments, postTags, posts, tags } from './schema';
@@ -116,6 +116,19 @@ export async function findPostSlugs(filter: {
 		.where(and(...conditions));
 
 	return rows.map((row) => row.slug);
+}
+
+/** Random post from the index, never the slug passed in exclude (the post the reader is on). */
+export async function getRandomPostSlug(exclude?: string | null): Promise<string | null> {
+	const db = getDb();
+	const [row] = await db
+		.select({ slug: posts.slug })
+		.from(posts)
+		.where(exclude ? ne(posts.slug, exclude) : undefined)
+		.orderBy(sql`random()`)
+		.limit(1);
+
+	return row?.slug ?? null;
 }
 
 /** null means the slug is not synced yet (the UI hides the counter). */
