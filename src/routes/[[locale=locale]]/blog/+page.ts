@@ -15,12 +15,12 @@ export const load: PageLoad = async ({ data }) => {
 		? enriched.filter((post) => data.matchedSlugs?.includes(post.slug))
 		: enriched;
 
-	const hasFilter = Boolean(data.filters?.q || data.filters?.tag);
+	const hasFilter = Boolean(data.filters?.q || data.filters?.tags?.length);
 
 	return {
 		posts: filtered,
 		tagCloud: data.tagCloud ?? [],
-		filters: data.filters ?? { q: null, tag: null },
+		filters: data.filters ?? { q: null, tags: [] },
 		searchUnavailable: hasFilter && !data.dbReady
 	};
 };

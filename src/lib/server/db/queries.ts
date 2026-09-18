@@ -71,11 +71,11 @@ export async function listTagsForPost(slug: string): Promise<TagSummary[]> {
 /** Returns null when there is no filter, so the caller keeps the full mdsvex list. */
 export async function findPostSlugs(filter: {
 	q?: string | null;
-	tag?: string | null;
+	tags?: string[];
 }): Promise<string[] | null> {
 	const term = filter.q?.trim() ?? '';
-	const tag = filter.tag?.trim() ?? '';
-	if (!term && !tag) return null;
+	const selected = (filter.tags ?? []).map((tag) => tag.trim()).filter(Boolean);
+	if (!term && selected.length === 0) return null;
 
 	const db = getDb();
 	const conditions = [];
@@ -95,12 +95,17 @@ export async function findPostSlugs(filter: {
 		);
 	}
 
-	if (tag) {
+	if (selected.length > 0) {
+		// Any of the selected tags matches (union, not intersection).
+		const slugs = sql.join(
+			selected.map((slug) => sql`${slug}`),
+			sql`, `
+		);
 		conditions.push(
 			sql`exists (
 				select 1 from ${postTags}
 				inner join ${tags} on ${tags.id} = ${postTags.tagId}
-				where ${postTags.postSlug} = ${posts.slug} and ${tags.slug} = ${tag}
+				where ${postTags.postSlug} = ${posts.slug} and ${tags.slug} in (${slugs})
 			)`
 		);
 	}

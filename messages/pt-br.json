@@ -255,6 +255,7 @@
 	"blog_tags_search": "Buscar tag…",
 	"blog_tags_empty": "Nenhuma tag encontrada.",
 	"blog_tags_label": "Filtrar por tag",
+	"blog_tags_selected": "{count} tags selecionadas",
 	"about_name": "Bruno Corrêa dos Santos",
 	"about_info_location": "Saquarema / RJ, Brasil",
 	"about_info_phone": "+55 22 99862-2070",

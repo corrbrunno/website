@@ -47,7 +47,7 @@
 
 	<div class="mb-8 flex w-full flex-wrap items-center gap-2">
 		{#if data.tagCloud.length > 0}
-			<TagCombobox tags={data.tagCloud} selected={data.filters.tag} />
+			<TagCombobox tags={data.tagCloud} selected={data.filters.tags} query={data.filters.q} />
 		{/if}
 
 		<form method="GET" class="flex flex-1 flex-wrap items-center gap-2">
@@ -58,11 +58,11 @@
 				aria-label={m.blog_search_placeholder()}
 				class="max-w-sm"
 			/>
-			{#if data.filters.tag}
-				<input type="hidden" name="tag" value={data.filters.tag} />
-			{/if}
+			{#each data.filters.tags as tag (tag)}
+				<input type="hidden" name="tag" value={tag} />
+			{/each}
 			<Button type="submit" variant="secondary">{m.blog_search_action()}</Button>
-			{#if data.filters.q || data.filters.tag}
+			{#if data.filters.q || data.filters.tags.length > 0}
 				<Button variant="ghost" href="/blog">{m.blog_filter_clear()}</Button>
 			{/if}
 		</form>

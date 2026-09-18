@@ -10,14 +10,17 @@ import type { PostStats, TagSummary } from '$lib/types';
 
 export interface BlogFilters {
 	q: string | null;
-	tag: string | null;
+	tags: string[];
 }
 
 // DB index for the listing; without a database the list falls back to the mdsvex files.
 export const load: PageServerLoad = async ({ url }) => {
 	const filters: BlogFilters = {
 		q: url.searchParams.get('q')?.trim() || null,
-		tag: url.searchParams.get('tag')?.trim() || null
+		tags: url.searchParams
+			.getAll('tag')
+			.map((tag) => tag.trim())
+			.filter(Boolean)
 	};
 
 	const empty = {
