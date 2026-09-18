@@ -1,7 +1,10 @@
 #!/usr/bin/env node
-// Mirrors the .svx frontmatter into the DB index; idempotent and non-fatal (warns and exits 0).
-import { readdir, readFile } from 'node:fs/promises';
+// Imports posts into the database: metadata, tags and the body rendered by mdsvex into HTML.
+// Idempotent and non-fatal (warns and exits 0), so a build never dies on a missing database.
+// Bodies already stored are kept unless --force-body is passed, so the DB stays the source.
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import postgres from 'postgres';
 
 // Node does not load .env on its own (drizzle-kit does). Without this, `npm run db:sync`
@@ -11,6 +14,7 @@ try {
 } catch {}
 
 const postsDir = join(process.cwd(), 'src', 'posts');
+const forceBody = process.argv.includes('--force-body');
 
 function parseFrontmatter(raw) {
 	const block = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -45,6 +49,10 @@ function parseFrontmatter(raw) {
 	return data;
 }
 
+function stripFrontmatter(raw) {
+	return raw.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, '');
+}
+
 function toIsoDate(value) {
 	if (typeof value !== 'string') return null;
 	const match = value.trim().match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
@@ -75,6 +83,36 @@ function normalizeTags(value) {
 		.filter(Boolean)
 		.map((name) => ({ name, slug: slugify(name) }))
 		.filter((tag) => tag.slug.length > 0);
+}
+
+// mdsvex turns markdown into a Svelte component; rendering it server-side gives the HTML the
+// app serves. The compiled module is written inside node_modules so its imports resolve.
+async function renderBody(markdown, filename) {
+	const [{ compile: compileMarkdown }, { compile: compileSvelte }, { render }] = await Promise.all([
+		import('mdsvex'),
+		import('svelte/compiler'),
+		import('svelte/server')
+	]);
+
+	const { code } = await compileMarkdown(markdown, { filename });
+	const compiled = compileSvelte(code, {
+		generate: 'server',
+		filename: filename.replace(/\.(svx|md)$/i, '.svelte')
+	});
+
+	const dir = join(process.cwd(), 'node_modules', '.cache', 'db-sync');
+	await mkdir(dir, { recursive: true });
+	const file = join(dir, `body-${Date.now()}-${slugify(filename)}.mjs`);
+
+	try {
+		await writeFile(file, compiled.js.code);
+		const module = await import(pathToFileURL(file).href);
+		const { body } = render(module.default, { props: {} });
+		// Svelte leaves hydration anchors behind; they mean nothing inside {@html}.
+		return body.replace(/<!--\[-->|<!--\]-->|<!---->/g, '').trim();
+	} finally {
+		await rm(file, { force: true });
+	}
 }
 
 async function main() {
@@ -109,7 +147,9 @@ async function main() {
 			title: String(data.title ?? slug),
 			description: data.description ? String(data.description) : null,
 			publishedAt,
-			tags: normalizeTags(data.tags)
+			tags: normalizeTags(data.tags),
+			body: stripFrontmatter(raw),
+			filename: entry
 		});
 	}
 
@@ -119,15 +159,30 @@ async function main() {
 	}
 
 	const sql = postgres(connectionString, { prepare: false, max: 1 });
+	let importedBodies = 0;
+
 	try {
 		for (const row of rows) {
+			const [stored] = await sql`select body_md from posts where slug = ${row.slug} limit 1`;
+			const needsBody = forceBody || !stored || stored.body_md === null;
+
+			let bodyMd = null;
+			let bodyHtml = null;
+			if (needsBody) {
+				bodyMd = row.body;
+				bodyHtml = await renderBody(bodyMd, row.filename);
+				importedBodies += 1;
+			}
+
 			await sql`
-				insert into posts (slug, title, description, published_at, updated_at)
-				values (${row.slug}, ${row.title}, ${row.description}, ${row.publishedAt}, now())
+				insert into posts (slug, title, description, published_at, body_md, body_html, updated_at)
+				values (${row.slug}, ${row.title}, ${row.description}, ${row.publishedAt}, ${bodyMd}, ${bodyHtml}, now())
 				on conflict (slug) do update set
 					title = excluded.title,
 					description = excluded.description,
 					published_at = excluded.published_at,
+					body_md = coalesce(excluded.body_md, posts.body_md),
+					body_html = coalesce(excluded.body_html, posts.body_html),
 					updated_at = now()
 			`;
 
@@ -160,7 +215,7 @@ async function main() {
 		await sql`delete from tags where id not in (select tag_id from post_tags)`;
 
 		console.log(
-			`[db:sync] ${rows.length} post(s): ${rows
+			`[db:sync] ${rows.length} post(s), ${importedBodies} body(ies) imported: ${rows
 				.map(
 					(row) =>
 						`${row.slug}${row.tags.length ? ` [${row.tags.map((t) => t.slug).join(', ')}]` : ''}`

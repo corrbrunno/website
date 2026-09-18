@@ -46,33 +46,30 @@
 	</Card.Root>
 
 	<div class="mb-8 flex w-full flex-wrap items-center gap-2">
-		{#if data.tagCloud.length > 0}
-			<TagCombobox tags={data.tagCloud} selected={data.filters.tags} query={data.filters.q} />
-		{/if}
-
-		<form method="GET" class="flex flex-1 flex-wrap items-center gap-2">
+		<form method="GET" class="max-w-content-width flex w-full flex-wrap items-center gap-2">
 			<Input
 				name="q"
 				value={data.filters.q ?? ''}
 				placeholder={m.blog_search_placeholder()}
 				aria-label={m.blog_search_placeholder()}
-				class="max-w-sm"
+				class="max-w-full flex-1"
 			/>
 			{#each data.filters.tags as tag (tag)}
 				<input type="hidden" name="tag" value={tag} />
 			{/each}
-			<Button type="submit" variant="secondary">{m.blog_search_action()}</Button>
-			{#if data.filters.q || data.filters.tags.length > 0}
-				<Button variant="ghost" href="/blog">{m.blog_filter_clear()}</Button>
-			{/if}
+			<div class="flex w-full flex-wrap justify-between gap-2 sm:w-fit sm:justify-normal">
+				<div class="flex gap-2">
+					<Button type="submit" variant="secondary">{m.blog_search_action()}</Button>
+					{#if data.filters.q || data.filters.tags.length > 0}
+						<Button variant="outline" href="/blog">{m.blog_filter_clear()}</Button>
+					{/if}
+				</div>
+				{#if data.tagCloud.length > 0}
+					<TagCombobox tags={data.tagCloud} selected={data.filters.tags} query={data.filters.q} />
+				{/if}
+			</div>
 		</form>
 	</div>
-
-	{#if data.searchUnavailable}
-		<p class="text-muted-foreground mb-4 w-full rounded-xl border border-dashed p-3 text-sm">
-			{m.blog_search_unavailable()}
-		</p>
-	{/if}
 
 	<ul class="grid w-full grid-cols-1 flex-wrap gap-3 md:grid-cols-2">
 		{#each data.posts as post, i (post.slug)}
@@ -83,7 +80,9 @@
 				<Widget class="w-10" {post}></Widget>
 			</li>
 		{:else}
-			<li class="text-muted-foreground w-full rounded-xl border border-dashed p-6 text-center">
+			<li
+				class="text-muted-foreground col-span-full w-full rounded-xl border border-dashed p-6 text-center"
+			>
 				{m.blog_no_results()}
 			</li>
 		{/each}

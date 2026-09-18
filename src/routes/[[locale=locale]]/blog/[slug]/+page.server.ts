@@ -1,32 +1,46 @@
-import { fail } from '@sveltejs/kit';
+import { error, fail, isHttpError } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import {
 	addComment,
 	deleteComment,
-	getPostViews,
+	getPost,
 	isDbConfigured,
 	isRateLimited,
 	listComments,
 	listTagsForPost
 } from '$lib/server/db/queries';
 import { hashVisitor, isHoneypotFilled, validateComment } from '$lib/server/comments';
-import type { Comment, TagSummary } from '$lib/types';
 
+// Post metadata, body HTML, counters and tags all come from the database.
 export const load: PageServerLoad = async ({ params }) => {
-	if (!isDbConfigured()) {
-		return { comments: [] as Comment[], views: null, tags: [] as TagSummary[], dbReady: false };
-	}
+	if (!isDbConfigured()) throw error(503, 'Banco de dados indisponível');
 
 	try {
-		const [comments, views, tags] = await Promise.all([
+		const [post, comments, tags] = await Promise.all([
+			getPost(params.slug),
 			listComments(params.slug),
-			getPostViews(params.slug),
 			listTagsForPost(params.slug)
 		]);
-		return { comments, views, tags, dbReady: true };
-	} catch (error) {
-		console.error('[blog] post load failed:', error);
-		return { comments: [] as Comment[], views: null, tags: [] as TagSummary[], dbReady: false };
+
+		if (!post) throw error(404, 'Post não encontrado');
+
+		return {
+			metadata: {
+				slug: post.slug,
+				title: post.title,
+				description: post.description,
+				date: post.date
+			},
+			bodyHtml: post.bodyHtml ?? '',
+			views: post.views,
+			tags,
+			comments,
+			dbReady: true
+		};
+	} catch (cause) {
+		if (isHttpError(cause)) throw cause;
+		console.error('[blog] post load failed:', cause);
+		throw error(503, 'Banco de dados indisponível');
 	}
 };
 
@@ -53,8 +67,8 @@ export const actions: Actions = {
 			});
 
 			return { ok: true, id, deleteToken };
-		} catch (error) {
-			console.error('[blog] comment insert failed:', error);
+		} catch (cause) {
+			console.error('[blog] comment insert failed:', cause);
 			return fail(500, { code: 'save_failed' });
 		}
 	},
@@ -72,8 +86,8 @@ export const actions: Actions = {
 			const removed = await deleteComment({ id, postSlug: params.slug, token });
 			if (!removed) return fail(403, { code: 'not_allowed' });
 			return { ok: true, removed: id };
-		} catch (error) {
-			console.error('[blog] comment delete failed:', error);
+		} catch (cause) {
+			console.error('[blog] comment delete failed:', cause);
 			return fail(500, { code: 'delete_failed' });
 		}
 	}

@@ -15,7 +15,8 @@ export function getDb(): PostgresJsDatabase<typeof schema> {
 	if (!database) {
 		if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
 		// prepare: false for the Neon pooler; max: 1 because serverless must not hold sockets.
-		client = postgres(env.DATABASE_URL, { prepare: false, max: 1 });
+		// connect_timeout: shorter than the 30s default so a dead database fails fast.
+		client = postgres(env.DATABASE_URL, { prepare: false, max: 1, connect_timeout: 10 });
 		database = drizzle(client, { schema });
 	}
 	return database;

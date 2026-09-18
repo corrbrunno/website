@@ -1,5 +1,3 @@
-import type { Component } from 'svelte';
-
 export interface PostMetadata {
 	title: string;
 	date: string;
@@ -11,10 +9,25 @@ export interface PostMetadata {
 	[key: string]: unknown;
 }
 
-export interface PostModule {
-	default: Component;
-	metadata: PostMetadata;
-}
+/** Listing row served straight from the database. */
+export type PostSummary = {
+	slug: string;
+	title: string;
+	description: string;
+	date: string;
+	views: number;
+};
+
+/** Post plus the body the page renders. */
+export type PostContent = PostSummary & {
+	bodyHtml: string | null;
+};
+
+/** Row with counters and tag names, ready for the post widget. */
+export type PostRecord = PostSummary & {
+	comments: number;
+	tags: string[];
+};
 
 export interface PostStats {
 	views: number;

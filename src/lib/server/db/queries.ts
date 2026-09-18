@@ -3,13 +3,54 @@ import { and, asc, count, desc, eq, ne, sql } from 'drizzle-orm';
 import { env } from '$env/dynamic/private';
 import { getDb, isDbConfigured } from './index';
 import { comments, postTags, posts, tags } from './schema';
-import type { Comment, PostStats, TagSummary } from '$lib/types';
+import type {
+	Comment,
+	PostContent,
+	PostRecord,
+	PostStats,
+	PostSummary,
+	TagSummary
+} from '$lib/types';
 import { RATE_LIMIT_SECONDS } from '$lib/server/comments';
 
 export { isDbConfigured };
 
 // A view counts once per visitor per window, not on every reload.
 const VIEW_WINDOW_DAYS = 1;
+
+export async function listTags(): Promise<TagSummary[]> {
+	const db = getDb();
+	const rows = await db
+		.select({ slug: tags.slug, name: tags.name, total: count(postTags.postSlug) })
+		.from(tags)
+		.leftJoin(postTags, eq(postTags.tagId, tags.id))
+		.groupBy(tags.id, tags.slug, tags.name)
+		.orderBy(desc(count(postTags.postSlug)), asc(tags.name));
+
+	return rows.map((row) => ({ slug: row.slug, name: row.name, total: Number(row.total) }));
+}
+
+export async function listTagsForPost(slug: string): Promise<TagSummary[]> {
+	const db = getDb();
+	const rows = await db
+		.select({ slug: tags.slug, name: tags.name })
+		.from(postTags)
+		.innerJoin(tags, eq(tags.id, postTags.tagId))
+		.where(eq(postTags.postSlug, slug))
+		.orderBy(asc(tags.name));
+
+	return rows.map((row) => ({ slug: row.slug, name: row.name, total: 0 }));
+}
+
+// Single-table selection: correlated subqueries here lose the table prefix and silently
+// compare against the wrong column, so counters and tags are fetched by their own queries.
+const postListSelection = {
+	slug: posts.slug,
+	title: posts.title,
+	description: sql<string>`coalesce(${posts.description}, '')`,
+	publishedAt: posts.publishedAt,
+	views: posts.views
+};
 
 export async function getPostStats(): Promise<Record<string, PostStats>> {
 	const db = getDb();
@@ -44,40 +85,31 @@ export async function getTagsByPost(): Promise<Record<string, string[]>> {
 	return map;
 }
 
-export async function listTags(): Promise<TagSummary[]> {
-	const db = getDb();
-	const rows = await db
-		.select({ slug: tags.slug, name: tags.name, total: count(postTags.postSlug) })
-		.from(tags)
-		.leftJoin(postTags, eq(postTags.tagId, tags.id))
-		.groupBy(tags.id, tags.slug, tags.name)
-		.orderBy(desc(count(postTags.postSlug)), asc(tags.name));
-
-	return rows.map((row) => ({ slug: row.slug, name: row.name, total: Number(row.total) }));
+// The UI renders DD/MM/YYYY; the column stores ISO.
+function toPostSummary(row: {
+	slug: string;
+	title: string;
+	description: string;
+	publishedAt: string;
+	views: number;
+}): PostSummary {
+	const [year, month, day] = row.publishedAt.split('-');
+	return {
+		slug: row.slug,
+		title: row.title,
+		description: row.description,
+		date: `${day}/${month}/${year}`,
+		views: row.views
+	};
 }
 
-export async function listTagsForPost(slug: string): Promise<TagSummary[]> {
+/** Listing from the database; without filters it returns every post, newest first. */
+export async function listPosts(
+	filter: { q?: string | null; tags?: string[] } = {}
+): Promise<PostSummary[]> {
 	const db = getDb();
-	const rows = await db
-		.select({ slug: tags.slug, name: tags.name })
-		.from(postTags)
-		.innerJoin(tags, eq(tags.id, postTags.tagId))
-		.where(eq(postTags.postSlug, slug))
-		.orderBy(asc(tags.name));
-
-	return rows.map((row) => ({ slug: row.slug, name: row.name, total: 0 }));
-}
-
-/** Returns null when there is no filter, so the caller keeps the full mdsvex list. */
-export async function findPostSlugs(filter: {
-	q?: string | null;
-	tags?: string[];
-}): Promise<string[] | null> {
 	const term = filter.q?.trim() ?? '';
 	const selected = (filter.tags ?? []).map((tag) => tag.trim()).filter(Boolean);
-	if (!term && selected.length === 0) return null;
-
-	const db = getDb();
 	const conditions = [];
 
 	if (term) {
@@ -111,11 +143,42 @@ export async function findPostSlugs(filter: {
 	}
 
 	const rows = await db
-		.select({ slug: posts.slug })
+		.select(postListSelection)
 		.from(posts)
-		.where(and(...conditions));
+		.where(conditions.length > 0 ? and(...conditions) : undefined)
+		.orderBy(desc(posts.publishedAt));
+
+	return rows.map(toPostSummary);
+}
+
+export async function listLatestPosts(limit: number): Promise<PostSummary[]> {
+	const db = getDb();
+	const rows = await db
+		.select(postListSelection)
+		.from(posts)
+		.orderBy(desc(posts.publishedAt))
+		.limit(limit);
+
+	return rows.map(toPostSummary);
+}
+
+export async function listPostSlugs(): Promise<string[]> {
+	const db = getDb();
+	const rows = await db.select({ slug: posts.slug }).from(posts).orderBy(desc(posts.publishedAt));
 
 	return rows.map((row) => row.slug);
+}
+
+/** null means the slug is not in the database. */
+export async function getPost(slug: string): Promise<PostContent | null> {
+	const db = getDb();
+	const [row] = await db
+		.select({ ...postListSelection, bodyHtml: posts.bodyHtml })
+		.from(posts)
+		.where(eq(posts.slug, slug))
+		.limit(1);
+
+	return row ? { ...toPostSummary(row), bodyHtml: row.bodyHtml } : null;
 }
 
 /** Random post from the index, never the slug passed in exclude (the post the reader is on). */

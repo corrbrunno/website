@@ -1,19 +1,19 @@
+import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import {
-	findPostSlugs,
 	getPostStats,
 	getTagsByPost,
 	isDbConfigured,
+	listPosts,
 	listTags
 } from '$lib/server/db/queries';
-import type { PostStats, TagSummary } from '$lib/types';
 
 export interface BlogFilters {
 	q: string | null;
 	tags: string[];
 }
 
-// DB index for the listing; without a database the list falls back to the mdsvex files.
+// The database is the only source: listing, tags and counters all come from it.
 export const load: PageServerLoad = async ({ url }) => {
 	const filters: BlogFilters = {
 		q: url.searchParams.get('q')?.trim() || null,
@@ -23,28 +23,25 @@ export const load: PageServerLoad = async ({ url }) => {
 			.filter(Boolean)
 	};
 
-	const empty = {
-		stats: {} as Record<string, PostStats>,
-		tagsByPost: {} as Record<string, string[]>,
-		tagCloud: [] as TagSummary[],
-		matchedSlugs: null as string[] | null,
-		filters,
-		dbReady: false
-	};
-
-	if (!isDbConfigured()) return empty;
+	if (!isDbConfigured()) throw error(503, 'Banco de dados indisponível');
 
 	try {
-		const [stats, tagsByPost, tagCloud, matchedSlugs] = await Promise.all([
+		const [rows, stats, tagsByPost, tagCloud] = await Promise.all([
+			listPosts(filters),
 			getPostStats(),
 			getTagsByPost(),
-			listTags(),
-			findPostSlugs(filters)
+			listTags()
 		]);
 
-		return { stats, tagsByPost, tagCloud, matchedSlugs, filters, dbReady: true };
-	} catch (error) {
-		console.error('[blog] listing load failed:', error);
-		return empty;
+		const posts = rows.map((post) => ({
+			...post,
+			...(stats[post.slug] ?? { views: post.views, comments: 0 }),
+			tags: tagsByPost[post.slug] ?? []
+		}));
+
+		return { posts, tagCloud, filters };
+	} catch (cause) {
+		console.error('[blog] listing load failed:', cause);
+		throw error(503, 'Banco de dados indisponível');
 	}
 };

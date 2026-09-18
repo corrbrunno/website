@@ -1,29 +1,30 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getPosts } from '$lib/client/posts';
-import { getPostStats, getTagsByPost, isDbConfigured } from '$lib/server/db/queries';
+import { getPostStats, getTagsByPost, isDbConfigured, listPosts } from '$lib/server/db/queries';
 
 export const GET: RequestHandler = async () => {
-	const posts = await getPosts();
-
 	if (!isDbConfigured()) {
-		return json({ count: posts.length, database: 'not_configured', posts });
+		return json({ count: 0, database: 'not_configured', posts: [] }, { status: 503 });
 	}
 
 	try {
-		const [stats, tagsByPost] = await Promise.all([getPostStats(), getTagsByPost()]);
+		const [posts, stats, tagsByPost] = await Promise.all([
+			listPosts(),
+			getPostStats(),
+			getTagsByPost()
+		]);
 
 		return json({
 			count: posts.length,
 			database: 'ok',
 			posts: posts.map((post) => ({
 				...post,
-				tags: tagsByPost[post.slug] ?? [],
-				...(stats[post.slug] ?? { views: 0, comments: 0 })
+				...(stats[post.slug] ?? { views: post.views, comments: 0 }),
+				tags: tagsByPost[post.slug] ?? []
 			}))
 		});
-	} catch (error) {
-		console.error('[api/posts] query failed:', error);
-		return json({ count: posts.length, database: 'unavailable', posts }, { status: 503 });
+	} catch (cause) {
+		console.error('[api/posts] query failed:', cause);
+		return json({ count: 0, database: 'unavailable', posts: [] }, { status: 503 });
 	}
 };

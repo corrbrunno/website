@@ -22,19 +22,34 @@ npm run lint       # prettier + eslint
 
 ## Blog e banco de dados
 
-A divisão de responsabilidade é intencional:
+Em runtime o banco é a **única** fonte: o blog não lê arquivo nenhum.
 
-| Camada                 | Onde vive                                  | Por quê                                                                       |
-| ---------------------- | ------------------------------------------ | ----------------------------------------------------------------------------- |
-| **Conteúdo dos posts** | `src/posts/*.svx` (git)                    | versionado, renderizado pelo mdsvex, sem dependência de runtime               |
-| **Índice dos posts**   | tabela `posts`                             | listar, buscar e filtrar precisa de consulta, não de arquivo                  |
-| **Tags**               | tabelas `tags` + `post_tags` (N:N)         | filtrar por tag e montar a nuvem de tags                                      |
-| **Comentários**        | tabela `comments`                          | dado que o usuário gera — não tem lugar no git                                |
-| **Contador de views**  | coluna `posts.views` + tabela `post_views` | contador + uma linha por visitante, para não contar a mesma pessoa duas vezes |
+| Camada                 | Onde vive                                  | Por quê                                                          |
+| ---------------------- | ------------------------------------------ | ---------------------------------------------------------------- |
+| **Conteúdo dos posts** | `posts.body_md` + `posts.body_html`        | o app serve HTML pronto; o markdown fica guardado para re-render |
+| **Metadados**          | tabela `posts`                             | listar, buscar e ordenar é consulta, não arquivo                 |
+| **Tags**               | tabelas `tags` + `post_tags` (N:N)         | filtrar por tag e montar a nuvem de tags                         |
+| **Comentários**        | tabela `comments`                          | dado que o usuário gera — não tem lugar no git                   |
+| **Contador de views**  | coluna `posts.views` + tabela `post_views` | contador + uma linha por visitante, sem contar a mesma pessoa    |
 
-O `.svx` continua sendo a **fonte da verdade do conteúdo**: o banco é um índice sincronizado
-por `npm run db:sync` (roda também no `prebuild`). Se o banco cair, o blog continua
-renderizando a partir dos arquivos — degrada, não quebra.
+O mdsvex continua no pipeline, mas **na escrita**: `npm run db:sync` lê os `.svx` de
+`src/posts/`, compila o markdown com mdsvex e grava `body_md`/`body_html` no banco. O runtime
+apenas renderiza o HTML com `{@html}`. Duas consequências: o corpo do post não pode conter
+componente Svelte interativo (vira HTML estático) e editar conteúdo é editar o banco — para
+reimportar dos arquivos use `npm run db:sync -- --force-body`. O import do corpo é único por
+post: o que já está gravado não é sobrescrito pelos arquivos.
+
+Com o banco fora do ar, as rotas do blog respondem **503 com mensagem** (via `+error.svelte`);
+não existe mais degradação para lista vazia nem fallback para arquivo. A home continua no ar,
+apenas sem a seção de posts. Ressalva conhecida: a primeira requisição falha em milissegundos,
+mas quando o pool do postgres-js está tentando reconectar uma requisição seguinte pode esperar
+até ~40s antes do 503.
+
+### Postgres 18 e drizzle-kit
+
+Use `drizzle-kit >= 0.31`. Versões anteriores não reconhecem as constraints `NOT NULL`
+nomeadas do Postgres 18 (é o caso do Neon) e o `push` tenta removê-las, falhando com `42P16`
+e abortando a migração inteira — inclusive as colunas novas que você queria.
 
 ### Variáveis de ambiente
 
@@ -54,7 +69,8 @@ npm run db:start    # Postgres local via docker compose
 npm run db:push     # aplica o schema (drizzle-kit push)
 npm run db:migrate  # migrações versionadas
 npm run db:studio   # Drizzle Studio (UI)
-npm run db:sync     # sincroniza frontmatter dos .svx -> posts/tags/post_tags
+npm run db:sync     # importa src/posts/*.svx -> posts/tags/post_tags + corpo renderizado
+                    # (import único por post; --force-body reimporta o conteúdo)
 ```
 
 ### Endpoints

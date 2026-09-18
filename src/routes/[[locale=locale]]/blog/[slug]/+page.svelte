@@ -22,7 +22,6 @@
 	}
 
 	const { data }: { data: PageData } = $props();
-	const PostComponent = $derived(data.content);
 
 	// The load never writes; the view is counted in /views (loads re-run on prefetch/invalidate).
 	let sessionViews = $state<number | null>(null);
@@ -113,11 +112,13 @@
 				<article
 					class="prose prose-purple dark:prose-invert lg:prose-lg text-foreground max-w-none justify-center"
 				>
-					<PostComponent />
+					{@html data.bodyHtml}
 				</article>
 			</Card.Content>
 		</Card.Root>
 	</div>
 
 	<Comments slug={data.metadata.slug} comments={data.comments} dbReady={data.dbReady} />
+
+	<br />
 </div>

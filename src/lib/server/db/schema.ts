@@ -9,13 +9,15 @@ import {
 	timestamp
 } from 'drizzle-orm/pg-core';
 
-// Queryable index of the posts; the content itself stays in the .svx files (mdsvex).
+// Queryable index of the posts; content lives in body_md/body_html, not in files.
 export const posts = pgTable('posts', {
 	slug: text('slug').primaryKey(),
 	title: text('title').notNull(),
 	description: text('description'),
 	publishedAt: date('published_at').notNull(),
 	views: integer('views').notNull().default(0),
+	bodyMd: text('body_md'),
+	bodyHtml: text('body_html'),
 	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 	updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
 });
