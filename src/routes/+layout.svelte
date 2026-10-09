@@ -9,6 +9,8 @@
 	import NavSidebar from '$lib/components/ui/navbar/nav-sidebar.svelte';
 	import { page } from '$app/state';
 	import Analytics from '$lib/components/heads/analytics.svelte';
+	import { accessibility } from '$lib/client/stores/accessibility.svelte';
+	import { closeLibras, openLibras } from '$lib/client/libras';
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -31,6 +33,14 @@
 	});
 
 	let { children }: { children: Snippet<[]> } = $props();
+
+	$effect(() => {
+		if (accessibility.libras) {
+			void openLibras();
+		} else {
+			closeLibras();
+		}
+	});
 
 	let backgroundStyle = $derived(
 		page.data.backgroundImage
