@@ -8,6 +8,11 @@
 
 :root{
   scroll-behavior: smooth;
+  --font-scale: 100%;
+}
+
+html {
+  font-size: var(--font-scale);
 }
 
 :root {
