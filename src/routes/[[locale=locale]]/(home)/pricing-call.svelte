@@ -99,7 +99,7 @@
 				{description}
 			</Card.Content>
 			<Card.Footer>
-				<Button {href} class="text-primary-foreground w-full">Saiba mais</Button>
+				<Button {href} class="text-primary-foreground w-full">{m.home_pricing_more()}</Button>
 			</Card.Footer>
 		</Card.Root>
 	</div>
