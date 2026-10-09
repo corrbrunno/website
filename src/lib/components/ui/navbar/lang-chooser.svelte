@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import * as Command from '$lib/components/ui/command/index.js';
 	import * as Popover from '$lib/components/ui/popover/index';
+	import * as m from '$lib/paraglide/messages';
 	import { localizeHref } from '$lib/paraglide/runtime';
 	import Button from '../button/button.svelte';
 
@@ -15,8 +16,14 @@
 <Popover.Root>
 	<Popover.Trigger>
 		{#snippet child({ props })}
-			<Button class={className} variant="outline" size="icon" {...props}>
-				<img class="size-5" alt={`${selectedLanguage.lang} flag`} src={selectedLanguage.emoji} />
+			<Button
+				class={className}
+				variant="outline"
+				size="icon"
+				aria-label={m.common_change_language()}
+				{...props}
+			>
+				<img class="size-5" alt="" src={selectedLanguage.emoji} />
 			</Button>
 		{/snippet}
 	</Popover.Trigger>
@@ -31,7 +38,7 @@
 							data-sveltekit-reload
 							href={localizeHref(page.url.href, { locale: language.locale })}
 						>
-							<img class="size-5" src={language.emoji} alt={`${language.lang()} flag`} />
+							<img class="size-5" src={language.emoji} alt="" />
 							<p class="text-muted-foreground">{language.lang()}</p>
 						</a>
 					</Command.Item>

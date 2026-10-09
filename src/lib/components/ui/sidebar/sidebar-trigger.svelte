@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Button } from "$lib/components/ui/button/index.js";
+	import * as m from "$lib/paraglide/messages";
 	import { cn } from "$lib/utils.js";
 	import PanelLeftIcon from "@lucide/svelte/icons/panel-left";
 	import type { ComponentProps } from "svelte";
@@ -23,6 +24,7 @@
 	variant="outline"
 	size="icon"
 	class={cn(className)}
+	aria-label={m.common_toggle_sidebar()}
 	type="button"
 	onclick={(e) => {
 		onclick?.(e);
@@ -31,5 +33,4 @@
 	{...restProps}
 >
 	<PanelLeftIcon />
-	<span class="sr-only">Toggle Sidebar</span>
 </Button>
