@@ -10,9 +10,10 @@
 	import { Button } from '../button';
 	import LangChooser from './lang-chooser.svelte';
 	import NavbarThemeToggle from './navbar-theme-toggle.svelte';
+	import NavbarFontSizeToggle from './navbar-font-size-toggle.svelte';
+	import NavbarLibrasToggle from './navbar-libras-toggle.svelte';
 	import { getSelectedLanguage } from './utils';
 	import { NAVEGATION_BUTTONS, SERVICE_PAGES } from './constants';
-
 
 	const groups = [
 		{ title: m.nav_general_section, buttons: NAVEGATION_BUTTONS },
@@ -20,6 +21,7 @@
 	];
 
 	const selectedLanguage = getSelectedLanguage();
+	const isPortuguese = selectedLanguage.locale === 'pt-br';
 </script>
 
 <Sidebar.Root viewTransitionName="main-sidebar" variant="floating" side="right">
@@ -54,13 +56,12 @@
 				</Sidebar.GroupContent>
 			</Sidebar.Group>
 		{/each}
-		
 	</Sidebar.Content>
 	<Sidebar.Footer class="p-5">
 		<Sidebar.Group class="flex gap-2">
 			<Sidebar.GroupLabel>{m.nav_config()}</Sidebar.GroupLabel>
 			<Sidebar.GroupContent>
-				<Sidebar.Menu class="flex flex-row justify-between gap-5 text-center">
+				<Sidebar.Menu class="flex flex-col gap-3">
 					<Sidebar.MenuItem class="flex gap-2">
 						<NavbarThemeToggle />
 						<p class="text-primary">
@@ -75,6 +76,16 @@
 						<LangChooser></LangChooser>
 						<p class="text-primary">{selectedLanguage.lang()}</p>
 					</Sidebar.MenuItem>
+					<Sidebar.MenuItem class="flex gap-2">
+						<NavbarFontSizeToggle />
+						<p class="text-primary">{m.a11y_font_size()}</p>
+					</Sidebar.MenuItem>
+					{#if isPortuguese}
+						<Sidebar.MenuItem class="flex gap-2">
+							<NavbarLibrasToggle />
+							<p class="text-primary">{m.a11y_libras()}</p>
+						</Sidebar.MenuItem>
+					{/if}
 				</Sidebar.Menu>
 			</Sidebar.GroupContent>
 		</Sidebar.Group>

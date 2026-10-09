@@ -5,17 +5,22 @@
 	import * as Command from '$lib/components/ui/command/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import ThemeToggle from './navbar-theme-toggle.svelte';
+	import FontSizeToggle from './navbar-font-size-toggle.svelte';
+	import LibrasToggle from './navbar-libras-toggle.svelte';
 	import { NAVEGATION_BUTTONS, SERVICE_PAGES, UTILS_PAGES } from './constants.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import LangChooser from './lang-chooser.svelte';
 	import * as m from '$lib/paraglide/messages';
-	import { localizeHref } from '$lib/paraglide/runtime';
+	import { getLocale, localizeHref } from '$lib/paraglide/runtime';
 
 	let servicesOpen = $state(false);
 	let servicesTriggerRef = $state<HTMLButtonElement>(null!);
 	let utilsOpen = $state(false);
 	let utilsTriggerRef = $state<HTMLButtonElement>(null!);
 	let scrollY = $state(0);
+
+	// Libras só faz sentido em português
+	const isPortuguese = getLocale() === 'pt-br';
 
 	function closeAndFocusTrigger() {
 		servicesOpen = false;
@@ -119,6 +124,10 @@
 				<div class="hidden items-center gap-1 sm:flex md:gap-2">
 					<LangChooser />
 					<ThemeToggle />
+					<FontSizeToggle />
+					{#if isPortuguese}
+						<LibrasToggle />
+					{/if}
 				</div>
 				<Sidebar.Trigger class="size-9 sm:hidden" />
 			</section>
